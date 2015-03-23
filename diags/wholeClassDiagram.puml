@@ -51,7 +51,7 @@ class PDFGenerator {
 }
 
 class PDFViewingComponent {
-
+    +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
 QuestionGenerator --> DBConnector
@@ -68,11 +68,6 @@ ViewingForm "1..*" *-- QuestionViewingComponent
 
 MainForm o--> GeneratingForm : create >
 GeneratingForm --> QuestionGenerator : use >
-
-interface Question {
-
-}
-interface Theme {
-
-}
+GeneratingForm --> PDFGenerator : use >
+GeneratingForm o-- PDFViewingComponent
 @enduml
