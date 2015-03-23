@@ -16,12 +16,17 @@ class QuestionGenerator {
 }
 
 class MainForm {
+    -currentFrame : javax.swing.JFrame
     +main {static} (args : String[]) : void
+    +changeCurrentFrame(frame) : boolean
     -initialize() : void
 }
 
 class AddingForm {
-
+    -questionType : QuestionType
+    -questionString : String
+    -question : Question
+    -formQuestion() : Question
 }
 
 class ViewingForm {
