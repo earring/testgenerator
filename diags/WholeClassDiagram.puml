@@ -1,20 +1,67 @@
 'Общая диаграмма классов генератора тестов'
 @startuml
-class DBConnector <<Singletone>> {
-    getInstance() : DBConnector
+class DBConnector <<(S,#FF7700) Singletone>> {
+    +getInstance() : DBConnector
     ..
-    getQuestionByID(id : long) : Question
-    findQuestionsByName(query : String) : List<Question>
-    findQuestionsByContent(query : String) : List<Question>
-    getQuestionsByTheme(themes : List<Theme>) : List<Question>
+    +getQuestionByID(id : long) : Question
+    +findQuestionsByName(query : String) : List<Question>
+    +findQuestionsByContent(query : String) : List<Question>
+    +getQuestionsByTheme(themes : List<Theme>) : List<Question>
+    +addQuestion(question : Question) : boolean
 }
 
 class QuestionGenerator {
-    getRandomQuestionsInTheme(themes : List<Theme>, quantity : long) : List<Question>
-    getRandomQuestions(quantity : long)
+    +getRandomQuestionsInTheme(themes : List<Theme>, quantity : long) : List<Question>
+    +getRandomQuestions(quantity : long)
+}
+
+class MainForm {
+    +main {static} (args : String[]) : void
+    -initialize() : void
+}
+
+class AddingForm {
+
+}
+
+class ViewingForm {
+    -theme : Theme
+    -amount :
+}
+
+class GeneratingForm {
+
+}
+
+class QuestionAdder {
+    +addQuestion(question : Question) : boolean
+    -checkQuestion(question : Question) : boolean
+}
+note left
+    checking constraints
+    for adding question
+end note
+
+class LaTeXViewingComponent {
+    +paintComponent(graphics : java.awt.Graphics, string : String)
+}
+
+class QuestionViewingComponent {
+    +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
 QuestionGenerator --> DBConnector
+
+MainForm  --> AddingForm : create >
+AddingForm --> QuestionAdder : use >
+QuestionAdder --> DBConnector : use >
+
+AddingForm o-- QuestionViewingComponent
+QuestionViewingComponent o-- LaTeXViewingComponent : include >
+
+MainForm --> ViewingForm : create >
+ViewingForm "1..*" *-- QuestionViewingComponent
+
 interface Question {
 
 }
