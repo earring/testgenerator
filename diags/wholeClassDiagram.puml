@@ -1,6 +1,6 @@
 'Общая диаграмма классов генератора тестов'
 @startuml
-!include themes.puml
+!include questions.puml
 class DBConnector <<(S,#FF7700) Singletone>> {
     +getInstance() : DBConnector
     ..
@@ -8,7 +8,7 @@ class DBConnector <<(S,#FF7700) Singletone>> {
     +findQuestionsByName(query : String) : List<Question>
     +findQuestionsByContent(query : String) : List<Question>
     +getQuestionsByTheme(themes : List<Theme>) : List<Question>
-    +addQuestion(question : Question, themes : List<Theme>) : boolean
+    +addQuestion(question : Question) : boolean
 }
 
 class QuestionGenerator {
@@ -17,23 +17,17 @@ class QuestionGenerator {
 }
 
 class MainForm {
-    -currentFrame : javax.swing.JFrame
     +main {static} (args : String[]) : void
-    +changeCurrentFrame(frame) : boolean
     -initialize() : void
 }
 
 class AddingForm {
-    -questionType : QuestionType
-    -questionString : String
-    -question : Question
-    -themes : List<Theme>
-    -formQuestion() : Question
+
 }
 
 class ViewingForm {
     -theme : Theme
-    -amount : int
+    -amount :
 }
 
 class GeneratingForm {
@@ -41,7 +35,7 @@ class GeneratingForm {
 }
 
 class QuestionAdder {
-    +addQuestion(question : Question, themes : List<Theme>) : boolean
+    +addQuestion(question : Question) : boolean
     -checkQuestion(question : Question) : boolean
 }
 

@@ -2,8 +2,14 @@
 !include questions.puml
 
 interface Theme{
-+{abstract}getQuestion(id: int) : Question
-+{abstract}getQuestions() : List<Question>
++{abstract}getDescription() : string
+}
+
+class QuestionManager{
+-keepers : List<QuestionKeeper>
++addQuestion(q: Question, themes: List<Themes>)
++getQuestions(theme: Theme) : List<Question>
++getThemes(question: Question) : List<Themes>
 }
 
 class QuestionKeeper{
@@ -14,5 +20,6 @@ class QuestionKeeper{
 
 QuestionKeeper "1" *--> "1" Question
 QuestionKeeper "1" o--> "*" Theme
-
+QuestionManager "1" *--> "*" QuestionKeeper
+QuestionManager ..> QuestionKeeper : create
 @enduml
