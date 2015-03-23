@@ -11,8 +11,8 @@ AddingForm --> QuestionAdder : checkQuestion(question : Question)
 activate QuestionAdder
 QuestionAdder --> AddingForm : isQuestionCorrect : boolean
 alt isQuestionCorrect == true
-    QuestionAdder --> DBConnector : addQuestion(question : Question)
-    DBConnector --> DBConnector : addQuestion(question : Question)
+    QuestionAdder --> DBConnector : addQuestion(question : Question, themes : List<Theme>)
+    DBConnector --> DBConnector : addQuestion(question : Question, themes : List<Theme>)
     DBConnector --> QuestionAdder : isQuestionAdded : boolean
     QuestionAdder --> AddingForm : isQuestionAdded : boolean
 end
