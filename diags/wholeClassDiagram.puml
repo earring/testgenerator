@@ -37,10 +37,6 @@ class QuestionAdder {
     +addQuestion(question : Question) : boolean
     -checkQuestion(question : Question) : boolean
 }
-note left
-    checking constraints
-    for adding question
-end note
 
 class LaTeXViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
@@ -50,17 +46,28 @@ class QuestionViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
+class PDFGenerator {
+    +generatePDF(questionList : List<Questions>) : PDFFile
+}
+
+class PDFViewingComponent {
+
+}
+
 QuestionGenerator --> DBConnector
 
-MainForm  --> AddingForm : create >
+MainForm  o--> AddingForm : create >
 AddingForm --> QuestionAdder : use >
 QuestionAdder --> DBConnector : use >
 
 AddingForm o-- QuestionViewingComponent
 QuestionViewingComponent o-- LaTeXViewingComponent : include >
 
-MainForm --> ViewingForm : create >
+MainForm o--> ViewingForm : create >
 ViewingForm "1..*" *-- QuestionViewingComponent
+
+MainForm o--> GeneratingForm : create >
+GeneratingForm --> QuestionGenerator : use >
 
 interface Question {
 
