@@ -1,0 +1,44 @@
+@startuml
+interface Question{
+    +{abstract}getDescription() : string
+    +{abstract}answerIsRight(_answer: Object) : boolean
+}
+
+
+abstract AQuestion{
+    -description_ : string
+}
+
+abstract VariantQuestion{
+    -answers_ : List<Object>
+    +getVariants() : List<Object>
+    +{abstract}getRightAnswer() :  vector<Object>
+}
+
+class CheckBoxQuestion{
+    -right_answers_ : vector<Object>
+    +answerIsRight(_answer: Object) : boolean
+}
+
+class RadioQuestion{
+    -right_answer_ : string
+    +answerIsRight(_answer: Object) : boolean
+}
+
+class TextQuestion{
+    -text: string
+    +answerIsRight(_answer: Object) : boolean
+}
+class ValueQuestion{
+    -value_: double
+    +answerIsRight(_answer: Object) : boolean
+}
+ 
+AQuestion -up..|> Question
+VariantQuestion -up--|> AQuestion
+CheckBoxQuestion -up--|> VariantQuestion
+RadioQuestion -up--|> VariantQuestion
+TextQuestion -up--|> AQuestion
+ValueQuestion -up--|> AQuestion
+
+@enduml
