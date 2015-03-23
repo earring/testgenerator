@@ -1,0 +1,18 @@
+@startuml
+!include questions.puml
+
+interface Theme{
++{abstract}getQuestion(id: int) : Question
++{abstract}getQuestions() : List<Question>
+}
+
+class QuestionKeeper{
+-question: Question
+-themes: List<Theme>
++addQuestionToTheme(theme: Theme) : void
+}
+
+QuestionKeeper "1" *--> "1" Question
+QuestionKeeper "1" o--> "*" Theme
+
+@enduml
