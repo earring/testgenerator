@@ -68,11 +68,4 @@ ViewingForm "1..*" *-- QuestionViewingComponent
 
 MainForm o--> GeneratingForm : create >
 GeneratingForm --> QuestionGenerator : use >
-
-interface Question {
-
-}
-interface Theme {
-
-}
 @enduml
