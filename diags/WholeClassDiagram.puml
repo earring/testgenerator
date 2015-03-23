@@ -1,0 +1,24 @@
+'Общая диаграмма классов генератора тестов'
+@startuml
+class DBConnector <<Singletone>> {
+    getInstance() : DBConnector
+    ..
+    getQuestionByID(id : long) : Question
+    findQuestionsByName(query : String) : List<Question>
+    findQuestionsByContent(query : String) : List<Question>
+    getQuestionsByTheme(themes : List<Theme>) : List<Question>
+}
+
+class QuestionGenerator {
+    getRandomQuestionsInTheme(themes : List<Theme>, quantity : long) : List<Question>
+    getRandomQuestions(quantity : long)
+}
+
+QuestionGenerator --> DBConnector
+interface Question {
+
+}
+interface Theme {
+
+}
+@enduml
