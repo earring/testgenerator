@@ -1,11 +1,19 @@
 'Последовательность действий программы при добавлении теста в базу данных'
 @startuml
-Пользователь --> МенеджерТестов : данные теста
-alt есть ли ошибки в тесте?
-    МенеджерТестов --> Пользователь : ошибка
-else
-        МенеджерТестов --> БД : добавитьТест(данные теста : Тест)
+actor User
+User --> MainForm : initialize()
+activate MainForm
+MainForm --> MainForm : changeCurrentForm()
+activate AddingForm
+User --> AddingForm : some data
+AddingForm --> AddingForm : formQuestion()
+AddingForm --> QuestionAdder : checkQuestion(question : Question)
+activate QuestionAdder
+QuestionAdder --> AddingForm : isQuestionCorrect : boolean
+alt isQuestionCorrect == true
+    QuestionAdder --> DBConnector : addQuestion(question : Question)
+    DBConnector --> DBConnector : addQuestion(question : Question)
+    DBConnector --> QuestionAdder : isQuestionAdded : boolean
+    QuestionAdder --> AddingForm : isQuestionAdded : boolean
 end
-БД --> МенеджерТестов : успех добавления теста
-МенеджерТестов -> Пользователь : успех добавления теста
 @enduml
