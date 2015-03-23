@@ -33,12 +33,12 @@ class ValueQuestion{
 -value_: double
 +answerIsRight(_answer: Object) : boolean
 }
- 
+
 AQuestion ..|> Question
 VariantQuestion --|> AQuestion
 CheckBoxQuestion --|> VariantQuestion
-RadioQuestion --|> VariantQuestion 
-TextQuestion --|> AQuestion 
-ValueQuestion --|> AQuestion 
+RadioQuestion --|> VariantQuestion
+TextQuestion --|> AQuestion
+ValueQuestion --|> AQuestion
 
 @enduml
