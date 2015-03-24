@@ -12,8 +12,7 @@ class DBConnector <<(S,#FF7700) Singletone>> {
 }
 
 class QuestionGenerator {
-    +getRandomQuestionsInTheme(themes : List<Theme>, quantity : long) : List<Question>
-    +getRandomQuestions(quantity : long)
+    +getRandomQuestionsInTheme(themes : List<String>, quantity : int, variants : int) : List<Question>
 }
 
 class MainForm {
@@ -27,7 +26,7 @@ class AddingForm {
     -questionType : QuestionType
     -questionString : String
     -question : Question
-    -themes : List<Theme>
+    -themes : List<String>
     -formQuestion() : Question
 }
 
@@ -37,7 +36,9 @@ class ViewingForm {
 }
 
 class GeneratingForm {
-
+    -questionCount : int
+    -variantCount : int
+    -themesOut : List<String>
 }
 
 class QuestionAdder {
