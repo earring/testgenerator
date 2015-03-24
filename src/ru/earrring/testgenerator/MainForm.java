@@ -10,5 +10,6 @@ public class MainForm extends JFrame{
     public MainForm() {
         setSize(300, 300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Генератор тестов");
     }
 }
