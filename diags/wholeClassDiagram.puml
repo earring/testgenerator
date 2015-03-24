@@ -5,14 +5,13 @@ class DBConnector <<(S,#FF7700) Singletone>> {
     +getInstance() : DBConnector
     ..
     +getQuestionByID(id : long) : Question
-    +findQuestionsByName(query : String) : List<Question>
-    +findQuestionsByContent(query : String) : List<Question>
-    +getQuestionsByTheme(themes : List<Theme>) : List<Question>
-    +addQuestion(question : Question, themes : List<Theme>) : boolean
+    +findQuestionsByDescription(desc : String) : List<Question>
+    +getQuestionsByTheme(themes : List<String>) : List<Question>
+    +addQuestion(question : Question, themes : List<String>) : boolean
 }
 
 class QuestionGenerator {
-    +getRandomQuestionsInTheme(themes : List<Theme>, quantity : long) : List<Question>
+    +getRandomQuestionsInTheme(themes : List<String>, quantity : long) : List<Question>
     +getRandomQuestions(quantity : long)
 }
 
@@ -26,9 +25,9 @@ class MainForm {
 class AddingForm {
     -questionType : QuestionType
     -questionString : String
-    -question : Question
-    -themes : List<Theme>
-    -formQuestion() : Question
+    -themes : List<String>
+    -variants : List<String>
+    +formQuestion() : Question
 }
 
 class ViewingForm {
@@ -41,7 +40,7 @@ class GeneratingForm {
 }
 
 class QuestionAdder {
-    +addQuestion(question : Question, themes : List<Theme>) : boolean
+    +addQuestion(question : Question, themes : List<String>) : boolean
     -checkQuestion(question : Question) : boolean
 }
 
@@ -54,7 +53,7 @@ class QuestionViewingComponent {
 }
 
 class PDFGenerator {
-    +generatePDF(questionList : List<Questions>) : PDFFile
+    +generatePDF(questionList : List<Question>) : PDFFile
 }
 
 class PDFViewingComponent {
@@ -65,7 +64,7 @@ QuestionGenerator --> DBConnector
 
 MainForm  o--> AddingForm : create >
 AddingForm --> QuestionAdder : use >
-QuestionAdder --> DBConnector : use >
+QuestionAdder --> QuestionManager : use >
 
 AddingForm o-- QuestionViewingComponent
 QuestionViewingComponent o-- LaTeXViewingComponent : include >
@@ -77,4 +76,6 @@ MainForm o--> GeneratingForm : create >
 GeneratingForm --> QuestionGenerator : use >
 GeneratingForm --> PDFGenerator : use >
 GeneratingForm o-- PDFViewingComponent
+AddingForm ..> Question : create >
+QuestionManager --> DBConnector
 @enduml

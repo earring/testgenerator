@@ -1,25 +1,19 @@
 @startuml
 !include questions.puml
 
-interface Theme{
-+{abstract}getDescription() : string
-}
 
 class QuestionManager{
--keepers : List<QuestionKeeper>
-+addQuestion(q: Question, themes: List<Themes>)
-+getQuestions(theme: Theme) : List<Question>
-+getThemes(question: Question) : List<Themes>
+-questions : List<Question>
+-dbconnector : DBConnector
++addQuestion(q: Question)
++getQuestions(theme: String) : List<Question>
++getThemes(question: Question) : List<String>
++load()
++save()
 }
 
-class QuestionKeeper{
--question: Question
--themes: List<Theme>
-+addQuestionToTheme(theme: Theme) : void
-}
+QuestionManager *--> "*" Question
 
-QuestionKeeper "1" *--> "1" Question
-QuestionKeeper "1" o--> "*" Theme
-QuestionManager "1" *--> "*" QuestionKeeper
-QuestionManager ..> QuestionKeeper : create
+
+
 @enduml

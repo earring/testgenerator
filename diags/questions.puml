@@ -1,44 +1,27 @@
 @startuml
-interface Question{
-+{abstract}getDescription() : string
-+{abstract}answerIsRight(_answer: Object) : boolean
+abstract Question{
+    -description : String
+    -themes: List<String>
+    +getDescription() : string
+    +{abstract}checkAnswers(answers: List<String>) : boolean
 }
 
-
-abstract AQuestion{
--description_ : string
-}
-
-abstract VariantQuestion{
--answers_ : vector<Object>
-+getVariants() : vector<Object>
-+{abstract}getRightAnswer() :  vector<Object>
-}
-
-class CheckBoxQuestion{
--right_answers_ : vector<Object>
-+answerIsRight(_answer: Object) : boolean
-}
-
-class RadioQuestion{
--right_answer_ : string
-+answerIsRight(_answer: Object) : boolean
+class VariantQuestion{
+    -answers : List<String>
+    +getVariants() : List<String>
+    +getRightAnswers() :  List<String>
+    +checkAnswers(answers: List<String>) : boolean
 }
 
 class TextQuestion{
--text: string
-+answerIsRight(_answer: Object) : boolean
-}
-class ValueQuestion{
--value_: double
-+answerIsRight(_answer: Object) : boolean
+    -text: String
+    +answerIsRight(answer: String) : boolean
+    +checkAnswers(answers: List<String>) : boolean
 }
 
-AQuestion ..|> Question
-VariantQuestion --|> AQuestion
-CheckBoxQuestion --|> VariantQuestion
-RadioQuestion --|> VariantQuestion
-TextQuestion --|> AQuestion
-ValueQuestion --|> AQuestion
+
+VariantQuestion -up--|> Question
+TextQuestion -up--|> Question
+
 
 @enduml
