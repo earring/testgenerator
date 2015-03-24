@@ -1,6 +1,6 @@
 'Общая диаграмма классов генератора тестов'
 @startuml
-'!include themes.puml
+!include themes.puml
 class DBConnector <<(S,#FF7700) Singletone>> {
     +getInstance() : DBConnector
     ..
