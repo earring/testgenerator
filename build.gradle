@@ -2,8 +2,16 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 
-mainClassName = "ru.earrring.testgenerator.MainForm"
+mainClassName = "ru.earrring.testgenerator.Starter"
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+javadoc {
+    options.charSet = 'UTF-8'
 }
