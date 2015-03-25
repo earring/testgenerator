@@ -1,0 +1,34 @@
+'Общая диаграмма классов генератора тестов'
+@startuml
+!include questionManager.puml
+!include forms.puml
+!include generation.puml
+
+class DBConnector <<(S,#FF7700) Singleton>> {
+    +getInstance() : DBConnector
+    ..
+    +getQuestionByID(id : long) : AQuestion
+    +findQuestionsByDescription(desc : String) : List<AQuestion>
+    +getQuestionsByTheme(themes : List<String>) : List<AQuestion>
+    +addQuestion(question : AQuestion, themes : List<String>) : boolean
+}
+
+class QuestionAdder {
+    +addQuestion(question : AQuestion, themes : List<String>) : boolean
+    -checkQuestion(question : AQuestion) : boolean
+}
+
+
+AddingForm --> QuestionAdder : use >
+QuestionAdder --> QuestionManager : use >
+
+
+
+
+
+
+AddingForm ..> Question : create >
+QuestionManager --> DBConnector
+ViewingForm --> QuestionManager : use >
+
+@enduml

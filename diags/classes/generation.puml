@@ -1,0 +1,11 @@
+@startuml
+class PDFGenerator {
+    -questionCount : int
+    -variantCount : int
+    -themesOut : List<String>
+    +generatePDF(qc: int, vc: int, themes: List<String>) : PDFFile
+}
+
+GeneratingForm --> PDFGenerator : use >
+PDFGenerator --> QuestionManager : use >
+@enduml

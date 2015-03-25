@@ -1,0 +1,45 @@
+@startuml
+
+abstract AQuestion{
+    -description : String
+    -themes: List<String>
+    +getDescription() : String
+    +getThemes() : List<String>
+    +setDescription(description : String) : void
+    +{abstract}getVariants() : List<String>
+    +{abstract}setVariants(variants : List<String>) : boolean
+    +{abstract}getAnswers() : List<String>
+    +{abstract}setAnswers(answers: List<String>) : boolean
+}
+
+class Question{
+    -answers : List<String>
+    -variants: List<String>
+    +getVariants() : List<String>
+    +setVariants(variants : List<String>) : boolean
+    +getAnswers() : List<String>
+    +setAnswers(answers: List<String>) : boolean
+}
+
+
+Question -up--|> AQuestion
+
+note bottom of Question
+    Предполагается, что ТО, что будет показывать
+    вопрос, будет смотреть на количество вариантов ответа.
+    Если их больше 1, то составляется вопрос с вариантами:
+    ==
+    Здесь будет записан текст вопроса.
+    а) вариант ответа 1
+    б) вариант ответа 2
+    ==
+    Если их нет, составляется вопрос с полем для ввода ответа.
+    ==
+    Здесь будет записан текст вопроса.
+    Ответ: _____________
+    ==
+    Если вариант ответа один, то это очень странный вопрос. Наверное,
+    следует генерить ошибку.
+end note
+
+@enduml

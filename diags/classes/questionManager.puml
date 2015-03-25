@@ -1,0 +1,20 @@
+@startuml
+!include questions.puml
+
+
+class QuestionManager<<(S,#FF7700) Singleton>> {
+-questions : List<Question>
+-dbconnector : DBConnector
++addQuestion(q: AQuestion) : void
++removeQuestion(q: AQuestion) : void
++getQuestions(theme: String) : List<AQuestion>
++getThemes(question: Question) : List<String>
++load()
++save()
+}
+
+QuestionManager *--> "*" AQuestion
+
+
+
+@enduml

@@ -1,0 +1,81 @@
+@startuml
+class MainForm {
+    -currentFrame : javax.swing.JFrame
+    +main {static} (args : String[]) : void
+    +changeCurrentFrame(frame) : boolean
+    -initialize() : void
+}
+
+class AddingForm {
+    -questionType : QuestionType
+    -questionString : String
+    -themes : List<String>
+    -variants : List<String>
+    +createQuestion() : Question
+}
+
+class ViewingForm {
+    -themes : List<String>
+    +showQuestions(theme: String, count: int)
+    +editQuestion(question: AQuestion)
+
+}
+
+class QuestionEditor {
+    -description: String
+    -variants : List<String>
+    -answers : List<String>
+    +setCurrentQuestion(question: AQuestion) : void
+    +addVariant(text: String, isRight: boolean) : int
+    +removeVariant(index: int) : void
+    +getVariant(index: int) : String
+    +answerIsRight(index: int) : int
+    +getCurrentQuestion() : AQuestion
+    +exec() : void
+}
+note right of ViewingForm
+    showQuestions показывает вопросы из
+    темы theme в количестве count штук на странице.
+end note
+
+class GeneratingForm {
+    -questionCount : int
+    -variantCount : int
+    -themesOut : List<String>
+
+}
+
+
+class LaTeXViewingComponent {
+    +paintComponent(graphics : java.awt.Graphics, string : String)
+}
+
+class QuestionViewingComponent {
+    +paintComponent(graphics : java.awt.Graphics, string : String)
+}
+
+
+
+class PDFViewingComponent {
+    +paintComponent(graphics : java.awt.Graphics, string : String)
+}
+
+
+AddingForm o-- QuestionViewingComponent
+QuestionViewingComponent o-- LaTeXViewingComponent : include >
+
+
+ViewingForm "1..*" *-- QuestionViewingComponent
+GeneratingForm o-- PDFViewingComponent
+
+
+MainForm  o--> AddingForm : create >
+MainForm o--> ViewingForm : create >
+MainForm o--> GeneratingForm : create >
+
+
+ViewingForm *--> QuestionEditor : use >
+QuestionEditor --> QuestionManager : use >
+
+@enduml
+
