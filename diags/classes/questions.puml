@@ -21,7 +21,6 @@ class Question{
     +setAnswers(answers: List<String>) : boolean
 }
 
-
 Question -up--|> AQuestion
 
 note bottom of Question

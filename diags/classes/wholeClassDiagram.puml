@@ -1,7 +1,7 @@
 'Общая диаграмма классов генератора тестов'
 @startuml
 !include questionManager.puml
-!include forms.puml
+!include frames.puml
 !include generation.puml
 
 class DBConnector <<(S,#FF7700) Singleton>> {
@@ -18,17 +18,11 @@ class QuestionAdder {
     -checkQuestion(question : AQuestion) : boolean
 }
 
-
-AddingForm --> QuestionAdder : use >
+AddingFrame --> QuestionAdder : use >
 QuestionAdder --> QuestionManager : use >
 
-
-
-
-
-
-AddingForm ..> Question : create >
+AddingFrame ..> Question : create >
 QuestionManager --> DBConnector
-ViewingForm --> QuestionManager : use >
+ViewingFrame --> QuestionManager : use >
 
 @enduml

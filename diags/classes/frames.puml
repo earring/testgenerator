@@ -1,12 +1,15 @@
 @startuml
-class MainForm {
-    -currentFrame : javax.swing.JFrame
+class Starter {
     +main {static} (args : String[]) : void
-    +changeCurrentFrame(frame) : boolean
-    -initialize() : void
 }
 
-class AddingForm {
+class MainFrame {
+    -initialize() : void
+    -adjustLayout() : void
+    -setListeners() : void
+}
+
+class AddingFrame {
     -questionType : QuestionType
     -questionString : String
     -themes : List<String>
@@ -14,7 +17,7 @@ class AddingForm {
     +createQuestion() : Question
 }
 
-class ViewingForm {
+class ViewingFrame {
     -themes : List<String>
     +showQuestions(theme: String, count: int)
     +editQuestion(question: AQuestion)
@@ -33,16 +36,15 @@ class QuestionEditor {
     +getCurrentQuestion() : AQuestion
     +exec() : void
 }
-note right of ViewingForm
+note right of ViewingFrame
     showQuestions показывает вопросы из
     темы theme в количестве count штук на странице.
 end note
 
-class GeneratingForm {
+class GeneratingFrame {
     -questionCount : int
     -variantCount : int
     -themesOut : List<String>
-
 }
 
 
@@ -54,28 +56,24 @@ class QuestionViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
-
-
 class PDFViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
-
-AddingForm o-- QuestionViewingComponent
+AddingFrame o-- QuestionViewingComponent
 QuestionViewingComponent o-- LaTeXViewingComponent : include >
 
+ViewingFrame "1..*" *-- QuestionViewingComponent
+GeneratingFrame o-- PDFViewingComponent
 
-ViewingForm "1..*" *-- QuestionViewingComponent
-GeneratingForm o-- PDFViewingComponent
+MainFrame --> AddingFrame : create >
+MainFrame --> ViewingFrame : create >
+MainFrame --> GeneratingFrame : create >
 
-
-MainForm  o--> AddingForm : create >
-MainForm o--> ViewingForm : create >
-MainForm o--> GeneratingForm : create >
-
-
-ViewingForm *--> QuestionEditor : use >
+ViewingFrame *--> QuestionEditor : use >
 QuestionEditor --> QuestionManager : use >
+
+Starter ..> MainFrame
 
 @enduml
 

@@ -6,6 +6,6 @@ class PDFGenerator {
     +generatePDF(qc: int, vc: int, themes: List<String>) : PDFFile
 }
 
-GeneratingForm --> PDFGenerator : use >
+GeneratingFrame --> PDFGenerator : use >
 PDFGenerator --> QuestionManager : use >
 @enduml
