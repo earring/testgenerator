@@ -7,3 +7,7 @@ mainClassName = "ru.earrring.testgenerator.MainForm"
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
