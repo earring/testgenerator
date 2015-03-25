@@ -1,0 +1,30 @@
+
+class MainForm {
+    -currentFrame : javax.swing.JFrame
+    +main {static} (args : String[]) : void
+    +changeCurrentFrame(frame) : boolean
+    -initialize() : void
+}
+
+class AddingForm {
+    -questionType : QuestionType
+    -questionString : String
+    -themes : List<String>
+    -variants : List<String>
+    +formQuestion() : Question
+}
+
+class ViewingForm {
+    -themes : List<String>
+    +showQuestions(theme: String, count: int)
+
+}
+note right of ViewingForm
+    showQuestions показывает вопросы из
+    темы theme в количестве count штук на странице.
+end note
+class GeneratingForm {
+    -questionCount : int
+    -variantCount : int
+    -themesOut : List<String>
+}
