@@ -4,7 +4,7 @@
 !include forms.puml
 
 
-class DBConnector <<(S,#FF7700) Singletone>> {
+class DBConnector <<(S,#FF7700) Singleton>> {
     +getInstance() : DBConnector
     ..
     +getQuestionByID(id : long) : Question
@@ -47,10 +47,10 @@ QuestionAdder --> QuestionManager : use >
 AddingForm o-- QuestionViewingComponent
 QuestionViewingComponent o-- LaTeXViewingComponent : include >
 
-MainForm o--> ViewingForm : create >
+
 ViewingForm "1..*" *-- QuestionViewingComponent
 
-MainForm o--> GeneratingForm : create >
+
 GeneratingForm --> QuestionGenerator : use >
 GeneratingForm --> PDFGenerator : use >
 GeneratingForm o-- PDFViewingComponent
