@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * Форма в виде "меню", на которой пользователь выбирает свои дальнейшие действия
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends AFrame {
 
     /**
      * Лейбл с картинкой для меню
@@ -31,28 +31,13 @@ public class MainFrame extends JFrame {
      */
     private JLabel versionLabel;
 
-    public MainFrame() {
-        initialize();
-        adjustLayout();
-        setListeners();
-    }
-
-    /**
-     * Начальная настройка формы
-     */
-    private void initialize() {
+    protected void adjustFrameSettings() {
         setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Генератор тестов");
-        Utils.centerFrame(this);
-        setResizable(false);
-        setIconImage(Utils.getImageFromResources("icon_image.png"));
     }
 
-    /**
-     * Настройка менеджера компоновки и добавление туда необходимых компоненктов
-     */
-    private void adjustLayout() {
+
+    protected void adjustLayout() {
         setLayout(new GridBagLayout());
 
         // настройка картинки в меню
@@ -85,10 +70,7 @@ public class MainFrame extends JFrame {
         add(versionLabel, c);
     }
 
-    /**
-     * Настройка слушателей (кнопок и других компонентов)
-     */
-    private void setListeners() {
+    protected void setListeners() {
         addingFormButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

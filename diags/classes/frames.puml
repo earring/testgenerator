@@ -3,10 +3,19 @@ class Starter {
     +main {static} (args : String[]) : void
 }
 
+interface StartableFrame {
+    +start() : void
+}
+
+abstract class AbstractFrame {
+    -adjustGeneralSettings() : void
+    #adjustFrameSettings() {abstract} : void
+    #adjustLayout() {abstract} : void
+    #setListeners() {abstract} : void
+}
+
 class MainFrame {
-    -initialize() : void
-    -adjustLayout() : void
-    -setListeners() : void
+
 }
 
 class AddingFrame {
@@ -60,20 +69,25 @@ class PDFViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
-AddingFrame o-- QuestionViewingComponent
-QuestionViewingComponent o-- LaTeXViewingComponent : include >
+Starter ..> MainFrame
 
-ViewingFrame "1..*" *-- QuestionViewingComponent
-GeneratingFrame o-- PDFViewingComponent
+AbstractFrame ..|> StartableFrame
+MainFrame --|> AbstractFrame
 
 MainFrame --> AddingFrame : create >
 MainFrame --> ViewingFrame : create >
 MainFrame --> GeneratingFrame : create >
 
+AddingFrame o-- QuestionViewingComponent
+QuestionViewingComponent o-- LaTeXViewingComponent : include >
+
 ViewingFrame *--> QuestionEditor : use >
 QuestionEditor --> QuestionManager : use >
 
-Starter ..> MainFrame
+ViewingFrame "1..*" *-- QuestionViewingComponent
+GeneratingFrame o-- PDFViewingComponent
+
+
 
 @enduml
 

@@ -3,7 +3,7 @@ package ru.earrring.testgenerator;
 import javax.swing.*;
 
 /**
- * Класс-стартер системы. Инициализирует все классы, необходимые для работы программы и запускает основную форму
+ * РљР»Р°СЃСЃ-СЃС‚Р°СЂС‚РµСЂ СЃРёСЃС‚РµРјС‹. РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РІСЃРµ РєР»Р°СЃСЃС‹, РЅРµРѕР±С…РѕРґРёРјС‹Рµ РґР»СЏ СЂР°Р±РѕС‚С‹ РїСЂРѕРіСЂР°РјРјС‹ Рё Р·Р°РїСѓСЃРєР°РµС‚ РѕСЃРЅРѕРІРЅСѓСЋ С„РѕСЂРјСѓ
  */
 public class Starter {
     public static void main(String[] args) {
@@ -12,6 +12,6 @@ public class Starter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new MainFrame().setVisible(true);
+        new MainFrame().start();
     }
 }
