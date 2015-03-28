@@ -36,7 +36,6 @@ public class MainFrame extends AFrame {
         setTitle("Генератор тестов");
     }
 
-
     protected void adjustLayout() {
         setLayout(new GridBagLayout());
 
@@ -108,5 +107,17 @@ public class MainFrame extends AFrame {
         c.ipady = 20;
         c.fill = GridBagConstraints.BOTH;
         add(button, c);
+    }
+
+    public JButton getAddingFormButton() {
+        return addingFormButton;
+    }
+
+    public JButton getViewingFormButton() {
+        return viewingFormButton;
+    }
+
+    public JButton getGeneratingFormButton() {
+        return generatingFormButton;
     }
 }
