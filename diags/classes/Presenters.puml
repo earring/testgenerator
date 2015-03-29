@@ -1,0 +1,35 @@
+@startuml
+
+abstract AFrame
+class MainFrame{
+    +setQuestionCount(count: int) : void
+}
+
+class AddingFrame{
+
+}
+
+class ViewingFrame{
+    +addQuestion(q: Question) : void
+}
+
+interface IPresenter{
+    +{abstract}setView(frame: AFrame) : void
+    +{abstract}questionAdded()
+    +{abstract}questionRemoved()
+}
+
+MainFrame -down--|> AFrame
+AddingFrame -down--|> AFrame
+ViewingFrame -down--|> AFrame
+
+
+class AddingPresenter -up..|> IPresenter
+class ViewingPresenter -up..|> IPresenter
+class MainPresenter -up..|> IPresenter
+
+class MainPresenter --> MainFrame : change >
+class ViewingPresenter --> ViewingFrame : change >
+class AddingPresenter --> AddingFrame : change >
+
+@enduml
