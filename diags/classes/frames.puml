@@ -87,7 +87,5 @@ QuestionEditor --> QuestionManager : use >
 ViewingFrame "1..*" *-- QuestionViewingComponent
 GeneratingFrame o-- PDFViewingComponent
 
-
-
 @enduml
 

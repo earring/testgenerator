@@ -10,12 +10,12 @@ import javax.swing.*;
 public class Starter {
 
     private static MainFrame mainFrame;
-    private static DBFacade dbConnector;
+    private static DBFacade dbFacade;
 
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-            dbConnector = DBFacade.getInstance(false);
+            dbFacade = DBFacade.getInstance(false);
         } catch (Exception e) {
             e.printStackTrace();
         }

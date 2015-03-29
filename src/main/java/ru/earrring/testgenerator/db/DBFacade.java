@@ -66,6 +66,22 @@ public class DBFacade {
     }
 
     /**
+     * Добавление вопроса в БД
+     * @param question вопрос, добавляемый в БД
+     * @throws SQLException
+     */
+    public void addQuestion(Question question) throws SQLException {
+        TransactionManager.callInTransaction(source,
+                () -> {
+                    int rowsChanged = daoQuestion.create(question);
+                    if (rowsChanged != 1) {
+                        throw new SQLException("adding question " + question + " is not succesful!");
+                    }
+                    return null;
+                });
+    }
+
+    /**
      * Запрос всех вопросов в БД
      * @return список всех вопросов
      * @throws SQLException
@@ -102,24 +118,6 @@ public class DBFacade {
     }
 
     /**
-     * Добавление вопроса в БД
-     * @param question вопрос, добавляемый в БД
-     * @throws SQLException
-     */
-    public void addQuestion(Question question) throws SQLException {
-        TransactionManager.callInTransaction(source,
-                new Callable<Void>() {
-                    public Void call() throws Exception {
-                        int rowsChanged = daoQuestion.create(question);
-                        if (rowsChanged != 1) {
-                            throw new SQLException("adding question " + question + " is not succesful!");
-                        }
-                        return null;
-                    }
-                });
-    }
-
-    /**
      * Обновление вопроса в БД
      * @param question обновляемый вопрос (новые данные). Вопрос, который нужно обновить, определяется по идентификатору
      * @throws SQLException
@@ -128,6 +126,20 @@ public class DBFacade {
         daoQuestion.update(question);
     }
 
+    /**
+     * Удаление вопроса из БД
+     * @param id идентификатор удаляемого вопроса
+     * @throws SQLException
+     */
+    public void deleteQuestion(int id) throws SQLException {
+        daoQuestion.deleteById(id);
+    }
+
+    /**
+     * Запрос пустой коллекции ответов для дальнейшего добавления туда новых ответов
+     * @return пустая коллекция ответов
+     * @throws SQLException
+     */
     public ForeignCollection<Answer> getEmptyAnswerCollection() throws SQLException {
         return daoQuestion.getEmptyForeignCollection("answers");
     }
@@ -139,14 +151,31 @@ public class DBFacade {
      */
     public void addAnswer(Answer answer) throws SQLException {
         TransactionManager.callInTransaction(source,
-                new Callable<Void>() {
-                    public Void call() throws Exception {
-                        int rowsChanged = daoAnswer.create(answer);
-                        if (rowsChanged != 1) {
-                            throw new SQLException("adding answer " + answer + " is not succesful!");
-                        }
-                        return null;
+                () -> {
+                    int rowsChanged = daoAnswer.create(answer);
+                    if (rowsChanged != 1) {
+                        throw new SQLException("adding answer " + answer + " is not succesful!");
                     }
+                    return null;
                 });
+    }
+
+    /**
+     * Обновление варианта ответа в БД
+     * @param answer обновляемый вариант ответа (новые данные). Вариант ответа, который нужно обновить, определяется
+     *               по идентификатору
+     * @throws SQLException
+     */
+    public void updateAnswer(Answer answer) throws SQLException {
+        daoAnswer.update(answer);
+    }
+
+    /**
+     * Удаление варианта ответа из БД
+     * @param id идентификатор удаляемого варианта ответа
+     * @throws SQLException
+     */
+    public void deleteAnswer(int id) throws SQLException {
+        daoAnswer.deleteById(id);
     }
 }

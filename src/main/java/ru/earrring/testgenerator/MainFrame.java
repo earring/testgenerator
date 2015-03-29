@@ -14,18 +14,22 @@ public class MainFrame extends AFrame {
      * Лейбл с картинкой для меню
      */
     private JLabel pictureLabel;
+
     /**
      * Кнопка перехода на форму добавления вопроса
      */
     private JButton addingFormButton;
+
     /**
      * Кнопка перехода на форму просмотра вопросов
      */
     private JButton viewingFormButton;
+
     /**
      * Кнопка перехода на форму генерации вопросов
      */
     private JButton generatingFormButton;
+
     /**
      * Лейбл, показывающий текующую версию программы
      */

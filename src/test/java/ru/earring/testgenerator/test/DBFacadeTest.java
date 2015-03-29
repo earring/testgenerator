@@ -1,7 +1,5 @@
 package ru.earring.testgenerator.test;
 
-import com.j256.ormlite.dao.EagerForeignCollection;
-import com.j256.ormlite.dao.ForeignCollection;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,7 +8,6 @@ import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.db.Question;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;

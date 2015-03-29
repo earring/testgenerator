@@ -4,25 +4,26 @@
 !include frames.puml
 !include generation.puml
 
-class DBConnector <<(S,#FF7700) Singleton>> {
-    +getInstance() : DBConnector
+class DBFacade <<(S,#FF7700) Singleton>> {
+    + getInstance(isDBForTest : boolean) : DBFacade
     ..
-    +getQuestionByID(id : long) : AQuestion
-    +findQuestionsByDescription(desc : String) : List<AQuestion>
-    +getQuestionsByTheme(themes : List<String>) : List<AQuestion>
-    +addQuestion(question : AQuestion, themes : List<String>) : boolean
+    + addQuestion(question : Question) : void
+    + getAllQuestions() : List<Question>
+    + getQuestionById(id : int) : Question
+    + findQuestionsByDescription(description : String) : List<Question>
+    + updateQuestion(question : Question) : void
+    + deleteQuestion(id : int) : void
+    ..
+    + getEmptyAnswerCollection() : ForeignCollection<Answer>
+    + addAnswer(answer : Answer) : void
+    + updateAnswer(answer : Answer) : void
+    + deleteAnswer(id : int) : void
 }
 
-class QuestionAdder {
-    +addQuestion(question : AQuestion, themes : List<String>) : boolean
-    -checkQuestion(question : AQuestion) : boolean
-}
-
-AddingFrame --> QuestionAdder : use >
-QuestionAdder --> QuestionManager : use >
+AddingFrame --> QuestionManager : use >
 
 AddingFrame ..> Question : create >
-QuestionManager --> DBConnector
+QuestionManager ..> DBFacade
 ViewingFrame --> QuestionManager : use >
 
 @enduml
