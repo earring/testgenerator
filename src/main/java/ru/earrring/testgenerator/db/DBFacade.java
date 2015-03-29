@@ -10,8 +10,8 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class DBFacade {
 
@@ -73,6 +73,12 @@ public class DBFacade {
     public void addQuestion(Question question) throws SQLException {
         TransactionManager.callInTransaction(source,
                 () -> {
+                    // выбор наименьшего незанятого id
+                    int idIndex = 1;
+                    while (daoQuestion.queryForId(idIndex) != null) {
+                        idIndex++;
+                    }
+                    question.setId(idIndex);
                     int rowsChanged = daoQuestion.create(question);
                     if (rowsChanged != 1) {
                         throw new SQLException("adding question " + question + " is not succesful!");
@@ -132,6 +138,10 @@ public class DBFacade {
      * @throws SQLException
      */
     public void deleteQuestion(int id) throws SQLException {
+        Collection<Answer> answers = daoQuestion.queryForId(id).getAnswers();
+        for (Answer answer : answers) {
+            daoAnswer.delete(answer);
+        }
         daoQuestion.deleteById(id);
     }
 

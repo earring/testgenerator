@@ -13,7 +13,7 @@ public class Question {
     /**
      * Уникальный идентификатор вопроса
      */
-    @DatabaseField(unique = true, generatedId = true)
+    @DatabaseField(unique = true, id = true)
     private int id;
 
     /**
