@@ -22,18 +22,33 @@ public class Answer {
     private String value;
 
     /**
-     * Корректность ответа
+     * Верен этот ответ или нет
      */
     @DatabaseField(canBeNull = false)
     private boolean correct;
 
     /**
-     * Вопрос, которому принадлежит ответ
+     * Вопрос, которому принадлежит этот вариант ответа
      */
     @DatabaseField(foreign = true)
     private Question question;
 
+    /**
+     * Конструктор по умолчанию, необходимый для ORM Lite. В коде им не пользоваться!!
+     */
     public Answer() {
+    }
+
+    /**
+     * Конструктор для создания объекта ответа на вопрос
+     * @param value значение варианта ответа
+     * @param correct верен этот вариант или нет
+     * @param question ссылка на вопрос, которому придадлежит этот вариант ответа
+     */
+    public Answer(String value, boolean correct, Question question) {
+        this.value = value;
+        this.correct = correct;
+        this.question = question;
     }
 
     public int getId() {

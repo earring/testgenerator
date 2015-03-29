@@ -5,6 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Collection;
+
 @DatabaseTable (tableName = "question")
 public class Question {
 
@@ -24,15 +26,30 @@ public class Question {
      * Текст вопроса
      */
     @DatabaseField(canBeNull = false)
-    private String question;
+    private String description;
 
     /**
      * Список ответов на вопрос
      */
     @ForeignCollectionField
-    private ForeignCollection<Answer> answers;
+    private Collection<Answer> answers;
 
+    /**
+     * Конструктор по умолчанию, необходимый для ORM Lite. В коде им не пользоваться!!
+     */
     public Question() {
+    }
+
+    /**
+     * Конструктор для создания нового вопроса
+     * @param category список категорий для вопроса - одна строка, разделенная знаками вертикальной черты |
+     * @param description текст вопроса
+     * @param answers коллекция ответов на вопрос
+     */
+    public Question(String category, String description, Collection<Answer> answers) {
+        this.category = category;
+        this.description = description;
+        this.answers = answers;
     }
 
     public int getId() {
@@ -43,19 +60,27 @@ public class Question {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getDescription() {
+        return description;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public ForeignCollection<Answer> getAnswers() {
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Collection<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ForeignCollection<Answer> answers) {
+    public void setAnswers(Collection<Answer> answers) {
         this.answers = answers;
     }
 
@@ -64,7 +89,7 @@ public class Question {
         return "Question{" +
                 "id=" + id +
                 ", category=" + category +
-                ", question='" + question + '\'' +
+                ", description='" + description + '\'' +
                 ", answers=" + answers +
                 '}';
     }

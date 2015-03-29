@@ -1,6 +1,6 @@
 package ru.earrring.testgenerator;
 
-import ru.earrring.testgenerator.db.DBConnector;
+import ru.earrring.testgenerator.db.DBFacade;
 
 import javax.swing.*;
 
@@ -10,11 +10,12 @@ import javax.swing.*;
 public class Starter {
 
     private static MainFrame mainFrame;
+    private static DBFacade dbConnector;
 
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-            new DBConnector().getAll();
+            dbConnector = DBFacade.getInstance(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
