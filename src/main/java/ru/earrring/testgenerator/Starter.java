@@ -1,5 +1,6 @@
 package ru.earrring.testgenerator;
 
+import ru.earrring.testgenerator.db.AddingForm;
 import ru.earrring.testgenerator.db.DBFacade;
 
 import javax.swing.*;
@@ -11,15 +12,19 @@ import java.io.StringWriter;
  */
 public class Starter {
 
-    private static MainFrame mainFrame;
+    private static MenuFrame mainFrame;
     private static DBFacade dbFacade;
 
-    public static void main(String[] args) {
+    private static void init()
+    {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
-            mainFrame = new MainFrame();
-            mainFrame.start();
+            mainFrame = new MenuFrame();
+
+            AddingForm addingForm = new AddingForm();
+            mainFrame.addButton("Добавить вопрос1", addingForm);
+
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
@@ -27,8 +32,10 @@ public class Starter {
             JOptionPane.showMessageDialog(mainFrame, e.toString(), e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    public static MainFrame getMainFrame() {
-        return mainFrame;
+    public static void main(String[] args) {
+        init();
+        mainFrame.setVisible(true);
     }
+
+
 }

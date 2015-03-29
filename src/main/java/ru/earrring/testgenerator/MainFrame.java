@@ -51,8 +51,8 @@ public class MainFrame extends AFrame {
         setSize(500, 500);
         setTitle("Генератор тестов");
     }
-
-    protected void adjustLayout() throws SQLException {
+    @Override
+    protected void adjustLayout() {
         setLayout(new GridBagLayout());
 
         // настройка картинки в меню
@@ -74,7 +74,7 @@ public class MainFrame extends AFrame {
         c.weighty = 0.5;
         add(dbInformationLabel, c);
         dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
-        dbInformationLabel.setText("<html>БД: <b>" + DBFacade.getInstance(false).getDBName() + "</b>; Вопросов в БД: <b>" + DBFacade.getInstance(false).getAllQuestions().size() + "</b></html>");
+     //   dbInformationLabel.setText("<html>БД: <b>" + DBFacade.getInstance(false).getDBName() + "</b>; Вопросов в БД: <b>" + DBFacade.getInstance(false).getAllQuestions().size() + "</b></html>");
 
         // добавление кнопок меню
         addingFormButton = new JButton("Добавить вопрос");
@@ -101,7 +101,7 @@ public class MainFrame extends AFrame {
         addingFormButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addingForm.start();
+            //    addingForm.start();
             }
         });
 

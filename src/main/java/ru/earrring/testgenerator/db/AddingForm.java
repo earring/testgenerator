@@ -7,9 +7,11 @@ import java.awt.*;
  * Created by nenagleyko on 29.03.2015.
  */
 public class AddingForm extends AFrame {
+
     private JLabel descriptionLabel;
     private JLabel addVariantLabel;
     private JTextArea descriptionArea;
+
     protected void adjustFrameSettings()
     {
         setSize(500, 500);
@@ -28,7 +30,7 @@ public class AddingForm extends AFrame {
         descriptionArea = new JTextArea("Текст вопроса...");
         descriptionArea.setSize(400,200);
 
-        addWidget(descriptionArea,1);
+        addWidget(descriptionArea, 1);
 
         addVariantLabel = new JLabel("Добавить вариант ответа:");
 
