@@ -1,5 +1,6 @@
 package ru.earrring.testgenerator;
 
+import ru.earrring.testgenerator.db.AddingForm;
 import ru.earrring.testgenerator.db.DBFacade;
 
 import javax.swing.*;
@@ -44,6 +45,8 @@ public class MainFrame extends AFrame {
      */
     private JLabel versionLabel;
 
+    private AFrame addingForm;
+
     protected void adjustFrameSettings() {
         setSize(500, 500);
         setTitle("Генератор тестов");
@@ -81,6 +84,8 @@ public class MainFrame extends AFrame {
         generatingFormButton = new JButton("Генерация тестов");
         setButtonConstraints(generatingFormButton, 4);
 
+        addingForm = new AddingForm();
+
         // добавление надписи с версией
         versionLabel = new JLabel(Utils.VERSION);
         c = new GridBagConstraints();
@@ -96,7 +101,7 @@ public class MainFrame extends AFrame {
         addingFormButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                addingForm.start();
             }
         });
 
