@@ -6,5 +6,5 @@ import java.sql.SQLException;
  * Интерфейс, отвечающий за запускаемую форму
  */
 public interface IStartableFrame {
-    public void start() throws SQLException;
+    public void start() throws Exception;
 }
