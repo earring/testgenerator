@@ -1,13 +1,14 @@
 package ru.earrring.testgenerator;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public abstract class AFrame extends JFrame implements IStartableFrame {
     /**
      * Метод, запускающий форму, и делающий её видимой
      */
     @Override
-    public void start() {
+    public void start() throws SQLException {
         adjustFrameSettings();
         adjustGeneralSettings();
         adjustLayout();
@@ -33,7 +34,7 @@ public abstract class AFrame extends JFrame implements IStartableFrame {
     /**
      * Настройка менеджера компоновки и добавление туда необходимых компоненктов
      */
-    abstract protected void adjustLayout();
+    abstract protected void adjustLayout() throws SQLException;
 
     /**
      * Настройка слушателей (кнопок и других компонентов)

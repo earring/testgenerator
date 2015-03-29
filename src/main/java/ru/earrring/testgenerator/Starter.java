@@ -16,12 +16,11 @@ public class Starter {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
+            mainFrame = new MainFrame();
+            mainFrame.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        mainFrame = new MainFrame();
-        mainFrame.start();
     }
 
     public static MainFrame getMainFrame() {

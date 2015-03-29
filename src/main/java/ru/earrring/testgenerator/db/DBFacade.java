@@ -65,6 +65,12 @@ public class DBFacade {
         }
     }
 
+    public String getDBName() {
+        String url = ((JdbcConnectionSource) source).getUrl();
+        String[] urlParts = url.split(":");
+        return urlParts[2];
+    }
+
     /**
      * Добавление вопроса в БД
      * @param question вопрос, добавляемый в БД

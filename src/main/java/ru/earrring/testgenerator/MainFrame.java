@@ -1,9 +1,13 @@
 package ru.earrring.testgenerator;
 
+import ru.earrring.testgenerator.db.DBFacade;
+
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 /**
  * Форма в виде "меню", на которой пользователь выбирает свои дальнейшие действия
@@ -14,6 +18,11 @@ public class MainFrame extends AFrame {
      * Лейбл с картинкой для меню
      */
     private JLabel pictureLabel;
+
+    /**
+     * Лейбл с именем БД и информацией о ней
+     */
+    private JLabel dbInformationLabel;
 
     /**
      * Кнопка перехода на форму добавления вопроса
@@ -40,12 +49,11 @@ public class MainFrame extends AFrame {
         setTitle("Генератор тестов");
     }
 
-    protected void adjustLayout() {
+    protected void adjustLayout() throws SQLException {
         setLayout(new GridBagLayout());
 
         // настройка картинки в меню
         pictureLabel = new JLabel(new ImageIcon(Utils.getImageFromResources("menu_picture.png")));
-        pictureLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
@@ -54,19 +62,30 @@ public class MainFrame extends AFrame {
         c.weighty = 1.0;
         add(pictureLabel, c);
 
+        dbInformationLabel = new JLabel();
+        c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 1;
+        c.insets = new Insets(10, 10, 10, 10);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weighty = 0.5;
+        add(dbInformationLabel, c);
+        dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
+        dbInformationLabel.setText("<html>БД: <b>" + DBFacade.getInstance(false).getDBName() + "</b>; Вопросов в БД: <b>" + DBFacade.getInstance(false).getAllQuestions().size() + "</b></html>");
+
         // добавление кнопок меню
         addingFormButton = new JButton("Добавить вопрос");
-        setButtonConstraints(addingFormButton, 1);
+        setButtonConstraints(addingFormButton, 2);
         viewingFormButton = new JButton("Просмотр вопросов");
-        setButtonConstraints(viewingFormButton, 2);
+        setButtonConstraints(viewingFormButton, 3);
         generatingFormButton = new JButton("Генерация тестов");
-        setButtonConstraints(generatingFormButton, 3);
+        setButtonConstraints(generatingFormButton, 4);
 
         // добавление надписи с версией
         versionLabel = new JLabel(Utils.VERSION);
         c = new GridBagConstraints();
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 5;
         c.insets = new Insets(10, 10, 10, 10);
         c.anchor = GridBagConstraints.SOUTH;
         c.weighty = 1.0;
