@@ -1,7 +1,7 @@
 package ru.earring.testgenerator.test;
 
 import org.junit.Test;
-import ru.earrring.testgenerator.MainFrame;
+import ru.earrring.testgenerator.frames.MainFrame;
 
 public class MainFrameTest extends ATest{
 

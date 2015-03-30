@@ -1,4 +1,7 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.frames;
+
+import ru.earrring.testgenerator.Utils;
+import ru.earrring.testgenerator.frames.AFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +11,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by nenagleyko on 30.03.2015.
  */
-public class MenuFrame extends AFrame{
+public class MenuFrame extends AFrame {
     /**
      * Лейбл с картинкой для меню
      */

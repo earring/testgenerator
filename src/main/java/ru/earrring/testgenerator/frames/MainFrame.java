@@ -1,14 +1,13 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.frames;
 
-import ru.earrring.testgenerator.db.AddingForm;
-import ru.earrring.testgenerator.db.DBFacade;
+import ru.earrring.testgenerator.Utils;
+import ru.earrring.testgenerator.frames.AFrame;
+import ru.earrring.testgenerator.frames.AddingForm;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 /**
  * Форма в виде "меню", на которой пользователь выбирает свои дальнейшие действия

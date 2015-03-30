@@ -1,9 +1,10 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.frames;
+
+import ru.earrring.testgenerator.Utils;
 
 import javax.swing.*;
-import java.sql.SQLException;
 
-public abstract class AFrame extends JFrame implements IStartableFrame{
+public abstract class AFrame extends JFrame implements IStartableFrame {
     public AFrame() {
         super();
         start();

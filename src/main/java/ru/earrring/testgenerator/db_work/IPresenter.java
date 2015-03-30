@@ -1,6 +1,6 @@
-package ru.earrring.testgenerator.db;
+package ru.earrring.testgenerator.db_work;
 
-import ru.earrring.testgenerator.AFrame;
+import ru.earrring.testgenerator.frames.AFrame;
 
 /**
  * Created by nenagleyko on 30.03.2015.

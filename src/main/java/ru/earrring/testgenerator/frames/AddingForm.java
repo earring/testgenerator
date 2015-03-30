@@ -1,6 +1,5 @@
-package ru.earrring.testgenerator.db;
+package ru.earrring.testgenerator.frames;
 
-import ru.earrring.testgenerator.AFrame;
 import javax.swing.*;
 import java.awt.*;
 /**

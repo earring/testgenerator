@@ -1,7 +1,9 @@
 package ru.earrring.testgenerator;
 
-import ru.earrring.testgenerator.db.AddingForm;
 import ru.earrring.testgenerator.db.DBFacade;
+import ru.earrring.testgenerator.db_work.MenuPresenter;
+import ru.earrring.testgenerator.frames.AddingForm;
+import ru.earrring.testgenerator.frames.MenuFrame;
 
 import javax.swing.*;
 import java.io.PrintWriter;
