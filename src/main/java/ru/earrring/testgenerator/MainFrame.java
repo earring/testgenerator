@@ -62,7 +62,7 @@ public class MainFrame extends AFrame {
     }
 
     @Override
-    protected void adjustLayout() throws SQLException {
+    protected void adjustLayout() {
         setLayout(new GridBagLayout());
 
         // настройка картинки в меню
