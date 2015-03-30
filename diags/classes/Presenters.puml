@@ -32,13 +32,10 @@ class MainPresenter --> MainFrame : change >
 class ViewingPresenter --> ViewingFrame : change >
 class AddingPresenter --> AddingFrame : change >
 
-DBFacade "1" *-->  "*" IPresenter
+
 class DBFacade{
     -onQuestionAdded()
     -onQuestionRemoved()
 }
-note right of DBFacade
-хранит в себе презентеры
-и сообщает им о добавлении/удалении вопросов
-end note
+
 @enduml

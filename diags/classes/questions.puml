@@ -5,6 +5,9 @@ class Question {
     - category : String
     - description : String
     - answers : Collection<Answer>
+    + getCategory() : String
+    + getDescription() : String
+    + getAnswers() : Collection<Answer>
 }
 
 class Answer {
@@ -14,7 +17,7 @@ class Answer {
         - question : Question
 }
 
-Question "1" <--> "0..*" Answer
+Question "1" *--> "0..*" Answer
 
 note bottom of Question
     Предполагается, что ТО, что будет показывать

@@ -4,21 +4,7 @@
 !include frames.puml
 !include generation.puml
 
-class DBFacade <<(S,#FF7700) Singleton>> {
-    + getInstance(isDBForTest : boolean) : DBFacade
-    ..
-    + addQuestion(question : Question) : void
-    + getAllQuestions() : List<Question>
-    + getQuestionById(id : int) : Question
-    + findQuestionsByDescription(description : String) : List<Question>
-    + updateQuestion(question : Question) : void
-    + deleteQuestion(id : int) : void
-    ..
-    + getEmptyAnswerCollection() : ForeignCollection<Answer>
-    + addAnswer(answer : Answer) : void
-    + updateAnswer(answer : Answer) : void
-    + deleteAnswer(id : int) : void
-}
+
 
 AddingFrame --> QuestionManager : use >
 
