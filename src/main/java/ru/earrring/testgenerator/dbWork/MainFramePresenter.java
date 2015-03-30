@@ -1,12 +1,16 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.dbWork;
 
 import ru.earrring.testgenerator.db.DBFacade;
+import ru.earrring.testgenerator.dbWork.APresenter;
+import ru.earrring.testgenerator.frames.MainFrame;
+import ru.earrring.testgenerator.frames.AFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class MainFramePresenter extends APresenter {
+
 
     private MainFrame mainFrame;
 

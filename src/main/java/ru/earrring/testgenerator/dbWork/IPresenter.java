@@ -6,7 +6,20 @@ import ru.earrring.testgenerator.frames.AFrame;
  * Created by nenagleyko on 30.03.2015.
  */
 public interface IPresenter {
-    abstract void setView(AFrame view);
-    abstract void onQuestionAdded();
-    abstract void onQuestionRemoved();
+
+    void setUp(AFrame view);
+
+    /**
+     * Настройка слушателей (кнопок и других компонентов)
+     */
+    void setListeners();
+
+    /**
+     * Настройка изначальных данных на форме
+     */
+    void setInitialData();
+
+    void onQuestionAdded();
+
+    void onQuestionRemoved();
 }

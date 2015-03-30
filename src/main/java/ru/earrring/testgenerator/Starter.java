@@ -1,7 +1,7 @@
 package ru.earrring.testgenerator;
 
-import ru.earrring.testgenerator.frames.AddingFrame;import ru.earrring.testgenerator.db.DBFacade;
-import ru.earrring.testgenerator.dbWork.MenuPresenter;
+import ru.earrring.testgenerator.db.DBFacade;
+import ru.earrring.testgenerator.frames.AddingFrame;
 import ru.earrring.testgenerator.frames.MainFrame;
 import javax.swing.*;
 import java.io.PrintWriter;
@@ -23,10 +23,7 @@ public class Starter {
             mainFrame = new MainFrame();
 
             AddingFrame addingFrame = new AddingFrame();
-            mainFrame.addButton("Добавить вопрос1", addingFrame);
-
-            MenuPresenter presenter = new MenuPresenter();
-            presenter.setView(mainFrame);
+            mainFrame.addFrameButton(addingFrame,"Добавить вопрос");
 
         } catch (Exception e) {
             StringWriter errors = new StringWriter();

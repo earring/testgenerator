@@ -1,7 +1,7 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.dbWork;
 
-import ru.earrring.testgenerator.AFrame;
-import ru.earrring.testgenerator.IPresenter;
+import ru.earrring.testgenerator.frames.AFrame;
+import ru.earrring.testgenerator.dbWork.IPresenter;
 
 public abstract class APresenter implements IPresenter {
 
