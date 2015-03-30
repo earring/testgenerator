@@ -1,7 +1,8 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.dbWork;
 
 import ru.earrring.testgenerator.db.DBFacade;
-import ru.earrring.testgenerator.db.IPresenter;
+import ru.earrring.testgenerator.frames.AFrame;
+import ru.earrring.testgenerator.frames.MenuFrame;
 
 import javax.swing.*;
 import java.sql.SQLException;

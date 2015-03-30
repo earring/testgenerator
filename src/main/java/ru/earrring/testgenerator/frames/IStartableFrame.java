@@ -1,4 +1,4 @@
-package ru.earrring.testgenerator;
+package ru.earrring.testgenerator.frames;
 
 import java.sql.SQLException;
 
