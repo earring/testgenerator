@@ -29,6 +29,11 @@ class DBFacade <<(S,#FF7700) Singleton>> {
     + updateAnswer(answer : Answer) : void
     + deleteAnswer(id : int) : void
 }
+note right of QuestionManager
+хранит в себе презентеры
+и сообщает им о добавлении/удалении вопросов
+end note
+
 QuestionManager *--> "*" Question
 QuestionManager --> DBFacade : uses >
 QuestionManager "1" *-->  "*" IPresenter

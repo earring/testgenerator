@@ -37,8 +37,5 @@ class DBFacade{
     -onQuestionAdded()
     -onQuestionRemoved()
 }
-note right of DBFacade
-хранит в себе презентеры
-и сообщает им о добавлении/удалении вопросов
-end note
+
 @enduml
