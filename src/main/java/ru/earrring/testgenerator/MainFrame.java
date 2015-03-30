@@ -44,11 +44,24 @@ public class MainFrame extends AFrame {
      */
     private JLabel versionLabel;
 
+    /**
+     * Презентер основной формочки
+     */
+    private MainFramePresenter presenter;
+
+    @Override
+    protected void setUpPresenter() {
+        presenter = new MainFramePresenter();
+        presenter.setView(this);
+    }
+
+    @Override
     protected void adjustFrameSettings() {
         setSize(500, 500);
         setTitle("Генератор тестов");
     }
 
+    @Override
     protected void adjustLayout() throws SQLException {
         setLayout(new GridBagLayout());
 
@@ -63,6 +76,7 @@ public class MainFrame extends AFrame {
         add(pictureLabel, c);
 
         dbInformationLabel = new JLabel();
+        dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 1;
@@ -70,8 +84,6 @@ public class MainFrame extends AFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weighty = 0.5;
         add(dbInformationLabel, c);
-        dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
-        dbInformationLabel.setText("<html>БД: <b>" + DBFacade.getInstance(false).getDBName() + "</b>; Вопросов в БД: <b>" + DBFacade.getInstance(false).getAllQuestions().size() + "</b></html>");
 
         // добавление кнопок меню
         addingFormButton = new JButton("Добавить вопрос");
@@ -92,27 +104,17 @@ public class MainFrame extends AFrame {
         add(versionLabel, c);
     }
 
+    @Override
     protected void setListeners() {
-        addingFormButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        addingFormButton.addActionListener(presenter.getAddingFormButtonAction());
+        viewingFormButton.addActionListener(presenter.getViewingFormButtonAction());
+        generatingFormButton.addActionListener(presenter.getGeneratingFormButtonAction());
+    }
 
-            }
-        });
-
-        viewingFormButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        generatingFormButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+    @Override
+    protected void setInitialData() {
+        // симулируем добавление вопроса для того, чтобы обновилась надпись о количестве вопросов
+        presenter.onQuestionAdded();
     }
 
     /**
@@ -130,6 +132,10 @@ public class MainFrame extends AFrame {
         c.ipady = 20;
         c.fill = GridBagConstraints.BOTH;
         add(button, c);
+    }
+
+    public JLabel getDbInformationLabel() {
+        return dbInformationLabel;
     }
 
     public JButton getAddingFormButton() {

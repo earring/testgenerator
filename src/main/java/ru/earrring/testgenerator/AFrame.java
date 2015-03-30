@@ -9,12 +9,19 @@ public abstract class AFrame extends JFrame implements IStartableFrame {
      */
     @Override
     public void start() throws Exception {
+        setUpPresenter();
         adjustFrameSettings();
         adjustGeneralSettings();
         adjustLayout();
         setListeners();
+        setInitialData();
         setVisible(true);
     }
+
+    /**
+     * Начальная настройка формы
+     */
+    abstract protected void setUpPresenter();
 
     /**
      * Начальная настройка формы
@@ -40,4 +47,9 @@ public abstract class AFrame extends JFrame implements IStartableFrame {
      * Настройка слушателей (кнопок и других компонентов)
      */
     abstract protected void setListeners();
+
+    /**
+     * Настройка изначальных данных на форме
+     */
+    abstract protected void setInitialData();
 }
