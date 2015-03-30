@@ -32,7 +32,7 @@ class MainPresenter --> MainFrame : change >
 class ViewingPresenter --> ViewingFrame : change >
 class AddingPresenter --> AddingFrame : change >
 
-DBFacade "1" *-->  "*" IPresenter
+
 class DBFacade{
     -onQuestionAdded()
     -onQuestionRemoved()

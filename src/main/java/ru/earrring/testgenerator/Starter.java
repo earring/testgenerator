@@ -25,6 +25,9 @@ public class Starter {
             AddingForm addingForm = new AddingForm();
             mainFrame.addButton("Добавить вопрос1", addingForm);
 
+            MenuPresenter presenter = new MenuPresenter();
+            presenter.setView(mainFrame);
+
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
