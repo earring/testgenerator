@@ -6,30 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class MainFramePresenter implements IPresenter {
+public class MainFramePresenter extends APresenter {
 
     private MainFrame mainFrame;
-
-    private ActionListener addingFormButtonAction = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    };
-
-    private ActionListener viewingFormButtonAction = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    };
-
-    private ActionListener generatingFormButtonAction = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    };
 
     @Override
     public void setView(AFrame view) {
@@ -52,15 +31,32 @@ public class MainFramePresenter implements IPresenter {
 
     }
 
-    public ActionListener getAddingFormButtonAction() {
-        return addingFormButtonAction;
+    @Override
+    public void setListeners() {
+        mainFrame.getAddingFormButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        mainFrame.getViewingFormButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        mainFrame.getGeneratingFormButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
-    public ActionListener getViewingFormButtonAction() {
-        return viewingFormButtonAction;
-    }
-
-    public ActionListener getGeneratingFormButtonAction() {
-        return generatingFormButtonAction;
+    @Override
+    public void setInitialData() {
+        // симулируем добавление вопроса для того, чтобы обновилась надпись о количестве вопросов
+        onQuestionAdded();
     }
 }

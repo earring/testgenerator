@@ -44,17 +44,6 @@ public class MainFrame extends AFrame {
      */
     private JLabel versionLabel;
 
-    /**
-     * Презентер основной формочки
-     */
-    private MainFramePresenter presenter;
-
-    @Override
-    protected void setUpPresenter() {
-        presenter = new MainFramePresenter();
-        presenter.setView(this);
-    }
-
     @Override
     protected void adjustFrameSettings() {
         setSize(500, 500);
@@ -102,19 +91,6 @@ public class MainFrame extends AFrame {
         c.anchor = GridBagConstraints.SOUTH;
         c.weighty = 1.0;
         add(versionLabel, c);
-    }
-
-    @Override
-    protected void setListeners() {
-        addingFormButton.addActionListener(presenter.getAddingFormButtonAction());
-        viewingFormButton.addActionListener(presenter.getViewingFormButtonAction());
-        generatingFormButton.addActionListener(presenter.getGeneratingFormButtonAction());
-    }
-
-    @Override
-    protected void setInitialData() {
-        // симулируем добавление вопроса для того, чтобы обновилась надпись о количестве вопросов
-        presenter.onQuestionAdded();
     }
 
     /**
