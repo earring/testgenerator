@@ -2,8 +2,7 @@ package ru.earrring.testgenerator;
 
 import ru.earrring.testgenerator.frames.AddingFrame;import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.dbWork.MenuPresenter;
-import ru.earrring.testgenerator.frames.AddingFrame;
-import ru.earrring.testgenerator.frames.MenuFrame;
+import ru.earrring.testgenerator.frames.MainFrame;
 import javax.swing.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,7 +12,7 @@ import java.io.StringWriter;
  */
 public class Starter {
 
-    private static MenuFrame mainFrame;
+    private static MainFrame mainFrame;
     private static DBFacade dbFacade;
 
     private static void init()
@@ -21,7 +20,7 @@ public class Starter {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
-            mainFrame = new MenuFrame();
+            mainFrame = new MainFrame();
 
             AddingFrame addingFrame = new AddingFrame();
             mainFrame.addButton("Добавить вопрос1", addingFrame);

@@ -2,7 +2,7 @@ package ru.earrring.testgenerator.dbWork;
 
 import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.frames.AFrame;
-import ru.earrring.testgenerator.frames.MenuFrame;
+import ru.earrring.testgenerator.frames.MainFrame;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -11,12 +11,12 @@ import java.sql.SQLException;
  * Created by nenagleyko on 30.03.2015.
  */
 public class MenuPresenter implements IPresenter{
-    private MenuFrame menuFrame;
+    private MainFrame menuFrame;
     private JLabel dbInfoLabel;
     private String dbInfoText = "Количество вопросов в базе: ";
     @Override
     public void setView(AFrame view) {
-        menuFrame = (MenuFrame)view;
+        menuFrame = (MainFrame)view;
         dbInfoLabel = new JLabel(dbInfoText);
         menuFrame.addWidget(dbInfoLabel);
     }

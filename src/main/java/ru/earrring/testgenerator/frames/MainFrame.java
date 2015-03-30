@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by nenagleyko on 30.03.2015.
  */
-public class MenuFrame extends AFrame {
+public class MainFrame extends AFrame {
     /**
      * Лейбл с картинкой для меню
      */
