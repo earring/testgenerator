@@ -44,12 +44,14 @@ public class MainFrame extends AFrame {
      */
     private JLabel versionLabel;
 
+    @Override
     protected void adjustFrameSettings() {
         setSize(500, 500);
         setTitle("Генератор тестов");
     }
 
-    protected void adjustLayout() throws SQLException {
+    @Override
+    protected void adjustLayout() {
         setLayout(new GridBagLayout());
 
         // настройка картинки в меню
@@ -63,6 +65,7 @@ public class MainFrame extends AFrame {
         add(pictureLabel, c);
 
         dbInformationLabel = new JLabel();
+        dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 1;
@@ -70,8 +73,6 @@ public class MainFrame extends AFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weighty = 0.5;
         add(dbInformationLabel, c);
-        dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
-        dbInformationLabel.setText("<html>БД: <b>" + DBFacade.getInstance(false).getDBName() + "</b>; Вопросов в БД: <b>" + DBFacade.getInstance(false).getAllQuestions().size() + "</b></html>");
 
         // добавление кнопок меню
         addingFormButton = new JButton("Добавить вопрос");
@@ -92,29 +93,6 @@ public class MainFrame extends AFrame {
         add(versionLabel, c);
     }
 
-    protected void setListeners() {
-        addingFormButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        viewingFormButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        generatingFormButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-    }
-
     /**
      * Вспомогательный класс, помогающий настроить местоположение кнопки меню в главной форме
      * @param button кнопка, которая настраивается
@@ -130,6 +108,10 @@ public class MainFrame extends AFrame {
         c.ipady = 20;
         c.fill = GridBagConstraints.BOTH;
         add(button, c);
+    }
+
+    public JLabel getDbInformationLabel() {
+        return dbInformationLabel;
     }
 
     public JButton getAddingFormButton() {

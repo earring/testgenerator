@@ -8,12 +8,10 @@ public abstract class AFrame extends JFrame implements IStartableFrame {
      * Метод, запускающий форму, и делающий её видимой
      */
     @Override
-    public void start() throws Exception {
+    public void start() {
         adjustFrameSettings();
         adjustGeneralSettings();
         adjustLayout();
-        setListeners();
-        setVisible(true);
     }
 
     /**
@@ -34,10 +32,5 @@ public abstract class AFrame extends JFrame implements IStartableFrame {
     /**
      * Настройка менеджера компоновки и добавление туда необходимых компоненктов
      */
-    abstract protected void adjustLayout() throws Exception;
-
-    /**
-     * Настройка слушателей (кнопок и других компонентов)
-     */
-    abstract protected void setListeners();
+    abstract protected void adjustLayout();
 }

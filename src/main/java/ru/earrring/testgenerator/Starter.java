@@ -12,6 +12,7 @@ import java.io.StringWriter;
 public class Starter {
 
     private static MainFrame mainFrame;
+    private static MainFramePresenter mainFramePresenter;
     private static DBFacade dbFacade;
 
     public static void main(String[] args) {
@@ -19,7 +20,10 @@ public class Starter {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
             mainFrame = new MainFrame();
+            mainFramePresenter = new MainFramePresenter();
             mainFrame.start();
+            mainFramePresenter.setUp(mainFrame);
+            mainFrame.setVisible(true);
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
