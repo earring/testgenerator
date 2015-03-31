@@ -1,14 +1,10 @@
 package ru.earrring.testgenerator.frames;
 
 import ru.earrring.testgenerator.Utils;
-import ru.earrring.testgenerator.db.DBFacade;
-import ru.earrring.testgenerator.frames.AFrame;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.awt.event.*;
 
 /**
  * Форма в виде "меню", на которой пользователь выбирает свои дальнейшие действия
@@ -26,26 +22,13 @@ public class MainFrame extends AFrame {
     private JLabel dbInformationLabel;
 
     /**
-     * Кнопка перехода на форму добавления вопроса
-     */
-    private JButton addingFormButton;
-
-    /**
-     * Кнопка перехода на форму просмотра вопросов
-     */
-    private JButton viewingFormButton;
-
-    /**
-     * Кнопка перехода на форму генерации вопросов
-     */
-    private JButton generatingFormButton;
-
-    /**
      * Лейбл, показывающий текующую версию программы
      */
     private JLabel versionLabel;
 
+    private JPanel buttonsPanel;
     private int gridy = 0;
+    private int buttonsPanelGridy = 0;
 
     @Override
     protected void adjustFrameSettings() {
@@ -65,13 +48,21 @@ public class MainFrame extends AFrame {
         c.weighty = 1.0;
         addWidget(pictureLabel, c);
 
-        dbInformationLabel = new JLabel("В базе нет вопросов");
+        dbInformationLabel = new JLabel();
         dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
         c = new GridBagConstraints();
         c.insets = new Insets(10, 10, 10, 10);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weighty = 0.5;
         addWidget(dbInformationLabel, c);
+
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.insets = new Insets(10, 10, 10, 10);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weighty = 1.0;
+        addWidget(buttonsPanel, c);
 
         // добавление надписи с версией
         versionLabel = new JLabel(Utils.VERSION);
@@ -111,7 +102,7 @@ public class MainFrame extends AFrame {
         c.ipadx = 150;
         c.ipady = 20;
         c.fill = GridBagConstraints.BOTH;
-        addWidget(button, c);
+        addWidgetToButtonPanel(button, c);
     }
 
     private void addWidget(JComponent component, GridBagConstraints c) {
@@ -120,6 +111,14 @@ public class MainFrame extends AFrame {
 
         add(component, c);
         gridy = gridy + 1;
+    }
+
+    private void addWidgetToButtonPanel(JComponent component, GridBagConstraints c) {
+        c.gridx = 0;
+        c.gridy = buttonsPanelGridy;
+
+        buttonsPanel.add(component, c);
+        buttonsPanelGridy++;
     }
 
     public JLabel getDbInformationLabel() {

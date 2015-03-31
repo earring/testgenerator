@@ -5,10 +5,6 @@ import ru.earrring.testgenerator.Utils;
 import javax.swing.*;
 
 public abstract class AFrame extends JFrame implements IStartableFrame {
-    public AFrame() {
-        super();
-        start();
-    }
     /**
      * Метод, запускающий форму, и делающий её видимой
      */
@@ -29,7 +25,7 @@ public abstract class AFrame extends JFrame implements IStartableFrame {
      * Метод, делающий общий для всех форм настройки
      */
     private void adjustGeneralSettings() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         Utils.centerFrame(this);
         setResizable(false);
         setIconImage(Utils.getImageFromResources("icon_image.png"));

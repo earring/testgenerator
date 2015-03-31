@@ -25,11 +25,13 @@ public class Starter {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
             mainFrame = new MainFrame();
+            mainFrame.start();
 
             MainFramePresenter mainFramePresenter = new MainFramePresenter();
             mainFramePresenter.setUp(mainFrame);
 
             AddingFrame addingFrame = new AddingFrame();
+            addingFrame.start();
             mainFrame.addFrameButton(addingFrame, "Добавить вопрос");
 
         } catch (Exception e) {
