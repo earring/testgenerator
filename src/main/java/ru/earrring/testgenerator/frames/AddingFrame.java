@@ -1,5 +1,7 @@
 package ru.earrring.testgenerator.frames;
 
+import ru.earrring.testgenerator.components.AddingComponent;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,11 +30,11 @@ public class AddingFrame extends AFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
 
         JScrollPane mainScrollPane = new JScrollPane(mainPanel);
-        add(mainScrollPane,c);
+        add(mainScrollPane, c);
 
         mainPanel.setLayout(new GridBagLayout());
         descriptionLabel = new JLabel("Введите текст вопроса:");
-        descriptionArea = new JTextArea("В чем смысл жизни?",5,30);
+        descriptionArea = new JTextArea("В чем смысл жизни?", 5, 30);
 
         answerWidgets = new JPanel();
         answerWidgets.setLayout(new GridBagLayout());
@@ -40,10 +42,10 @@ public class AddingFrame extends AFrame {
 
         addAnswerButton = new JButton("Добавить вариант ответа");
 
-        addWidget(descriptionLabel,0,0);
-        addWidget(descriptionArea, 0, 1);
-        addWidget(pane,0,2);
-        addWidget(addAnswerButton, 0, 3);
+        addComponent(descriptionLabel, 0, 0);
+        addComponent(descriptionArea, 0, 1);
+        addComponent(pane, 0, 2);
+        addComponent(addAnswerButton, 0, 3);
 
         //addAnswerWidget();
 
@@ -94,7 +96,7 @@ public class AddingFrame extends AFrame {
         setVisible(false);
     }
 
-    private void addWidget(JComponent component, int gridx, int gridy) {
+    private void addComponent(JComponent component, int gridx, int gridy) {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = gridx;
@@ -103,14 +105,14 @@ public class AddingFrame extends AFrame {
     }
 
     private void addAnswerWidget() {
-        JLabel answerLabel = new JLabel(String.format("%d)   ",answersGridy+1));
+        JLabel answerLabel = new JLabel(String.format("%d)   ", answersGridy + 1));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = answersGridy;
         answerWidgets.add(answerLabel, c);
 
-        AddingWidget newWidget = new AddingWidget();
+        AddingComponent newWidget = new AddingComponent();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = answersGridy;

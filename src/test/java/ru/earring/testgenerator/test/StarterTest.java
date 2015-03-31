@@ -5,15 +5,15 @@ import org.junit.Test;
 
 import javax.swing.*;
 
-public class StarterTest extends ATest{
+public class StarterTest extends ATest {
 
     @Test
-    public void testExistingMainFrame(){
+    public void testExistingMainFrame() {
         Assert.assertNotNull(starter.getMainFrame());
     }
 
     @Test
-    public void testUIScheme(){
+    public void testUIScheme() {
         Assert.assertEquals("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel", UIManager.getLookAndFeel().getClass().getName());
     }
 }

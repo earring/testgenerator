@@ -1,17 +1,15 @@
-package ru.earrring.testgenerator.frames;
+package ru.earrring.testgenerator.components;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by nenagleyko on 31.03.2015.
- */
-public class AddingWidget extends JComponent {
+public class AddingComponent extends JComponent {
     private JTextField answerText;
     private JCheckBox correctCheckBox;
     private JLabel textLabel;
     private JLabel checkBoxLabel;
-    public AddingWidget(){
+
+    public AddingComponent() {
         super();
         setLayout(new GridBagLayout());
 
@@ -41,7 +39,5 @@ public class AddingWidget extends JComponent {
         c.gridx = 1;
         c.gridy = 1;
         add(correctCheckBox, c);
-
-
     }
 }

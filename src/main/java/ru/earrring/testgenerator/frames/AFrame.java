@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public abstract class AFrame extends JFrame implements IStartableFrame {
+public abstract class AFrame extends JFrame implements IStartableCloseableFrame {
 
     private AFrame parentFrame;
 

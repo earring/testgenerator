@@ -4,6 +4,7 @@ import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.dbWork.MainFramePresenter;
 import ru.earrring.testgenerator.frames.AddingFrame;
 import ru.earrring.testgenerator.frames.MainFrame;
+
 import javax.swing.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -17,11 +18,11 @@ public class Starter {
     private static AddingFrame addingFrame;
     private static DBFacade dbFacade;
 
-    public MainFrame getMainFrame(){
+    public MainFrame getMainFrame() {
         return mainFrame;
     }
-    private static void init()
-    {
+
+    private static void init() {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
@@ -47,6 +48,7 @@ public class Starter {
             JOptionPane.showMessageDialog(mainFrame, e.toString(), e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
     }
+
     public static void main(String[] args) {
         init();
         mainFrame.setVisible(true);

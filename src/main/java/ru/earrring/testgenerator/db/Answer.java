@@ -41,8 +41,9 @@ public class Answer {
 
     /**
      * Конструктор для создания объекта ответа на вопрос
-     * @param value значение варианта ответа
-     * @param correct верен этот вариант или нет
+     *
+     * @param value    значение варианта ответа
+     * @param correct  верен этот вариант или нет
      * @param question ссылка на вопрос, которому придадлежит этот вариант ответа
      */
     public Answer(String value, boolean correct, Question question) {
