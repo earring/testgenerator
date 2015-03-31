@@ -16,10 +16,11 @@ public class AddingFrame extends AFrame {
     private JPanel mainPanel;
 
     protected void adjustFrameSettings() {
-        setSize(500, 500);
         setTitle("Добавить вопрос");
-
+        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        setResizable(false);
     }
+
     protected void adjustLayout() {
         mainPanel = new JPanel();
         setLayout(new GridBagLayout());
@@ -86,6 +87,11 @@ public class AddingFrame extends AFrame {
                 addAnswerWidget();
             }
         });
+    }
+
+    @Override
+    public void close() {
+        setVisible(false);
     }
 
     private void addWidget(JComponent component, int gridx, int gridy) {

@@ -5,4 +5,5 @@ package ru.earrring.testgenerator.frames;
  */
 public interface IStartableFrame {
     void start();
+    void close();
 }

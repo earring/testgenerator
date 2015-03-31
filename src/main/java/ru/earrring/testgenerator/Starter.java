@@ -14,6 +14,7 @@ import java.io.StringWriter;
 public class Starter {
 
     private static MainFrame mainFrame;
+    private static AddingFrame addingFrame;
     private static DBFacade dbFacade;
 
     public MainFrame getMainFrame(){
@@ -24,16 +25,21 @@ public class Starter {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             dbFacade = DBFacade.getInstance(false);
+
+            // настройка основной формы
             mainFrame = new MainFrame();
             mainFrame.start();
-
             MainFramePresenter mainFramePresenter = new MainFramePresenter();
             mainFramePresenter.setUp(mainFrame);
 
-            AddingFrame addingFrame = new AddingFrame();
+            // настройка формы добавления вопросов
+            addingFrame = new AddingFrame();
             addingFrame.start();
-            mainFrame.addFrameButton(addingFrame, "Добавить вопрос");
 
+            // добавление кнопок на основную форму
+            mainFrame.addFrameButton(addingFrame, "Добавить вопрос");
+            mainFrame.addFrameButton(addingFrame, "Добавить вопрос еще раз");
+            mainFrame.addFrameButton(addingFrame, "И еще много-много раз");
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
