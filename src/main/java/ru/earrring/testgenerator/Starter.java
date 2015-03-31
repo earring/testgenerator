@@ -1,6 +1,7 @@
 package ru.earrring.testgenerator;
 
 import ru.earrring.testgenerator.db.DBFacade;
+import ru.earrring.testgenerator.dbWork.MainFramePresenter;
 import ru.earrring.testgenerator.frames.AddingFrame;
 import ru.earrring.testgenerator.frames.MainFrame;
 import javax.swing.*;
@@ -15,6 +16,9 @@ public class Starter {
     private static MainFrame mainFrame;
     private static DBFacade dbFacade;
 
+    public MainFrame getMainFrame(){
+        return mainFrame;
+    }
     private static void init()
     {
         try {
@@ -22,8 +26,11 @@ public class Starter {
             dbFacade = DBFacade.getInstance(false);
             mainFrame = new MainFrame();
 
+            MainFramePresenter mainFramePresenter = new MainFramePresenter();
+            mainFramePresenter.setUp(mainFrame);
+
             AddingFrame addingFrame = new AddingFrame();
-            mainFrame.addFrameButton(addingFrame,"Добавить вопрос");
+            mainFrame.addFrameButton(addingFrame, "Добавить вопрос");
 
         } catch (Exception e) {
             StringWriter errors = new StringWriter();

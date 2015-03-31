@@ -37,25 +37,7 @@ public class MainFramePresenter extends APresenter {
 
     @Override
     public void setListeners() {
-        mainFrame.getAddingFormButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
-
-        mainFrame.getViewingFormButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        mainFrame.getGeneratingFormButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
     }
 
     @Override

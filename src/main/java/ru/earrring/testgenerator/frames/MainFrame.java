@@ -45,7 +45,8 @@ public class MainFrame extends AFrame {
      */
     private JLabel versionLabel;
 
-    private int gridy = 1;
+    private int gridy = 0;
+
     @Override
     protected void adjustFrameSettings() {
         setSize(500, 500);
@@ -64,20 +65,13 @@ public class MainFrame extends AFrame {
         c.weighty = 1.0;
         addWidget(pictureLabel, c);
 
-        dbInformationLabel = new JLabel();
+        dbInformationLabel = new JLabel("В базе нет вопросов");
         dbInformationLabel.setHorizontalAlignment(JLabel.CENTER);
         c = new GridBagConstraints();
         c.insets = new Insets(10, 10, 10, 10);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weighty = 0.5;
         addWidget(dbInformationLabel, c);
-
-        /*
-        viewingFormButton = new JButton("Просмотр вопросов");
-        setButtonConstraints(viewingFormButton, 3);
-        generatingFormButton = new JButton("Генерация тестов");
-        setButtonConstraints(generatingFormButton, 4);
-        */
 
         // добавление надписи с версией
         versionLabel = new JLabel(Utils.VERSION);
@@ -93,8 +87,7 @@ public class MainFrame extends AFrame {
 
     }
 
-    public void addFrameButton(AFrame frame, String text)
-    {
+    public void addFrameButton(AFrame frame, String text) {
         JButton button = new JButton(text);
         setButtonConstraints(button);
         button.addActionListener(new ActionListener() {
@@ -108,8 +101,8 @@ public class MainFrame extends AFrame {
 
     /**
      * Вспомогательный класс, помогающий настроить местоположение кнопки меню в главной форме
+     *
      * @param button кнопка, которая настраивается
-     * @param gridy номер ячейки в таблице (начинается с 1, потому что в 0й ячейке находится картинка меню)
      */
     private void setButtonConstraints(JButton button) {
         GridBagConstraints c = new GridBagConstraints();
@@ -121,27 +114,15 @@ public class MainFrame extends AFrame {
         addWidget(button, c);
     }
 
-    private void addWidget(JComponent component, GridBagConstraints c)
-    {
+    private void addWidget(JComponent component, GridBagConstraints c) {
         c.gridx = 0;
         c.gridy = gridy;
 
-        add(component,c);
-        gridy = gridy +1;
+        add(component, c);
+        gridy = gridy + 1;
     }
+
     public JLabel getDbInformationLabel() {
         return dbInformationLabel;
-    }
-
-    public JButton getAddingFormButton() {
-        return addingFormButton;
-    }
-
-    public JButton getViewingFormButton() {
-        return viewingFormButton;
-    }
-
-    public JButton getGeneratingFormButton() {
-        return generatingFormButton;
     }
 }
