@@ -4,11 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
-/**
- * Created by nenagleyko on 29.03.2015.
- */
 public class AddingFrame extends AFrame {
     private int gridy = 0;
     private int answersGridy = 0;
@@ -19,14 +15,12 @@ public class AddingFrame extends AFrame {
     private JButton addAnswerButton;
     private JPanel mainPanel;
 
-    protected void adjustFrameSettings()
-    {
+    protected void adjustFrameSettings() {
         setSize(500, 500);
         setTitle("Добавить вопрос");
 
     }
-    protected void adjustLayout()
-    {
+    protected void adjustLayout() {
         mainPanel = new JPanel();
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -85,27 +79,24 @@ public class AddingFrame extends AFrame {
     /**
      * Настройка слушателей (кнопок и других компонентов)
      */
-    protected void setListeners()
-    {
+    protected void setListeners() {
         addAnswerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addAnswerWidget();
             }
         });
-
     }
 
-    private void addWidget(JComponent component, int gridx, int gridy)
-    {
+    private void addWidget(JComponent component, int gridx, int gridy) {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = gridx;
         c.gridy = gridy;
         mainPanel.add(component, c);
     }
-    private void addAnswerWidget()
-    {
+
+    private void addAnswerWidget() {
         JLabel answerLabel = new JLabel(String.format("%d)   ",answersGridy+1));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
