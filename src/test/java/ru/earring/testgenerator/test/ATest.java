@@ -7,7 +7,7 @@ public abstract class ATest {
     protected static Starter starter = new Starter();
 
     @BeforeClass
-    public static void start(){
+    public static void start() {
         starter.main(null);
     }
 

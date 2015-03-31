@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
 
-@DatabaseTable (tableName = "question")
+@DatabaseTable(tableName = "question")
 public class Question {
 
     /**
@@ -42,9 +42,10 @@ public class Question {
 
     /**
      * Конструктор для создания нового вопроса
-     * @param category список категорий для вопроса - одна строка, разделенная знаками вертикальной черты |
+     *
+     * @param category    список категорий для вопроса - одна строка, разделенная знаками вертикальной черты |
      * @param description текст вопроса
-     * @param answers коллекция ответов на вопрос
+     * @param answers     коллекция ответов на вопрос
      */
     public Question(String category, String description, Collection<Answer> answers) {
         this.category = category;

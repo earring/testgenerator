@@ -48,6 +48,7 @@ public class DBFacade {
 
     /**
      * Запрос экземпляра фасада БД
+     *
      * @return ссылка на фасад БД
      * @throws SQLException
      */
@@ -73,6 +74,7 @@ public class DBFacade {
 
     /**
      * Добавление вопроса в БД
+     *
      * @param question вопрос, добавляемый в БД
      * @throws SQLException
      */
@@ -95,6 +97,7 @@ public class DBFacade {
 
     /**
      * Запрос всех вопросов в БД
+     *
      * @return список всех вопросов
      * @throws SQLException
      */
@@ -104,6 +107,7 @@ public class DBFacade {
 
     /**
      * Запрос определенного вопроса по его идентификатору
+     *
      * @param id идентификатор вопроса
      * @return вопрос, соответствующий переданному идентификатору
      * @throws SQLException
@@ -114,6 +118,7 @@ public class DBFacade {
 
     /**
      * Поиск вопросов по подстроке в описании вопроса
+     *
      * @param description подстрока для поиска в описании вопроса
      * @return список найденных вопрсов
      * @throws SQLException
@@ -131,6 +136,7 @@ public class DBFacade {
 
     /**
      * Обновление вопроса в БД
+     *
      * @param question обновляемый вопрос (новые данные). Вопрос, который нужно обновить, определяется по идентификатору
      * @throws SQLException
      */
@@ -140,6 +146,7 @@ public class DBFacade {
 
     /**
      * Удаление вопроса из БД
+     *
      * @param id идентификатор удаляемого вопроса
      * @throws SQLException
      */
@@ -153,6 +160,7 @@ public class DBFacade {
 
     /**
      * Запрос пустой коллекции ответов для дальнейшего добавления туда новых ответов
+     *
      * @return пустая коллекция ответов
      * @throws SQLException
      */
@@ -162,6 +170,7 @@ public class DBFacade {
 
     /**
      * Добавление ответа в БД
+     *
      * @param answer ответ, добавляемый в БД
      * @throws SQLException
      */
@@ -178,6 +187,7 @@ public class DBFacade {
 
     /**
      * Обновление варианта ответа в БД
+     *
      * @param answer обновляемый вариант ответа (новые данные). Вариант ответа, который нужно обновить, определяется
      *               по идентификатору
      * @throws SQLException
@@ -188,6 +198,7 @@ public class DBFacade {
 
     /**
      * Удаление варианта ответа из БД
+     *
      * @param id идентификатор удаляемого варианта ответа
      * @throws SQLException
      */

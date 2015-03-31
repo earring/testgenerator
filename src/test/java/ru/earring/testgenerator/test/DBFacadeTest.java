@@ -62,7 +62,7 @@ public class DBFacadeTest {
     @Test
     public void testAddingDeletingQuestion() throws SQLException {
         // добавление еще одного (третьего) вопроса в базу
-        Question question = new Question("программирование|история","В каком году был изобретен абак?", dbFacade.getEmptyAnswerCollection());
+        Question question = new Question("программирование|история", "В каком году был изобретен абак?", dbFacade.getEmptyAnswerCollection());
         dbFacade.addQuestion(question);
         dbFacade.addAnswer(new Answer("23", true, question));
         dbFacade.addAnswer(new Answer("1005", false, question));
@@ -120,7 +120,7 @@ public class DBFacadeTest {
     @Test
     public void testFindingQuestionByDescription() throws SQLException {
         // добавление еще одного (третьего) вопроса в базу
-        Question question = new Question("программирование|история","В каком году был изобретен абак?", dbFacade.getEmptyAnswerCollection());
+        Question question = new Question("программирование|история", "В каком году был изобретен абак?", dbFacade.getEmptyAnswerCollection());
         dbFacade.addQuestion(question);
         dbFacade.addAnswer(new Answer("23", true, question));
         dbFacade.addAnswer(new Answer("1005", false, question));
@@ -252,6 +252,7 @@ public class DBFacadeTest {
 
     /**
      * запрос всех вопросов и проверка их числа
+     *
      * @param number число вопросов, которое должно быть в базе
      * @return список вопросов из базы
      */
@@ -263,10 +264,11 @@ public class DBFacadeTest {
 
     /**
      * добавление первого вопроса в БД
+     *
      * @throws SQLException
      */
     private static void addQuestion1() throws SQLException {
-        Question question1 = new Question("биология|география|математика","В каком году знаменитый биолог, вычисляя квадратный корень, открыл Атлантиду?", dbFacade.getEmptyAnswerCollection());
+        Question question1 = new Question("биология|география|математика", "В каком году знаменитый биолог, вычисляя квадратный корень, открыл Атлантиду?", dbFacade.getEmptyAnswerCollection());
         dbFacade.addQuestion(question1);
         dbFacade.addAnswer(new Answer("1899", true, question1));
         dbFacade.addAnswer(new Answer("2001", false, question1));
@@ -275,10 +277,11 @@ public class DBFacadeTest {
 
     /**
      * добавление первого вопроса в БД
+     *
      * @throws SQLException
      */
     private static void addQuestion2() throws SQLException {
-        Question question2 = new Question("математика|география","В какой стране будет подсчитана площадь поверхности упоротого лиса?", dbFacade.getEmptyAnswerCollection());
+        Question question2 = new Question("математика|география", "В какой стране будет подсчитана площадь поверхности упоротого лиса?", dbFacade.getEmptyAnswerCollection());
         dbFacade.addQuestion(question2);
         dbFacade.addAnswer(new Answer("1899", false, question2));
         dbFacade.addAnswer(new Answer("2001", false, question2));
