@@ -11,7 +11,7 @@ public abstract class AFrame extends JFrame implements IStartableCloseableFrame 
     private AFrame parentFrame;
 
     /**
-     * Метод, запускающий форму, и делающий её видимой
+     * Метод, запускающий форму
      */
     @Override
     public void start() {
