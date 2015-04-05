@@ -5,9 +5,16 @@ import ru.earrring.testgenerator.components.LaTeXComponent;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Форма, показывающая возможности рендеринга формул LaTeX с помощью библиотеки JLaTeXMath
+ */
 public class LaTeXDemonstrationFrame extends AFrame {
 
+    /**
+     * Переменная для хранения номера строки (нужно для менеджера компоновки)
+     */
     private int gridy = 0;
+
     @Override
     protected void adjustFrameSettings() {
         setResizable(false);
@@ -19,6 +26,7 @@ public class LaTeXDemonstrationFrame extends AFrame {
     protected void adjustLayout() {
         setLayout(new GridBagLayout());
 
+        // добавление виджетов с текстом LaTeX и картинкой LaTeX
         addWidget("\\frac{(a+b )^2}{4} - \\frac{(a-b )^2}{4} = ab");
         addWidget("\\iiint_{x^2 + y^2 + z^2 = 1} f(x, y, z) dx dy dz");
         addWidget("\\frac{(a+b )^2}{4} - \\frac{(a-b )^2}{4} = ab");
@@ -35,6 +43,7 @@ public class LaTeXDemonstrationFrame extends AFrame {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 5, 0, 5);
 
+        // добавление TexArea c кодом
         c.gridx = 0;
         c.gridy = gridy;
         JTextArea latexStringTextArea = new JTextArea(latexString);
@@ -45,6 +54,7 @@ public class LaTeXDemonstrationFrame extends AFrame {
         add(latexStringTextArea, c);
         gridy++;
 
+        // добавление компонента с картинкой формулы
         LaTeXComponent laTeXComponent = new LaTeXComponent(latexString);
         c.insets = new Insets(0, 5, 5, 5);
         c.gridx = 0;

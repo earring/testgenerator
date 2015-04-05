@@ -8,10 +8,13 @@ import java.awt.event.WindowEvent;
 
 public abstract class AFrame extends JFrame implements IStartableCloseableFrame {
 
+    /**
+     * Родительский фрейм. Должен показываться при закрытии дочернего
+     */
     private AFrame parentFrame;
 
     /**
-     * Метод, запускающий форму
+     * Метод, запускающий форму, но не делающий её видимой, видимость задается тогда, когда форма необходима для показа
      */
     @Override
     public void start() {
@@ -23,12 +26,12 @@ public abstract class AFrame extends JFrame implements IStartableCloseableFrame 
     }
 
     /**
-     * Начальная настройка формы
+     * Начальная настройка формы, здесь располагаются настройки, специфичные именно для этой формы
      */
     abstract protected void adjustFrameSettings();
 
     /**
-     * Метод, делающий общий для всех форм настройки
+     * Метод, делающий общие для всех форм настройки
      */
     private void adjustGeneralSettings() {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -47,18 +50,31 @@ public abstract class AFrame extends JFrame implements IStartableCloseableFrame 
     abstract protected void setListeners();
 
     /**
-     * Финализировние формы и её завершение
+     * "Финализировние" формы и её завершение
      */
     abstract public void close();
 
+    /**
+     * Возврат фрейма, являющегося родительским к вызываемому фрейму
+     * @return ссылка на родительский фрейм
+     */
     protected AFrame getParentFrame() {
         return parentFrame;
     }
 
+    /**
+     * Задание родительского фрейма
+     * @param parentFrame ссылка на родительский фрейм
+     */
     protected void setParentFrame(AFrame parentFrame) {
         this.parentFrame = parentFrame;
     }
 
+    /**
+     * Задание поведения при нажатии кнопки "закрыть" у окна. Если у фрейма нет родительского фрейма, то этот фрейм
+     * просто закрывается (вызовом специального метода close()) (с запросом в виде диалогового окна", если есть
+     * родительский, родительский делается видимым, а этот закрывается.
+     */
     private void setClosingBehaviour() {
         addWindowListener(new WindowAdapter() {
             @Override

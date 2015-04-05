@@ -1,16 +1,28 @@
 package ru.earrring.testgenerator.dbWork;
 
 import ru.earrring.testgenerator.frames.AFrame;
-import ru.earrring.testgenerator.dbWork.IPresenter;
 
+/**
+ * Абстрактный презентер
+ */
 public abstract class APresenter implements IPresenter {
 
+    /**
+     * Настройка презентера, вызов всех необходимых функций
+     *
+     * @param view абстрактная форма, которая привязана к презентеру
+     */
     public void setUp(AFrame view) {
         setView(view);
         setListeners();
         setInitialData();
     }
 
+    /**
+     * Привязка вида, который соответствует презентеру
+     *
+     * @param view абстрактная форма, которая привязана к презентеру
+     */
     public abstract void setView(AFrame view);
 
     /**
@@ -23,7 +35,13 @@ public abstract class APresenter implements IPresenter {
      */
     public abstract void setInitialData();
 
+    /**
+     * Коллбек, вызывающийся при добавлении вопроса
+     */
     public abstract void onQuestionAdded();
 
+    /**
+     * Коллбек, вызывающийся при удалении вопроса
+     */
     public abstract void onQuestionRemoved();
 }

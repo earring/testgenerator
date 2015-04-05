@@ -2,7 +2,6 @@ package ru.earring.testgenerator.test;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.earrring.testgenerator.db.Answer;
 import ru.earrring.testgenerator.db.DBFacade;
@@ -13,9 +12,21 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Набор тестов, проверяющих корректность работы фасада БД
+ */
 public class DBFacadeTest {
+
+    /**
+     * Проверяемый фасад БД
+     */
     private static DBFacade dbFacade;
 
+    /**
+     * Предварительная настройка БД
+     *
+     * @throws SQLException
+     */
     @BeforeClass
     public static void start() throws SQLException {
         dbFacade = DBFacade.getInstance(true);
@@ -25,6 +36,11 @@ public class DBFacadeTest {
         addQuestion2();
     }
 
+    /**
+     * Проверка добавленных вопросов
+     *
+     * @throws Exception
+     */
     @Test
     public void testAddedQuestions() throws Exception {
         List<Question> questionsFromDB = checkNumberOfQuestions(2);
@@ -59,6 +75,11 @@ public class DBFacadeTest {
         Assert.assertTrue(answer3FromQuestion1.getQuestion() == question1FromDB);
     }
 
+    /**
+     * Проверка добавления и удаления вопроса
+     *
+     * @throws SQLException
+     */
     @Test
     public void testAddingDeletingQuestion() throws SQLException {
         // добавление еще одного (третьего) вопроса в базу
@@ -105,6 +126,11 @@ public class DBFacadeTest {
         checkNumberOfQuestions(2);
     }
 
+    /**
+     * Проверка получения вопроса по его идентификатору
+     *
+     * @throws SQLException
+     */
     @Test
     public void testGettingQuestionById() throws SQLException {
         checkNumberOfQuestions(2);
@@ -117,6 +143,12 @@ public class DBFacadeTest {
         Assert.assertTrue(question1.getCategory().equals("биология|география|математика"));
     }
 
+    /**
+     * Проверка нахождения вопроса по его описанию (по слову в описании, если слово содержится в описании вопроса,
+     * он будет возвращен)
+     *
+     * @throws SQLException
+     */
     @Test
     public void testFindingQuestionByDescription() throws SQLException {
         // добавление еще одного (третьего) вопроса в базу
@@ -149,6 +181,11 @@ public class DBFacadeTest {
         checkNumberOfQuestions(2);
     }
 
+    /**
+     * Проверка обновления вопроса
+     *
+     * @throws SQLException
+     */
     @Test
     public void testUpdatingQuestion() throws SQLException {
         List<Question> questionsFromDB = checkNumberOfQuestions(2);
@@ -233,6 +270,11 @@ public class DBFacadeTest {
         Assert.assertTrue(answer3FromQuestion1.getQuestion() == question1FromDB);
     }
 
+    /**
+     * Проверка удаления вопроса
+     *
+     * @throws SQLException
+     */
     @Test
     public void checkDeletingQuestions() throws SQLException {
         // проверка количества вопросов
@@ -251,7 +293,7 @@ public class DBFacadeTest {
     }
 
     /**
-     * запрос всех вопросов и проверка их числа
+     * Запрос всех вопросов и проверка их числа
      *
      * @param number число вопросов, которое должно быть в базе
      * @return список вопросов из базы
@@ -263,7 +305,7 @@ public class DBFacadeTest {
     }
 
     /**
-     * добавление первого вопроса в БД
+     * Добавление первого вопроса в БД
      *
      * @throws SQLException
      */
@@ -276,7 +318,7 @@ public class DBFacadeTest {
     }
 
     /**
-     * добавление первого вопроса в БД
+     * Добавление второго вопроса в БД
      *
      * @throws SQLException
      */

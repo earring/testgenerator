@@ -12,21 +12,48 @@ import java.awt.image.BufferedImage;
 
 /**
  * Компонент, отрисовывающий формулу LaTeX. Позволяет более-менее корректно нарисовать формулу, которая в LaTeX коде
- * находится в знаках доллара $...$ или $$...$$
+ * находится в знаках доллара $...$ или $$...$$. В сам компонент передается та строка, которая находится ВНУТРИ этих
+ * знаков доллара.
  */
 public class LaTeXComponent extends JPanel {
+
+    /**
+     * Изображение, которое сгенерировано библиотекой JLaTexMath, и которое выведется в компоненте
+     */
     private BufferedImage latexImage;
+
+    /**
+     * Строка, передающаяся в библиотеку JLaTeXMath, которая затем будет преобразована в изображение формулы
+     */
     private String latexString;
+
+    /**
+     * Лейбл, куда будет помещаться изображение формулы
+     */
     private JLabel imageLabel;
 
-    public LaTeXComponent(String latexString) throws ParseException {
+    /**
+     * Конструктор, создающий компонент с уже нарисованной формулой
+     * @param latexString строка LaTeX-формулы (текст, находящийся внутри знаков доллара)
+     */
+    public LaTeXComponent(String latexString) {
         super();
-        createImage(latexString);
-        imageLabel = new JLabel(new ImageIcon(latexImage));
-        imageLabel.setBorder(new WindowsBorders.DashedBorder(Color.BLACK));
-        add(imageLabel);
+        try {
+            createImage(latexString);
+            imageLabel = new JLabel(new ImageIcon(latexImage));
+            imageLabel.setBorder(new WindowsBorders.DashedBorder(Color.BLACK));
+            add(imageLabel);
+        } catch (ParseException e) {
+            imageLabel = new JLabel("<html><center>Ошибка! Проверьте корректность строки: <br>" + e.getMessage() + "</center></html>");
+            imageLabel.setForeground(Color.RED);
+            add(imageLabel);
+        }
     }
 
+    /**
+     * Создание формулы и запись её в изображение формулы, хранящееся в этом классе
+     * @param latexString строка, из которой формируется изображение формулы
+     */
     private void createImage(String latexString) {
         // создание формулы
         TeXFormula formula = new TeXFormula(latexString);

@@ -13,22 +13,58 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Фасад БД. Вызывая функции этого класса, можно выполнить непосредственную работу с БД (фасад работает с ORM). Для
+ * упрощения работы с БД, этот класс не используется напрямую, а функции этого фасада вызываются классом QuestionManager.
+ * Двойной синглтон, возвращается тот фасад (пользовательской БД или тестовой БД), который задан в методе getInstance()
+ */
 public class DBFacade {
 
+    /**
+     * Адрес доступа к БД. Формат: jdbc:sqlite:test.sqlite, разделен двоеточиями, где первая часть: jdbc - протокол
+     * доступа к БД, вторая: sqlite - тип БД, третья: test.sqlite - название файла БД
+     */
     private String url;
+
+    /**
+     * Объект "соединения с БД"
+     */
     private ConnectionSource source;
 
+    /**
+     * DAO, предназначенный для работы с сущностью "Вопрос" или Question. Любезно предоставлен ORM.
+     */
     private Dao<Question, Integer> daoQuestion;
+
+    /**
+     * DAO, предназначенный для работы с сущностью "Ответ на вопрос" или Answer. Любезно предоставлен ORM.
+     */
     private Dao<Answer, Integer> daoAnswer;
 
+    /**
+     * Внутренняя ссылка для хранения фасада БД для обычной (пользовательской) работы с БД "main.sqlite"
+     */
     private static DBFacade dbFacade;
+
+    /**
+     * Внутренняя ссылка для хранения фасада БД для тестовой работы с БД "test.sqlite"
+     */
     private static DBFacade dbFacadeTest;
 
+    /**
+     * Приватный конструктор, который возвращает нужный фасад в зависимости от переданной булевской переменной
+     * true - тестовый фасад, работающий с теотовой БД
+     * false - обычный фасад, работающий с пользовательской БД
+     *
+     * @param isForTest параметр, определяющий тип возвращаемого фасада
+     * @throws SQLException ошибка SQL
+     */
     private DBFacade(boolean isForTest) throws SQLException {
         if (isForTest) {
             url = "jdbc:sqlite:test.sqlite";
             source = new JdbcConnectionSource(url);
 
+            // очищение старых таблиц и создание на их месте новых
             TableUtils.dropTable(source, Question.class, true);
             TableUtils.createTable(source, Question.class);
 
@@ -38,6 +74,7 @@ public class DBFacade {
             url = "jdbc:sqlite:main.sqlite";
             source = new JdbcConnectionSource(url);
 
+            // создать таблицы, если не существует старых
             TableUtils.createTableIfNotExists(source, Question.class);
             TableUtils.createTableIfNotExists(source, Answer.class);
         }
@@ -47,8 +84,10 @@ public class DBFacade {
     }
 
     /**
-     * Запрос экземпляра фасада БД
+     * Запрос экземпляра фасада БД в зависимости от переданной булевской переменной
      *
+     * @param isDBForTest true - тестовый фасад, работающий с теотовой БД
+     *                    false - обычный фасад, работающий с пользовательской БД
      * @return ссылка на фасад БД
      * @throws SQLException
      */
@@ -66,6 +105,11 @@ public class DBFacade {
         }
     }
 
+    /**
+     * Возвращает имя базы данных с расширением, например "main.sqlite"
+     *
+     * @return имя базы данных с расширением
+     */
     public String getDBName() {
         String url = ((JdbcConnectionSource) source).getUrl();
         String[] urlParts = url.split(":");

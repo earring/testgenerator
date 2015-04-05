@@ -15,15 +15,33 @@ import java.io.StringWriter;
  */
 public class Starter {
 
+    /**
+     * Ссылка на основную, первую показываемую пользователю форму
+     */
     private static MainFrame mainFrame;
+
+    /**
+     * Ссылка на форму добавления нового вопроса
+     */
     private static AddingFrame addingFrame;
+
+    /**
+     * Ссылка на форму демонстрации возможностей LaTeX в этой программе
+     */
     private static LaTeXDemonstrationFrame laTeXDemonstrationFrame;
+
+    /**
+     * Ссылка на фасад БД. Позже надо будет убрать, и обращаться к QuestionManager
+     */
     private static DBFacade dbFacade;
 
     public MainFrame getMainFrame() {
         return mainFrame;
     }
 
+    /**
+     * Инициализирующий метод
+     */
     private static void init() {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
