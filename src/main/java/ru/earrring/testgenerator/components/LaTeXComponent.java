@@ -10,6 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Компонент, отрисовывающий формулу LaTeX. Позволяет более-менее корректно нарисовать формулу, которая в LaTeX коде
+ * находится в знаках доллара $...$ или $$...$$
+ */
 public class LaTeXComponent extends JPanel {
     private BufferedImage latexImage;
     private String latexString;
