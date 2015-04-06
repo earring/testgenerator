@@ -1,7 +1,5 @@
 @startuml
-
-abstract AFrame
-class MainFrame{
+class MainFrame {
     +setQuestionCount(count: int) : void
 }
 
@@ -19,11 +17,6 @@ interface IPresenter{
     +{abstract}questionRemoved()
 }
 
-MainFrame -down--|> AFrame
-AddingFrame -down--|> AFrame
-ViewingFrame -down--|> AFrame
-
-
 class AddingPresenter -up..|> IPresenter
 class ViewingPresenter -up..|> IPresenter
 class MainPresenter -up..|> IPresenter
@@ -31,11 +24,4 @@ class MainPresenter -up..|> IPresenter
 class MainPresenter --> MainFrame : change >
 class ViewingPresenter --> ViewingFrame : change >
 class AddingPresenter --> AddingFrame : change >
-
-
-class DBFacade{
-    -onQuestionAdded()
-    -onQuestionRemoved()
-}
-
 @enduml
