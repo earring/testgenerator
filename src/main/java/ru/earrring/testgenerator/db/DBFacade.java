@@ -46,63 +46,36 @@ public class DBFacade {
      */
     private static DBFacade dbFacade;
 
-    /**
-     * Внутренняя ссылка для хранения фасада БД для тестовой работы с БД "test.sqlite"
-     */
-    private static DBFacade dbFacadeTest;
+    public void init() throws SQLException
+    {
+        source = new JdbcConnectionSource(url);
+        // очищение старых таблиц и создание на их месте новых
+        TableUtils.dropTable(source, Question.class, true);
+        TableUtils.createTable(source, Question.class);
 
-    /**
-     * Приватный конструктор, который возвращает нужный фасад в зависимости от переданной булевской переменной
-     * true - тестовый фасад, работающий с теотовой БД
-     * false - обычный фасад, работающий с пользовательской БД
-     *
-     * @param isForTest параметр, определяющий тип возвращаемого фасада
-     * @throws SQLException ошибка SQL
-     */
-    private DBFacade(boolean isForTest) throws SQLException {
-        if (isForTest) {
-            url = "jdbc:sqlite:test.sqlite";
-            source = new JdbcConnectionSource(url);
+        TableUtils.dropTable(source, Answer.class, true);
+        TableUtils.createTable(source, Answer.class);
 
-            // очищение старых таблиц и создание на их месте новых
-            TableUtils.dropTable(source, Question.class, true);
-            TableUtils.createTable(source, Question.class);
-
-            TableUtils.dropTable(source, Answer.class, true);
-            TableUtils.createTable(source, Answer.class);
-        } else {
-            url = "jdbc:sqlite:main.sqlite";
-            source = new JdbcConnectionSource(url);
-
-            // создать таблицы, если не существует старых
-            TableUtils.createTableIfNotExists(source, Question.class);
-            TableUtils.createTableIfNotExists(source, Answer.class);
-        }
 
         daoQuestion = DaoManager.createDao(source, Question.class);
         daoAnswer = DaoManager.createDao(source, Answer.class);
     }
-
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
     /**
      * Запрос экземпляра фасада БД в зависимости от переданной булевской переменной
      *
-     * @param isDBForTest true - тестовый фасад, работающий с теотовой БД
-     *                    false - обычный фасад, работающий с пользовательской БД
      * @return ссылка на фасад БД
      * @throws SQLException
      */
-    public static DBFacade getInstance(boolean isDBForTest) throws SQLException {
-        if (isDBForTest) {
-            if (dbFacadeTest == null) {
-                dbFacadeTest = new DBFacade(true);
-            }
-            return dbFacadeTest;
-        } else {
-            if (dbFacade == null) {
-                dbFacade = new DBFacade(false);
-            }
-            return dbFacade;
+    public static DBFacade getInstance()  {
+        if (dbFacade == null) {
+            dbFacade = new DBFacade();
         }
+        return dbFacade;
+
     }
 
     /**

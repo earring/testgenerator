@@ -29,8 +29,9 @@ public class DBFacadeTest {
      */
     @BeforeClass
     public static void start() throws SQLException {
-        dbFacade = DBFacade.getInstance(true);
-
+        dbFacade = DBFacade.getInstance();
+        dbFacade.setUrl("jdbc:sqlite:test.sqlite");
+        dbFacade.init();
         addQuestion1();
 
         addQuestion2();

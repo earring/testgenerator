@@ -34,14 +34,4 @@ public abstract class APresenter implements IPresenter {
      * Настройка изначальных данных на форме
      */
     public abstract void setInitialData();
-
-    /**
-     * Коллбек, вызывающийся при добавлении вопроса
-     */
-    public abstract void onQuestionAdded();
-
-    /**
-     * Коллбек, вызывающийся при удалении вопроса
-     */
-    public abstract void onQuestionRemoved();
 }
