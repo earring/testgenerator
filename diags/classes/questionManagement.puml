@@ -6,21 +6,23 @@ class QuestionManager<<(S,#FF7700) Singleton>> {
     +addQuestion(question : Question) : boolean
     +removeQuestion(question : Question) : boolean
     +getQuestionCount() : int
-    +getQuestions(theme: String) : List<Question>
-    +getThemes(question: Question) : List<String>
-    +getVariants(question: Question) : List<String>
-    +getAnswers(question: Question) : List<String>
+    +getQuestions(category : String) : List<Question>
+    +getCategories(question : Question) : List<String>
+    +getVariants(question : Question) : List<String>
+    +getAnswers(question : Question) : List<String>
     -onQuestionAdded()
     -onQuestionRemoved()
 }
 
 class DBFacade <<(S,#FF7700) Singleton>> {
     + getInstance(isDBForTest : boolean) : DBFacade
+    + getDBName() : String
     ..
     + addQuestion(question : Question) : void
     + getAllQuestions() : List<Question>
     + getQuestionById(id : int) : Question
     + findQuestionsByDescription(description : String) : List<Question>
+    + findQuestionsByCategory(category : String) : List<Question>
     + updateQuestion(question : Question) : void
     + deleteQuestion(id : int) : void
     ..
@@ -29,6 +31,7 @@ class DBFacade <<(S,#FF7700) Singleton>> {
     + updateAnswer(answer : Answer) : void
     + deleteAnswer(id : int) : void
 }
+
 note right of QuestionManager
 хранит в себе презентеры
 и сообщает им о добавлении/удалении вопросов

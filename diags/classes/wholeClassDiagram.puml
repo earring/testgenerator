@@ -1,6 +1,6 @@
 'Общая диаграмма классов генератора тестов'
 @startuml
-!include questionManager.puml
+!include questionManagement.puml
 !include frames.puml
 !include generation.puml
 
