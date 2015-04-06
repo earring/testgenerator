@@ -21,6 +21,7 @@ class DBFacade <<(S,#FF7700) Singleton>> {
     + getAllQuestions() : List<Question>
     + getQuestionById(id : int) : Question
     + findQuestionsByDescription(description : String) : List<Question>
+     + findQuestionsByCategory(category : String) : List<Question>
     + updateQuestion(question : Question) : void
     + deleteQuestion(id : int) : void
     ..
