@@ -24,4 +24,5 @@ class MainPresenter -up..|> IPresenter
 class MainPresenter --> MainFrame : change >
 class ViewingPresenter --> ViewingFrame : change >
 class AddingPresenter --> AddingFrame : change >
+
 @enduml
