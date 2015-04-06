@@ -182,6 +182,44 @@ public class DBFacadeTest {
     }
 
     /**
+     * Проверка нахождения вопроса по его описанию (по слову в описании, если слово содержится в описании вопроса,
+     * он будет возвращен)
+     *
+     * @throws SQLException
+     */
+    @Test
+    public void testFindingQuestionByCategory() throws SQLException {
+        // добавление еще одного (третьего) вопроса в базу
+        Question question = new Question("программирование|история", "В каком году был изобретен абак?", dbFacade.getEmptyAnswerCollection());
+        dbFacade.addQuestion(question);
+        dbFacade.addAnswer(new Answer("23", true, question));
+        dbFacade.addAnswer(new Answer("1005", false, question));
+        dbFacade.addAnswer(new Answer("975", false, question));
+
+        // запрос всех вопросов и проверка их числа
+        List<Question> questionsFromDB = checkNumberOfQuestions(3);
+
+        // запрос поиска и проверка числа результатов
+        List<Question> questionFinds = dbFacade.findQuestionsByCategory("математика");
+        Assert.assertTrue(questionFinds.size() == 2);
+
+        // проверка текстов полученных вопросов
+        Assert.assertTrue(questionFinds.get(0).getDescription().equals("В каком году знаменитый биолог, вычисляя квадратный корень, открыл Атлантиду?"));
+        Assert.assertTrue(questionFinds.get(1).getDescription().equals("В какой стране будет подсчитана площадь поверхности упоротого лиса?"));
+
+        // запрос поиска и проверка числа результатов
+        questionFinds = dbFacade.findQuestionsByCategory("программирование");
+        Assert.assertTrue(questionFinds.size() == 1);
+
+        // проверка текстов полученных вопросов
+        Assert.assertTrue(questionFinds.get(0).getDescription().equals("В каком году был изобретен абак?"));
+
+        // удаление третьего вопроса
+        dbFacade.deleteQuestion(question.getId());
+        checkNumberOfQuestions(2);
+    }
+
+    /**
      * Проверка обновления вопроса
      *
      * @throws SQLException
