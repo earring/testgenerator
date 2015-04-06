@@ -1,6 +1,6 @@
 @startuml
 !include questions.puml
-!include presenters.puml
+!include presentersDiagram.puml
 
 class QuestionManager<<(S,#FF7700) Singleton>> {
     +addQuestion(question : Question) : boolean
