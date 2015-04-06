@@ -1,8 +1,13 @@
 package ru.earrring.testgenerator.dbWork;
 
+import ru.earrring.testgenerator.db.Answer;
+import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.db.Question;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,40 +35,114 @@ public class QuestionManager{
 
     public boolean addQuestion(Question question)
     {
-//        DBFacade.getInstance();
-        onQuestionAdded(question);
-        return false;
+        try {
+            DBFacade.getInstance().addQuestion(question);
+            onQuestionAdded(question);
+        }
+        catch (SQLException e)
+        {
+            return false;
+        }
+        return true;
     }
 
     public boolean removeQuestion(Question question)
     {
-        onQuestionRemoved(question);
-        return false;
+        try {
+            int id = question.getId();
+            DBFacade.getInstance().deleteQuestion(id);
+            onQuestionRemoved(question);
+        }
+        catch (SQLException e)
+        {
+            return false;
+        }
+        return true;
     }
 
     public int getQuestionCount()
     {
-        return 0;
+        int result = -1;
+        try {
+            result = DBFacade.getInstance().getAllQuestions().size();
+        }
+        catch (SQLException e)
+        {
+
+        }
+        return result;
     }
 
     public List<Question> getQuestions(String category)
     {
-        return new ArrayList<Question>();
+        List<Question> result = new ArrayList<>();
+        try {
+            List<Question> allQuestions =
+                    DBFacade.getInstance().getAllQuestions();
+            int count = allQuestions.size();
+            for (int i = 0; i < count; i++)
+            {
+                Question question = allQuestions.get(i);
+                String categoriesList = question.getCategories();
+                String[] categories = categoriesList.split("|");
+                int catCount = categories.length;
+                for (int j = 0; j < catCount; j++)
+                {
+                    String questionCategory = categories[j];
+                    if (category.equals(questionCategory))
+                        result.add(question);
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+
+        }
+        return result;
     }
 
     public List<String> getCategories(Question question)
     {
-        return new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        String categoriesList = question.getCategories();
+        String[] categories = categoriesList.split("|");
+        int catCount = categories.length;
+        for (int j = 0; j < catCount; j++)
+        {
+            String questionCategory = categories[j];
+            result.add(questionCategory);
+        }
+        return result;
     }
 
     public List<String> getVariants(Question question)
     {
-        return new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        Collection<Answer> variants = question.getAnswers();
+        Iterator<Answer> iterator = variants.iterator();
+        while (iterator.hasNext())
+        {
+            Answer answer = iterator.next();
+            result.add(answer.getValue());
+
+        }
+        return result;
+
     }
 
     public List<String> getAnswers(Question question)
     {
-        return new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        Collection<Answer> variants = question.getAnswers();
+        Iterator<Answer> iterator = variants.iterator();
+        while (iterator.hasNext())
+        {
+            Answer answer = iterator.next();
+            if (answer.isCorrect())
+                result.add(answer.getValue());
+
+        }
+        return result;
     }
 
     private void onQuestionAdded(Question question)
@@ -82,10 +161,6 @@ public class QuestionManager{
             IPresenter presenter = presenters.get(i);
             presenter.onQuestionRemoved(question);
         }
-
     }
-
-
-
 
 }

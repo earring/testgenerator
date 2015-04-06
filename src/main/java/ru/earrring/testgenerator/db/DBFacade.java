@@ -49,13 +49,9 @@ public class DBFacade {
     public void init() throws SQLException
     {
         source = new JdbcConnectionSource(url);
-        // очищение старых таблиц и создание на их месте новых
-        TableUtils.dropTable(source, Question.class, true);
-        TableUtils.createTable(source, Question.class);
-
-        TableUtils.dropTable(source, Answer.class, true);
-        TableUtils.createTable(source, Answer.class);
-
+        // создать таблицы, если не существует старых
+        TableUtils.createTableIfNotExists(source, Question.class);
+        TableUtils.createTableIfNotExists(source, Answer.class);
 
         daoQuestion = DaoManager.createDao(source, Question.class);
         daoAnswer = DaoManager.createDao(source, Answer.class);
@@ -75,7 +71,6 @@ public class DBFacade {
             dbFacade = new DBFacade();
         }
         return dbFacade;
-
     }
 
     /**

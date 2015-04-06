@@ -49,7 +49,7 @@ public class DBFacadeTest {
         // запрос первого вопроса и проверка его текста и категорий
         Question question1FromDB = questionsFromDB.get(0);
         Assert.assertTrue(question1FromDB.getDescription().equals("В каком году знаменитый биолог, вычисляя квадратный корень, открыл Атлантиду?"));
-        Assert.assertTrue(question1FromDB.getCategory().equals("биология|география|математика"));
+        Assert.assertTrue(question1FromDB.getCategories().equals("биология|география|математика"));
 
         // запрос списка вариантов и проверка их числа
         Collection<Answer> answers1FromDB = question1FromDB.getAnswers();
@@ -96,7 +96,7 @@ public class DBFacadeTest {
         // запрос третьего вопроса и проверка его текста и категорий
         Question questionFromDB = questionsFromDB.get(2);
         Assert.assertTrue(questionFromDB.getDescription().equals("В каком году был изобретен абак?"));
-        Assert.assertTrue(questionFromDB.getCategory().equals("программирование|история"));
+        Assert.assertTrue(questionFromDB.getCategories().equals("программирование|история"));
 
         // запрос списка вариантов и проверка их числа
         Collection<Answer> answersFromDB = questionFromDB.getAnswers();
@@ -141,7 +141,7 @@ public class DBFacadeTest {
 
         // проверка некоторых данных вопроса
         Assert.assertTrue(question1.getDescription().equals("В каком году знаменитый биолог, вычисляя квадратный корень, открыл Атлантиду?"));
-        Assert.assertTrue(question1.getCategory().equals("биология|география|математика"));
+        Assert.assertTrue(question1.getCategories().equals("биология|география|математика"));
     }
 
     /**
@@ -203,7 +203,7 @@ public class DBFacadeTest {
         // запрос первого вопроса и проверка его текста и категорий
         Question question1FromDB = questionsFromDB.get(0);
         Assert.assertTrue(question1FromDB.getDescription().equals("Сколько длилась война между кошками и собаками?"));
-        Assert.assertTrue(question1FromDB.getCategory().equals("биология|география|математика"));
+        Assert.assertTrue(question1FromDB.getCategories().equals("биология|география|математика"));
 
         // запрос списка вариантов и проверка их числа
         Collection<Answer> answers1FromDB = question1FromDB.getAnswers();
@@ -244,7 +244,7 @@ public class DBFacadeTest {
         // запрос первого вопроса и проверка его текста и категорий
         question1FromDB = questionsFromDB.get(0);
         Assert.assertTrue(question1FromDB.getDescription().equals("В каком году знаменитый биолог, вычисляя квадратный корень, открыл Атлантиду?"));
-        Assert.assertTrue(question1FromDB.getCategory().equals("биология|география|математика"));
+        Assert.assertTrue(question1FromDB.getCategories().equals("биология|география|математика"));
 
         // запрос списка вариантов и проверка их числа
         answers1FromDB = question1FromDB.getAnswers();

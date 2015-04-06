@@ -6,8 +6,8 @@ class QuestionManager<<(S,#FF7700) Singleton>> {
     +addQuestion(question : Question) : boolean
     +removeQuestion(question : Question) : boolean
     +getQuestionCount() : int
-    +getQuestions(theme: String) : List<Question>
-    +getThemes(question: Question) : List<String>
+    +getQuestions(category: String) : List<Question>
+    +getCategories(question: Question) : List<String>
     +getVariants(question: Question) : List<String>
     +getAnswers(question: Question) : List<String>
     -onQuestionAdded()
