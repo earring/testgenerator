@@ -1,17 +1,19 @@
 @startuml
 class Starter {
-    +main {static} (args : String[]) : void
+    + {static} main (args : String[]) : void
 }
 
-interface StartableFrame {
-    +start() : void
+interface IStartableCloseableFrame {
+    + start() : void
+    + close() : void
 }
 
-abstract class AbstractFrame {
-    -adjustGeneralSettings() : void
-    #adjustFrameSettings() {abstract} : void
-    #adjustLayout() {abstract} : void
-    #setListeners() {abstract} : void
+abstract class AFrame {
+    - parentFrame : AFrame
+    - adjustGeneralSettings() : void
+    # adjustFrameSettings() {abstract} : void
+    # adjustLayout() {abstract} : void
+    # setListeners() {abstract} : void
 }
 
 class MainFrame {
@@ -45,6 +47,7 @@ class QuestionEditor {
     +getCurrentQuestion() : AQuestion
     +exec() : void
 }
+
 note right of ViewingFrame
     showQuestions показывает вопросы из
     темы theme в количестве count штук на странице.
@@ -55,7 +58,6 @@ class GeneratingFrame {
     -variantCount : int
     -themesOut : List<String>
 }
-
 
 class LaTeXViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
@@ -69,14 +71,16 @@ class PDFViewingComponent {
     +paintComponent(graphics : java.awt.Graphics, string : String)
 }
 
-Starter ..> MainFrame
+Starter --> MainFrame : create >
+Starter --> AddingFrame : create >
+Starter --> ViewingFrame : create >
+Starter --> GeneratingFrame : create >
 
-AbstractFrame ..|> StartableFrame
-MainFrame --|> AbstractFrame
-
-MainFrame --> AddingFrame : create >
-MainFrame --> ViewingFrame : create >
-MainFrame --> GeneratingFrame : create >
+AFrame .up.|> IStartableCloseableFrame
+MainFrame -up-|> AFrame
+AddingFrame -up-|> AFrame
+ViewingFrame -up-|> AFrame
+GeneratingFrame -up-|> AFrame
 
 AddingFrame o-- QuestionViewingComponent
 QuestionViewingComponent o-- LaTeXViewingComponent : include >

@@ -1,6 +1,6 @@
 @startuml
 !include questions.puml
-!include presenters.puml
+!include presentersDiagram.puml
 
 class QuestionManager<<(S,#FF7700) Singleton>> {
     +addQuestion(question : Question) : boolean
@@ -37,7 +37,10 @@ note right of QuestionManager
 и сообщает им о добавлении/удалении вопросов
 end note
 
+AddingFrame ..> QuestionManager : use >
+AddingFrame --> Question : create >
+ViewingFrame --> QuestionManager : use >
 QuestionManager *--> "*" Question
-QuestionManager --> DBFacade : uses >
+QuestionManager ..> DBFacade : use >
 QuestionManager "1" *-->  "*" IPresenter
 @enduml
