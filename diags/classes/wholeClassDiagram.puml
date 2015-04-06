@@ -1,15 +1,6 @@
 'Общая диаграмма классов генератора тестов'
 @startuml
-!include questionManager.puml
-!include frames.puml
+!include questionManagement.puml
+!include framesComponents.puml
 !include generation.puml
-
-
-
-AddingFrame --> QuestionManager : use >
-
-AddingFrame ..> Question : create >
-QuestionManager ..> DBFacade
-ViewingFrame --> QuestionManager : use >
-
 @enduml
