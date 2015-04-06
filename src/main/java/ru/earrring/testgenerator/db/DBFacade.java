@@ -157,7 +157,7 @@ public class DBFacade {
         List<Question> questionList = getAllQuestions();
         List<Question> questionResultList = new ArrayList<Question>();
         for (Question question : questionList) {
-            String[] categoryArray = question.getCategory().split("\\|");
+            String[] categoryArray = question.getCategories().split("\\|");
             for (int i = 0; i < categoryArray.length; i++) {
                 System.out.println(categoryArray[i]);
                 if (category.equals(categoryArray[i])) {
