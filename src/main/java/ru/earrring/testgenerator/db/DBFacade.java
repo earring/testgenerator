@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Фасад БД. Вызывая функции этого класса, можно выполнить непосредственную работу с БД (фасад работает с ORM). Для
  * упрощения работы с БД, этот класс не используется напрямую, а функции этого фасада вызываются классом QuestionManager.
- * Двойной синглтон, возвращается тот фасад (пользовательской БД или тестовой БД), который задан в методе getInstance()
  */
 public class DBFacade {
 
@@ -46,8 +45,8 @@ public class DBFacade {
      */
     private static DBFacade dbFacade;
 
-    public void init() throws SQLException
-    {
+    public void init(String url) throws SQLException {
+        this.url = url;
         source = new JdbcConnectionSource(url);
         // создать таблицы, если не существует старых
         TableUtils.createTableIfNotExists(source, Question.class);
@@ -56,17 +55,13 @@ public class DBFacade {
         daoQuestion = DaoManager.createDao(source, Question.class);
         daoAnswer = DaoManager.createDao(source, Answer.class);
     }
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
+
     /**
      * Запрос экземпляра фасада БД в зависимости от переданной булевской переменной
      *
      * @return ссылка на фасад БД
-     * @throws SQLException
      */
-    public static DBFacade getInstance()  {
+    public static DBFacade getInstance() {
         if (dbFacade == null) {
             dbFacade = new DBFacade();
         }
@@ -82,6 +77,15 @@ public class DBFacade {
         String url = ((JdbcConnectionSource) source).getUrl();
         String[] urlParts = url.split(":");
         return urlParts[2];
+    }
+
+    /**
+     * Возвращает "соединение" с БД. Нужно, например, для очищения тестовой БД
+     *
+     * @return объект "соединение" с БД
+     */
+    public ConnectionSource getSource() {
+        return source;
     }
 
     /**

@@ -1,5 +1,6 @@
 package ru.earring.testgenerator.test;
 
+import com.j256.ormlite.table.TableUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,17 +24,18 @@ public class DBFacadeTest {
     private static DBFacade dbFacade;
 
     /**
-     * Предварительная настройка БД
+     * Предварительная настройка тестовой БД
      *
      * @throws SQLException
      */
     @BeforeClass
     public static void start() throws SQLException {
         dbFacade = DBFacade.getInstance();
-        dbFacade.setUrl("jdbc:sqlite:test.sqlite");
-        dbFacade.init();
-        addQuestion1();
+        dbFacade.init("jdbc:sqlite:test.sqlite");
+        TableUtils.clearTable(dbFacade.getSource(), Question.class);
+        TableUtils.clearTable(dbFacade.getSource(), Answer.class);
 
+        addQuestion1();
         addQuestion2();
     }
 

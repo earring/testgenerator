@@ -10,9 +10,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by nenagleyko on 06.04.2015.
- */
 public class QuestionManager {
     private static QuestionManager instance;
 
@@ -64,24 +61,10 @@ public class QuestionManager {
     }
 
     public List<Question> getQuestions(String category) {
-        List<Question> result = new ArrayList<>();
+        List<Question> result = null;
         try {
-            List<Question> allQuestions =
-                    DBFacade.getInstance().getAllQuestions();
-            int count = allQuestions.size();
-            for (int i = 0; i < count; i++) {
-                Question question = allQuestions.get(i);
-                String categoriesList = question.getCategories();
-                String[] categories = categoriesList.split("\\|");
-                int catCount = categories.length;
-                for (int j = 0; j < catCount; j++) {
-                    String questionCategory = categories[j];
-                    if (category.equals(questionCategory))
-                        result.add(question);
-                }
-            }
+            result = DBFacade.getInstance().findQuestionsByCategory(category);
         } catch (SQLException e) {
-
         }
         return result;
     }
@@ -89,7 +72,7 @@ public class QuestionManager {
     public List<String> getCategories(Question question) {
         List<String> result = new ArrayList<>();
         String categoriesList = question.getCategories();
-        String[] categories = categoriesList.split("|");
+        String[] categories = categoriesList.split("\\|");
         int catCount = categories.length;
         for (int j = 0; j < catCount; j++) {
             String questionCategory = categories[j];
