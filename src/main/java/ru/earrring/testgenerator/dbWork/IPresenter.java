@@ -1,5 +1,6 @@
 package ru.earrring.testgenerator.dbWork;
 
+import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.frames.AFrame;
 
 public interface IPresenter {
@@ -24,10 +25,10 @@ public interface IPresenter {
     /**
      * Коллбек, вызывающийся при добавлении вопроса
      */
-    void onQuestionAdded();
+    void onQuestionAdded(Question question);
 
     /**
      * Коллбек, вызывающийся при удалении вопроса
      */
-    void onQuestionRemoved();
+    void onQuestionRemoved(Question question);
 }

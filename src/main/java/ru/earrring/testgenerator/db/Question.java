@@ -69,7 +69,7 @@ public class Question {
         this.description = description;
     }
 
-    public String getCategory() {
+    public String getCategories() {
         return category;
     }
 

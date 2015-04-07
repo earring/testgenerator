@@ -45,7 +45,9 @@ public class Starter {
     private static void init() {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-            dbFacade = DBFacade.getInstance(false);
+            dbFacade = DBFacade.getInstance();
+            dbFacade.setUrl("jdbc:sqlite:main.sqlite");
+            dbFacade.init();
 
             // настройка основной формы
             mainFrame = new MainFrame();
