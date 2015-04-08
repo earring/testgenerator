@@ -13,6 +13,9 @@ import java.util.List;
 public class QuestionManager {
     private static QuestionManager instance;
 
+    /**
+     * Функция получения объекта QuestionManager
+     */
     public static QuestionManager getInstance() {
         if (instance == null)
             instance = new QuestionManager();
@@ -25,31 +28,46 @@ public class QuestionManager {
         presenters = new ArrayList<>();
     }
 
+    /**
+     * Функция регистрации презентера, для того, чтобы, при добавлении и удалении вопроса, у презентера
+     * вызывались соответствующие функции
+     * @param presenter презентер
+     */
     public void registerPresenter(IPresenter presenter) {
         presenters.add(presenter);
     }
 
-    public boolean addQuestion(Question question) {
-        try {
-            DBFacade.getInstance().addQuestion(question);
-            onQuestionAdded(question);
-        } catch (SQLException e) {
-            return false;
-        }
+    /**
+     * Функция добавления вопроса
+     * @param question вопрос
+     * @return @c true, если вопрос успешно добавлен, @c false - если произошла ошибка.
+     * @throws java.sql.SQLException
+     */
+    public boolean addQuestion(Question question) throws SQLException {
+        DBFacade.getInstance().addQuestion(question);
+        onQuestionAdded(question);
+
         return true;
     }
 
-    public boolean removeQuestion(Question question) {
-        try {
-            int id = question.getId();
-            DBFacade.getInstance().deleteQuestion(id);
-            onQuestionRemoved(question);
-        } catch (SQLException e) {
-            return false;
-        }
+    /**
+     * Функция удаления вопроса
+     * @param question вопрос
+     * @return @c true, если вопрос успешно удален, @c false - если произошла ошибка.
+     * @throws java.sql.SQLException
+     *
+     */
+    public boolean removeQuestion(Question question) throws SQLException {
+        int id = question.getId();
+        DBFacade.getInstance().deleteQuestion(id);
+        onQuestionRemoved(question);
+
         return true;
     }
 
+    /**
+     * Функция получения количества вопросов
+     */
     public int getQuestionCount() {
         int result = -1;
         try {
@@ -60,15 +78,22 @@ public class QuestionManager {
         return result;
     }
 
-    public List<Question> getQuestions(String category) {
+    /**
+     * Функция получения списка вопросов из категории
+     * @param category категория
+     * @return список вопросов, в которых есть категория @c category
+     */
+    public List<Question> getQuestions(String category) throws SQLException{
         List<Question> result = null;
-        try {
-            result = DBFacade.getInstance().findQuestionsByCategory(category);
-        } catch (SQLException e) {
-        }
+        result = DBFacade.getInstance().findQuestionsByCategory(category);
         return result;
     }
 
+    /**
+     * Функция получения списка категорий из вопроса
+     * @param question вопрос
+     * @return список категорий в вопросе
+     */
     public List<String> getCategories(Question question) {
         List<String> result = new ArrayList<>();
         String categoriesList = question.getCategories();
@@ -81,6 +106,11 @@ public class QuestionManager {
         return result;
     }
 
+    /**
+     * Функция получения списка вариантов ответа
+     * @param question вопрос
+     * @return Список вариантов ответа
+     */
     public List<String> getVariants(Question question) {
         List<String> result = new ArrayList<>();
         Collection<Answer> variants = question.getAnswers();
@@ -94,6 +124,11 @@ public class QuestionManager {
 
     }
 
+    /**
+     * Функция получения списка правильных ответов
+     * @param question вопрос
+     * @return список правильных ответов
+     */
     public List<String> getAnswers(Question question) {
         List<String> result = new ArrayList<>();
         Collection<Answer> variants = question.getAnswers();
@@ -107,6 +142,10 @@ public class QuestionManager {
         return result;
     }
 
+    /**
+     * Функция, запускаемая после добавления вопроса
+     * @param question добавленный вопрос
+     */
     private void onQuestionAdded(Question question) {
         for (int i = 0; i < presenters.size(); i++) {
             IPresenter presenter = presenters.get(i);
@@ -114,6 +153,10 @@ public class QuestionManager {
         }
     }
 
+    /**
+     * Функция, запускаемая после удаления вопроса
+     * @param question удаленный вопрос
+     */
     private void onQuestionRemoved(Question question) {
         for (int i = 0; i < presenters.size(); i++) {
             IPresenter presenter = presenters.get(i);

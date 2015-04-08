@@ -20,7 +20,7 @@ public class AddingFrame extends AFrame {
     protected void adjustFrameSettings() {
         setTitle("Добавить вопрос");
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        setResizable(false);
+        setResizable(true);
     }
 
     protected void adjustLayout() {
