@@ -31,6 +31,7 @@ public class QuestionManager {
     /**
      * Функция регистрации презентера, для того, чтобы, при добавлении и удалении вопроса, у презентера
      * вызывались соответствующие функции
+     *
      * @param presenter презентер
      */
     public void registerPresenter(IPresenter presenter) {
@@ -38,7 +39,18 @@ public class QuestionManager {
     }
 
     /**
+     * Функция, возвращающая все вопросы, имеющиеся в базе
+     *
+     * @return все вопросы, содержащиеся в базе данных
+     * @throws SQLException
+     */
+    public List<Question> getAllQuestions() throws SQLException {
+        return DBFacade.getInstance().getAllQuestions();
+    }
+
+    /**
      * Функция добавления вопроса
+     *
      * @param question вопрос
      * @return @c true, если вопрос успешно добавлен, @c false - если произошла ошибка.
      * @throws java.sql.SQLException
@@ -52,10 +64,10 @@ public class QuestionManager {
 
     /**
      * Функция удаления вопроса
+     *
      * @param question вопрос
      * @return @c true, если вопрос успешно удален, @c false - если произошла ошибка.
      * @throws java.sql.SQLException
-     *
      */
     public boolean removeQuestion(Question question) throws SQLException {
         int id = question.getId();
@@ -80,10 +92,11 @@ public class QuestionManager {
 
     /**
      * Функция получения списка вопросов из категории
+     *
      * @param category категория
      * @return список вопросов, в которых есть категория @c category
      */
-    public List<Question> getQuestions(String category) throws SQLException{
+    public List<Question> getQuestions(String category) throws SQLException {
         List<Question> result = null;
         result = DBFacade.getInstance().findQuestionsByCategory(category);
         return result;
@@ -91,6 +104,7 @@ public class QuestionManager {
 
     /**
      * Функция получения списка категорий из вопроса
+     *
      * @param question вопрос
      * @return список категорий в вопросе
      */
@@ -108,6 +122,7 @@ public class QuestionManager {
 
     /**
      * Функция получения списка вариантов ответа
+     *
      * @param question вопрос
      * @return Список вариантов ответа
      */
@@ -126,6 +141,7 @@ public class QuestionManager {
 
     /**
      * Функция получения списка правильных ответов
+     *
      * @param question вопрос
      * @return список правильных ответов
      */
@@ -144,6 +160,7 @@ public class QuestionManager {
 
     /**
      * Функция, запускаемая после добавления вопроса
+     *
      * @param question добавленный вопрос
      */
     private void onQuestionAdded(Question question) {
@@ -155,6 +172,7 @@ public class QuestionManager {
 
     /**
      * Функция, запускаемая после удаления вопроса
+     *
      * @param question удаленный вопрос
      */
     private void onQuestionRemoved(Question question) {

@@ -1,17 +1,18 @@
 @startuml
 !include questions.puml
-!include presenters.puml
+!include presentersDiagram.puml
 
 class QuestionManager<<(S,#FF7700) Singleton>> {
-    +addQuestion(question : Question) : boolean
-    +removeQuestion(question : Question) : boolean
-    +getQuestionCount() : int
-    +getQuestions(category: String) : List<Question>
-    +getCategories(question: Question) : List<String>
-    +getVariants(question: Question) : List<String>
-    +getAnswers(question: Question) : List<String>
-    -onQuestionAdded()
-    -onQuestionRemoved()
+    + addQuestion(question : Question) : boolean
+    + removeQuestion(question : Question) : boolean
+    + getAllQuestions() : List<Question>
+    + getQuestionCount() : int
+    + getQuestions(category: String) : List<Question>
+    + getCategories(question: Question) : List<String>
+    + getVariants(question: Question) : List<String>
+    + getAnswers(question: Question) : List<String>
+    - onQuestionAdded()
+    - onQuestionRemoved()
 }
 
 class DBFacade <<(S,#FF7700) Singleton>> {
