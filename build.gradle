@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 
+
 mainClassName = "ru.earrring.testgenerator.Starter"
 
 tasks.withType(JavaCompile) {
