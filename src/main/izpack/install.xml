@@ -1,0 +1,14 @@
+<installation
+        version="1.0">
+    <info>
+        <appname>Super extractor</appname>
+        <appversion>2.1 beta 6</appversion>
+        <appsubpath>myCompany/SExtractor</appsubpath>
+        <url>http://www.superextractor.com/</url>
+        <authors>
+            <author name="John John Doo" email="jjd@jjd-mail.com"/>
+            <author name="El Goyo" email="goyoman@mymail.org"/>
+        </authors>
+        <javaversion>1.2</javaversion>
+    </info>
+</installation>

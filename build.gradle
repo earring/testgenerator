@@ -1,6 +1,20 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'com.bmuschko.izpack'
+apply plugin: 'findbugs'
 
+findbugs {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "low"
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
 
 
 mainClassName = "ru.earrring.testgenerator.Starter"
@@ -23,4 +37,14 @@ dependencies {
 
 javadoc {
     options.encoding = 'UTF-8'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-izpack-plugin:2.0'
+    }
 }
