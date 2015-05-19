@@ -57,8 +57,12 @@ public class QuestionManager {
      */
     public boolean addQuestion(Question question) throws SQLException {
         DBFacade.getInstance().addQuestion(question);
+        Collection<Answer> answerCollection = question.getAnswers();
+        Iterator<Answer> answerIterator = answerCollection.iterator();
+        while (answerIterator.hasNext()) {
+            DBFacade.getInstance().addAnswer(answerIterator.next());
+        }
         onQuestionAdded(question);
-
         return true;
     }
 
@@ -88,6 +92,13 @@ public class QuestionManager {
 
         }
         return result;
+    }
+
+    /**
+     * Функция получения пустой коллекции для ответов на вопросы
+     */
+    public Collection<Answer> getEmptyCollectionAnswer() throws SQLException {
+        return DBFacade.getInstance().getEmptyAnswerCollection();
     }
 
     /**
@@ -133,10 +144,8 @@ public class QuestionManager {
         while (iterator.hasNext()) {
             Answer answer = iterator.next();
             result.add(answer.getValue());
-
         }
         return result;
-
     }
 
     /**
