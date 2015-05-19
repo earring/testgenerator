@@ -51,14 +51,17 @@ public class QuestionManager {
     /**
      * Функция добавления вопроса
      *
-     * @param question вопрос
+     * @param question вопрос. В вопросе коллекцию ответов НЕ ЗАПОЛНЯТЬ! Ответы добавляются самостоятельно, и
+     *                 связываются они с вопросами тоже сами
      * @return @c true, если вопрос успешно добавлен, @c false - если произошла ошибка.
      * @throws java.sql.SQLException
      */
-    public boolean addQuestion(Question question) throws SQLException {
+    public boolean addQuestion(Question question, List<Answer> answerList) throws SQLException {
         DBFacade.getInstance().addQuestion(question);
+        for (Answer answer : answerList) {
+            DBFacade.getInstance().addAnswer(answer);
+        }
         onQuestionAdded(question);
-
         return true;
     }
 
@@ -133,10 +136,8 @@ public class QuestionManager {
         while (iterator.hasNext()) {
             Answer answer = iterator.next();
             result.add(answer.getValue());
-
         }
         return result;
-
     }
 
     /**

@@ -16,6 +16,9 @@ tasks.withType(FindBugs) {
     }
 }
 
+run {
+    jvmArgs "-XX:+UnlockCommercialFeatures", "-XX:+FlightRecorder", "-XX:StartFlightRecording=duration=60s,filename=myrecording.jfr"
+}
 
 mainClassName = "ru.earrring.testgenerator.Starter"
 
