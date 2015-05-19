@@ -1,7 +1,0 @@
-{"mockup":{"controls":{"control":[
-{"ID":"0","h":"456","measuredH":"400","measuredW":"450","properties":{"bottomheight":"0","close":"true","dragger":"false","maximizeRestore":"true","minimize":"true","text":"Test","topheight":"26","value":"0","verticalScrollbar":"false"},"typeID":"TitleWindow","w":"536","x":"13","y":"24","zOrder":"0"},
-{"ID":"2","h":"29","measuredH":"29","measuredW":"132","properties":{"borderStyle":"square","hrefs":{"href":[{"ID":"7C881254-BC69-B918-CF85-47D057D166C7"},{}]},"text":"Файл, Помощь"},"typeID":"MenuBar","w":"536","x":"13","y":"46","zOrder":"1"},
-{"ID":"3","measuredH":"83","measuredW":"150","properties":{"hrefs":{"href":[{"ID":"2EEB6B56-D46B-411F-1943-47EB1DCD64F5"},{},{"ID":"07D91AFA-2558-9A44-7D30-47FA4D75FEAD"},{},{}]},"text":"Добавить вопрос\n---\nСгенерировать тест\n=\nВыход"},"typeID":"Menu","x":"13","y":"75","zOrder":"4"},
-{"ID":"4","h":"405","measuredH":"100","measuredW":"11","typeID":"HSplitter","x":"161","y":"75","zOrder":"2"},
-{"ID":"5","h":"405","measuredH":"225","measuredW":"300","properties":{"selectedIndex":"-1","text":"f Предмет1\nF Пердмет2\n f Тема1\n F Тема2\n..- Вопрос1\n..- Вопрос2"},"typeID":"Tree","w":"148","x":"13","y":"75","zOrder":"3"},
-{"ID":"6","h":"405","measuredH":"140","measuredW":"200","properties":{"text":"Текст вопроса\n \nОтветы:\n \nа)\nб)\nв)\nг)"},"typeID":"TextArea","w":"377","x":"172","y":"75","zOrder":"5"}]},"measuredH":"480","measuredW":"549","mockupH":"456","mockupW":"536","version":"1.0"}}
