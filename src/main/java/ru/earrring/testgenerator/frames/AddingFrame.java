@@ -11,8 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
+import java.util.List;
 
 public class AddingFrame extends AFrame implements AnswerAddableFrame {
 
@@ -100,8 +100,9 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
             public void actionPerformed(ActionEvent e) {
                 if (checkQuestionData()) {
                     try {
-                        QuestionManager.getInstance().addQuestion(createQuestion());
-                        System.out.println("Adding question called");
+                        Question question = createQuestion();
+                        List<Answer> answerList = createAnswerList(question);
+                        QuestionManager.getInstance().addQuestion(question, answerList);
                     } catch (SQLException exception) {
                         JOptionPane.showMessageDialog(AddingFrame.this, exception.getMessage(), "Ошибка при выполнении SQL запроса", JOptionPane.ERROR_MESSAGE);
                         exception.printStackTrace();
@@ -111,9 +112,23 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         });
     }
 
+    private List<Answer> createAnswerList(Question question) throws SQLException {
+        List<Answer> answerList = new ArrayList<>();
+
+        // задание ответов на вопрос
+        for (AnswerVariantComponent component : answerVariantComponentList) {
+            Answer answer = new Answer();
+            answer.setQuestion(question);
+            answer.setCorrect(component.isCorrect());
+            answer.setValue(component.getText());
+            answerList.add(answer);
+        }
+
+        return answerList;
+    }
+
     private Question createQuestion() throws SQLException {
         Question question = new Question();
-        Collection<Answer> answerCollection = QuestionManager.getInstance().getEmptyCollectionAnswer();
 
         // задание текста вопроса
         question.setDescription(descriptionArea.getText());
@@ -130,16 +145,6 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         }
         String categoryString = String.join("|", categoryList);
         question.setCategory(categoryString);
-
-        // задание ответов на вопрос
-        for (AnswerVariantComponent component : answerVariantComponentList) {
-            Answer answer = new Answer();
-            answer.setQuestion(question);
-            answer.setCorrect(component.isCorrect());
-            answer.setValue(component.getText());
-            answerCollection.add(answer);
-        }
-        question.setAnswers(answerCollection);
 
         System.out.println(question);
         return question;
