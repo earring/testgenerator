@@ -2,6 +2,7 @@ package ru.earrring.testgenerator;
 
 import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.dbWork.MainFramePresenter;
+import ru.earrring.testgenerator.dbWork.QuestionManager;
 import ru.earrring.testgenerator.frames.AddingFrame;
 import ru.earrring.testgenerator.frames.LaTeXDemonstrationFrame;
 import ru.earrring.testgenerator.frames.MainFrame;
@@ -53,6 +54,7 @@ public class Starter {
             mainFrame.start();
             MainFramePresenter mainFramePresenter = new MainFramePresenter();
             mainFramePresenter.setUp(mainFrame);
+            QuestionManager.getInstance().registerPresenter(mainFramePresenter);
 
             // настройка формы добавления вопросов
             addingFrame = new AddingFrame();
