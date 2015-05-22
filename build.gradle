@@ -18,6 +18,7 @@ launch4j {
     mainClassName = "ru.earrring.testgenerator.Starter"
     version = 1.0
     textVersion = 1.0
+    manifest = "../../testgenerator.manifest"
 }
 
 findbugs {
