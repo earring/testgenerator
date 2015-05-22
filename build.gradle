@@ -1,6 +1,24 @@
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'findbugs'
+apply plugin: "edu.sc.seis.launch4j"
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:1.1.0"
+    }
+}
+
+launch4j {
+    mainClassName = "ru.earrring.testgenerator.Starter"
+    version = 1.0
+    textVersion = 1.0
+}
 
 findbugs {
     ignoreFailures = true
