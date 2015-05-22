@@ -1,9 +1,11 @@
 package ru.earrring.testgenerator;
 
 import ru.earrring.testgenerator.db.DBFacade;
+import ru.earrring.testgenerator.dbWork.GenerationFramePresenter;
 import ru.earrring.testgenerator.dbWork.MainFramePresenter;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
 import ru.earrring.testgenerator.frames.AddingFrame;
+import ru.earrring.testgenerator.frames.GenerationFrame;
 import ru.earrring.testgenerator.frames.LaTeXDemonstrationFrame;
 import ru.earrring.testgenerator.frames.MainFrame;
 
@@ -25,6 +27,8 @@ public class Starter {
      * Ссылка на форму добавления нового вопроса
      */
     private static AddingFrame addingFrame;
+
+    private static GenerationFrame generationFrame;
 
     /**
      * Ссылка на форму демонстрации возможностей LaTeX в этой программе
@@ -60,13 +64,19 @@ public class Starter {
             addingFrame = new AddingFrame();
             addingFrame.start();
 
+
+            generationFrame = new GenerationFrame();
+            generationFrame.start();
+            GenerationFramePresenter generationPresenter = new GenerationFramePresenter();
+            generationPresenter.setUp(generationFrame);
+
             // настройка формы демонстрации LaTeX
             laTeXDemonstrationFrame = new LaTeXDemonstrationFrame();
             laTeXDemonstrationFrame.start();
 
             // добавление кнопок на основную форму
             mainFrame.addFrameButton(addingFrame, "Добавить вопрос");
-            mainFrame.addFrameButton(addingFrame, "Добавить вопрос еще раз");
+            mainFrame.addFrameButton(generationFrame, "Генерация тестов");
             mainFrame.addFrameButton(laTeXDemonstrationFrame, "Демонстрация LaTeX");
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
