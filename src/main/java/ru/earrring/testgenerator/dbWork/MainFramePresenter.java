@@ -52,7 +52,7 @@ public class MainFramePresenter extends APresenter {
     }
 
     @Override
-    public void onQuestionAdded(Question question) {
+    public void onQuestionAdded(Question question ) {
         int count = getDBCount();
         setText(count);
     }
@@ -71,6 +71,6 @@ public class MainFramePresenter extends APresenter {
     @Override
     public void setInitialData() {
         // симулируем добавление вопроса для того, чтобы обновилась надпись о количестве вопросов
-        onQuestionAdded(new Question());
+        onQuestionAdded(null);
     }
 }

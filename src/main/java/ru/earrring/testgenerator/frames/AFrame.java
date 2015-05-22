@@ -85,7 +85,7 @@ public abstract class AFrame extends JFrame implements IStartableCloseableFrame 
                         AFrame.this.close();
                     }
                 } else {
-                    AFrame.this.close();
+                    setVisible(false);
                     parentFrame.setVisible(true);
                 }
             }

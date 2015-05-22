@@ -42,10 +42,18 @@ public class QuestionManager {
      * Функция, возвращающая все вопросы, имеющиеся в базе
      *
      * @return все вопросы, содержащиеся в базе данных
-     * @throws SQLException
      */
-    public List<Question> getAllQuestions() throws SQLException {
-        return DBFacade.getInstance().getAllQuestions();
+    public List<Question> getAllQuestions() {
+        List<Question> questions = new ArrayList<>();
+
+        try {
+            questions = DBFacade.getInstance().getAllQuestions();
+        }
+        catch (SQLException e) {
+            onSqlException(e);
+        }
+
+        return questions;
     }
 
     /**
@@ -54,14 +62,18 @@ public class QuestionManager {
      * @param question вопрос. В вопросе коллекцию ответов НЕ ЗАПОЛНЯТЬ! Ответы добавляются самостоятельно, и
      *                 связываются они с вопросами тоже сами
      * @return @c true, если вопрос успешно добавлен, @c false - если произошла ошибка.
-     * @throws java.sql.SQLException
      */
-    public boolean addQuestion(Question question, List<Answer> answerList) throws SQLException {
-        DBFacade.getInstance().addQuestion(question);
-        for (Answer answer : answerList) {
-            DBFacade.getInstance().addAnswer(answer);
+    public boolean addQuestion(Question question, List<Answer> answerList) {
+        try {
+            DBFacade.getInstance().addQuestion(question);
+            for (Answer answer : answerList) {
+                DBFacade.getInstance().addAnswer(answer);
+            }
+            onQuestionAdded(question);
         }
-        onQuestionAdded(question);
+        catch (SQLException e) {
+            onSqlException(e);
+        }
         return true;
     }
 
@@ -70,12 +82,16 @@ public class QuestionManager {
      *
      * @param question вопрос
      * @return @c true, если вопрос успешно удален, @c false - если произошла ошибка.
-     * @throws java.sql.SQLException
      */
-    public boolean removeQuestion(Question question) throws SQLException {
+    public boolean removeQuestion(Question question)  {
         int id = question.getId();
-        DBFacade.getInstance().deleteQuestion(id);
-        onQuestionRemoved(question);
+        try {
+            DBFacade.getInstance().deleteQuestion(id);
+            onQuestionRemoved(question);
+        } catch (SQLException e) {
+            onSqlException(e);
+        }
+
 
         return true;
     }
@@ -88,7 +104,7 @@ public class QuestionManager {
         try {
             result = DBFacade.getInstance().getAllQuestions().size();
         } catch (SQLException e) {
-
+            onSqlException(e);
         }
         return result;
     }
@@ -99,9 +115,15 @@ public class QuestionManager {
      * @param category категория
      * @return список вопросов, в которых есть категория @c category
      */
-    public List<Question> getQuestions(String category) throws SQLException {
+    public List<Question> getQuestions(String category)  {
         List<Question> result = null;
-        result = DBFacade.getInstance().findQuestionsByCategory(category);
+        try {
+            result = DBFacade.getInstance().findQuestionsByCategory(category);
+        }
+        catch (SQLException exception)
+        {
+            onSqlException(exception);
+        }
         return result;
     }
 
@@ -182,5 +204,11 @@ public class QuestionManager {
             presenter.onQuestionRemoved(question);
         }
     }
+
+    public void onSqlException(SQLException exception)
+    {
+
+    }
+
 
 }
