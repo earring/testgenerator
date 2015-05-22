@@ -1,7 +1,9 @@
 package ru.earrring.testgenerator.frames;
 
+import com.itextpdf.text.DocumentException;
 import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
+import ru.earrring.testgenerator.pdf.PDFGenerator;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -174,8 +177,20 @@ public class GenerationFrame extends AFrame {
 
     @Override
     protected void setListeners() {
-
-
+        generateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PDFGenerator.getInstance().createPDF(variantsSpinnerModel.getNumber().intValue(), questionSpinnerModel.getNumber().intValue(), checkedCategories);
+                    JOptionPane.showMessageDialog(GenerationFrame.this, "PDF документ был успешно сгенерирован", "Генерация завершена", JOptionPane.INFORMATION_MESSAGE);
+                    GenerationFrame.this.close();
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(GenerationFrame.this, e1.getMessage(), "Ошибка ввода-вывода", JOptionPane.ERROR_MESSAGE);
+                }  catch (DocumentException e1) {
+                    JOptionPane.showMessageDialog(GenerationFrame.this, e1.getMessage(), "Ошибка взаимодействия с PDF", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
     @Override
