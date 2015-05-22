@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'com.bmuschko.izpack'
 apply plugin: 'findbugs'
 
 findbugs {
@@ -40,14 +39,4 @@ dependencies {
 
 javadoc {
     options.encoding = 'UTF-8'
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.bmuschko:gradle-izpack-plugin:2.0'
-    }
 }
