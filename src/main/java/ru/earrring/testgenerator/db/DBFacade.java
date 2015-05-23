@@ -174,6 +174,29 @@ public class DBFacade {
     }
 
     /**
+     * Возвращение всех вопросов, принадлежащих определенным категориям
+     *
+     * @param categoryList список категорий, из которых нужно вернуть вопросы
+     * @return список вопросов, в категориях которых встречается любая из категорий в списке categoryList
+     * @throws SQLException
+     */
+    public List<Question> findQuestionsByCategory(List<String> categoryList) throws SQLException {
+        List<Question> questionList = getAllQuestions();
+        List<Question> questionResultList = new ArrayList<Question>();
+        for (Question question : questionList) {
+            String[] categoryArray = question.getCategories().split("\\|");
+            for (int i = 0; i < categoryArray.length; i++) {
+                System.out.println(categoryArray[i]);
+                if (categoryList.contains(categoryArray[i])) {
+                    questionResultList.add(question);
+                    break;
+                }
+            }
+        }
+        return questionResultList;
+    }
+
+    /**
      * Обновление вопроса в БД
      *
      * @param question обновляемый вопрос (новые данные). Вопрос, который нужно обновить, определяется по идентификатору
