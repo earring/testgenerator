@@ -110,7 +110,7 @@ public class QuestionManager {
     }
 
     /**
-     * Функция получения списка вопросов из категории
+     * Функция получения списка вопросов из определенной категории
      *
      * @param category категория
      * @return список вопросов, в которых есть категория @c category
@@ -119,6 +119,24 @@ public class QuestionManager {
         List<Question> result = null;
         try {
             result = DBFacade.getInstance().findQuestionsByCategory(category);
+        }
+        catch (SQLException exception)
+        {
+            onSqlException(exception);
+        }
+        return result;
+    }
+
+    /**
+     * Функция получения списка вопросов из нескольких категорий
+     *
+     * @param categoryList список категорий, из которых необходимо получить вопросы
+     * @return список вопросов, в которых есть категория @c category
+     */
+    public List<Question> getQuestions(List<String> categoryList)  {
+        List<Question> result = null;
+        try {
+            result = DBFacade.getInstance().findQuestionsByCategory(categoryList);
         }
         catch (SQLException exception)
         {
