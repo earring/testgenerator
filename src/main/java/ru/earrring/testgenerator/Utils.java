@@ -14,7 +14,7 @@ public class Utils {
     /**
      * Версия программы
      */
-    public static String VERSION = "0.1 alpha";
+    public static String VERSION = "1.0 beta";
 
     /**
      * Получение изображения из встроенных ресурсов приложения. Ресурсы лежат в директории, заданной в Gradle

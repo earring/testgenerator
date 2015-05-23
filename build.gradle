@@ -3,6 +3,8 @@ apply plugin: 'application'
 apply plugin: 'findbugs'
 apply plugin: "edu.sc.seis.launch4j"
 
+mainClassName = "ru.earrring.testgenerator.Starter"
+
 buildscript {
     repositories {
         maven {
@@ -16,9 +18,10 @@ buildscript {
 
 launch4j {
     mainClassName = "ru.earrring.testgenerator.Starter"
-    version = 1.0
-    textVersion = 1.0
+    version = "1.0 beta"
+    textVersion = "1.0 beta"
     manifest = "../../testgenerator.manifest"
+    downloadUrl = "http://java.com/ru/download/"
 }
 
 findbugs {
@@ -37,8 +40,6 @@ tasks.withType(FindBugs) {
 run {
     jvmArgs "-XX:+UnlockCommercialFeatures", "-XX:+FlightRecorder", "-XX:StartFlightRecording=duration=60s,filename=myrecording.jfr"
 }
-
-mainClassName = "ru.earrring.testgenerator.Starter"
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
