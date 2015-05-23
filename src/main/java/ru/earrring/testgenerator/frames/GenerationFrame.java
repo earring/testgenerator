@@ -4,6 +4,8 @@ import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -40,9 +42,19 @@ public class GenerationFrame extends AFrame {
     private void setQuestionCount(int count)
     {
         availableQuestions = count;
-        questionsCountLabel.setText(String.format("%d",availableQuestions));
+        questionsCountLabel.setText(String.format("%d", availableQuestions));
         questionSpinnerModel.setMaximum(count);
         variantsSpinnerModel.setMaximum(count);
+        Number questions = questionSpinnerModel.getNumber();
+        Number variants = variantsSpinnerModel.getNumber();
+        if (questions.intValue() > count)
+        {
+            questionSpinnerModel.setValue(count);
+        }
+        if (variants.intValue() > count)
+        {
+            variantsSpinnerModel.setValue(count);
+        }
 
     }
 

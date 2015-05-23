@@ -69,6 +69,7 @@ public class Starter {
             generationFrame.start();
             GenerationFramePresenter generationPresenter = new GenerationFramePresenter();
             generationPresenter.setUp(generationFrame);
+            QuestionManager.getInstance().registerPresenter(generationPresenter);
 
             // настройка формы демонстрации LaTeX
             laTeXDemonstrationFrame = new LaTeXDemonstrationFrame();
