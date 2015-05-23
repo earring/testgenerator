@@ -1,18 +1,22 @@
-package ru.earrring.testgenerator.pdf;
+package ru.earrring.testgenerator.generators;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import org.scilab.forge.jlatexmath.ParseException;
 import ru.earrring.testgenerator.Utils;
 import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
 
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PDFGenerator {
 
@@ -85,7 +89,7 @@ public class PDFGenerator {
                 Paragraph questionDescriptionParagraph = new Paragraph();
                 questionDescriptionParagraph.setSpacingBefore(10);
                 questionDescriptionParagraph.add(new Phrase((j + 1) + ") ", timesNewRomanBoldFont));
-                questionDescriptionParagraph.add(new Phrase(question.getDescription(), timesNewRomanRegularfont));
+                addPhraseWithFormulas(writer, questionDescriptionParagraph, question.getDescription(), timesNewRomanRegularfont);
                 document.add(questionDescriptionParagraph);
 
                 com.itextpdf.text.List variantList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
@@ -106,5 +110,50 @@ public class PDFGenerator {
             }
             document.close();
         }
+    }
+
+    /**
+     * Генерируется Phrase со всеми встроенными картинками. Переданная строка должна быть УЖЕ проверена на корректность
+     * (корректное применение $...$ и $$...$$)
+     *
+     * @param text текст с формулами или без них
+     * @param font шрифт, использующийся для текста (должен поддерживать кириллицу)
+     * @return
+     */
+    private void addPhraseWithFormulas(PdfWriter pdfWriter, Paragraph paragraph, String text, Font font) throws IOException, BadElementException {
+        // регексп для формул (мы разбиваем по формулам текст)
+        Pattern formulaPattern = Pattern.compile("(\\$\\$.+?\\$\\$)|(\\$.+?\\$)");
+        Matcher matcher = formulaPattern.matcher(text);
+        int currentEnd = 0;
+        boolean isFormulaInner = false;
+        while (matcher.find()) {
+            // если до формулы в самом начале встречается текст
+            if (matcher.start() > currentEnd) {
+                String string = text.substring(currentEnd, matcher.start());
+                paragraph.add(new Phrase(string, font));
+            }
+            String formula = text.substring(matcher.start(), matcher.end());
+            if (formula.matches("\\$\\$.+?\\$\\$")) {
+                formula = formula.substring(2, formula.length() - 2);
+                isFormulaInner = false;
+            } else if (formula.matches("\\$.+?\\$")) {
+                formula = formula.substring(1, formula.length() - 1);
+                isFormulaInner = true;
+            } else {
+                throw new ParseException("Incorrect dollar signs");
+            }
+            BufferedImage image = LaTeXGenerator.generateBufferedImageFromFormula(formula, 72);
+
+            // TODO сделать отличия одного знака доллара от двух
+            //if (isFormulaInner) {
+            Image textImage = Image.getInstance(pdfWriter, image, 1.0f);
+            textImage.scalePercent(20f);
+            paragraph.add(textImage);
+            //} else {
+            currentEnd = matcher.end();
+        }
+        // если текст встречается после формулы (и если формул в тексте вообще нет)
+        String string = text.substring(currentEnd);
+        paragraph.add(new Phrase(string, font));
     }
 }
