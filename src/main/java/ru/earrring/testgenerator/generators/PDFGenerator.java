@@ -86,11 +86,11 @@ public class PDFGenerator {
                 int randomNum = rand.nextInt(questionListCopy.size());
 
                 Question question = questionListCopy.get(randomNum);
-                Paragraph questionDescriptionParagraph = new Paragraph();
-                questionDescriptionParagraph.setSpacingBefore(10);
-                questionDescriptionParagraph.add(new Phrase((j + 1) + ") ", timesNewRomanBoldFont));
-                addPhraseWithFormulas(writer, questionDescriptionParagraph, question.getDescription(), timesNewRomanRegularfont);
-                document.add(questionDescriptionParagraph);
+                Paragraph questionNumberParagraph = new Paragraph();
+                questionNumberParagraph.setSpacingBefore(10);
+                questionNumberParagraph.add(new Phrase("Вопрос №" + (j + 1), timesNewRomanBoldFont));
+                document.add(questionNumberParagraph);
+                addPhraseWithFormulas(writer, document, question.getDescription(), timesNewRomanRegularfont);
 
                 com.itextpdf.text.List variantList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
                 variantList.setIndentationLeft(10);
@@ -120,40 +120,35 @@ public class PDFGenerator {
      * @param font шрифт, использующийся для текста (должен поддерживать кириллицу)
      * @return
      */
-    private void addPhraseWithFormulas(PdfWriter pdfWriter, Paragraph paragraph, String text, Font font) throws IOException, BadElementException {
+    private void addPhraseWithFormulas(PdfWriter pdfWriter, Document document, String text, Font font) throws IOException, DocumentException {
         // регексп для формул (мы разбиваем по формулам текст)
-        Pattern formulaPattern = Pattern.compile("(\\$\\$.+?\\$\\$)|(\\$.+?\\$)");
+        Pattern formulaPattern = Pattern.compile("\\$\\$.+?\\$\\$");
         Matcher matcher = formulaPattern.matcher(text);
         int currentEnd = 0;
-        boolean isFormulaInner = false;
         while (matcher.find()) {
             // если до формулы в самом начале встречается текст
             if (matcher.start() > currentEnd) {
                 String string = text.substring(currentEnd, matcher.start());
+                Paragraph paragraph = new Paragraph();
                 paragraph.add(new Phrase(string, font));
+                document.add(paragraph);
             }
-            String formula = text.substring(matcher.start(), matcher.end());
-            if (formula.matches("\\$\\$.+?\\$\\$")) {
-                formula = formula.substring(2, formula.length() - 2);
-                isFormulaInner = false;
-            } else if (formula.matches("\\$.+?\\$")) {
-                formula = formula.substring(1, formula.length() - 1);
-                isFormulaInner = true;
-            } else {
-                throw new ParseException("Incorrect dollar signs");
-            }
-            BufferedImage image = LaTeXGenerator.generateBufferedImageFromFormula(formula, 72);
-
-            // TODO сделать отличия одного знака доллара от двух
-            //if (isFormulaInner) {
+            // добавление самой формулы
+            String formula = text.substring(matcher.start() + 2, matcher.end() - 2);
+            BufferedImage image = LaTeXGenerator.generateBufferedImageFromFormula(formula, 70);
             Image textImage = Image.getInstance(pdfWriter, image, 1.0f);
             textImage.scalePercent(20f);
+            textImage.setAlignment(Image.ALIGN_CENTER | Image.DEFAULT);
+            Paragraph paragraph = new Paragraph();
             paragraph.add(textImage);
-            //} else {
+            document.add(paragraph);
+
             currentEnd = matcher.end();
         }
         // если текст встречается после формулы (и если формул в тексте вообще нет)
         String string = text.substring(currentEnd);
+        Paragraph paragraph = new Paragraph();
         paragraph.add(new Phrase(string, font));
+        document.add(paragraph);
     }
 }

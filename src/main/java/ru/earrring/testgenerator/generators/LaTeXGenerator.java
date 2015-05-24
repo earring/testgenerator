@@ -13,7 +13,7 @@ public class LaTeXGenerator {
     /**
      * Генерация изображения из формулы LaTeX
      * @param latexString строка, из которой генерируется формула (без знаков доллара)
-     * @param size 72 - для PDF (для того, чтобы формула была четко видна при увеличении),
+     * @param size 70 - для PDF (для того, чтобы формула была четко видна при увеличении),
      *             20 - для отображения в самой программе. Эти числа - экспериментальная магия.
      * @return
      * @throws ParseException
@@ -26,7 +26,7 @@ public class LaTeXGenerator {
         TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, size);
 
         // отступы вокруг формулы
-        //icon.setInsets(new Insets(5, 5, 5, 5));
+        icon.setInsets(new Insets(0, 0, 0, 0));
 
         // создание изображения
         BufferedImage latexImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
