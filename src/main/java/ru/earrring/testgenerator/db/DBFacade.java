@@ -8,6 +8,8 @@ import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,7 +78,8 @@ public class DBFacade {
     public String getDBName() {
         String url = ((JdbcConnectionSource) source).getUrl();
         String[] urlParts = url.split(":");
-        return urlParts[2];
+        Path path = Paths.get(urlParts[2] + ":" + urlParts[3]);
+        return path.getFileName().toString();
     }
 
     /**

@@ -21,7 +21,6 @@ launch4j {
     version = "1.0 beta"
     textVersion = "1.0 beta"
 
-    manifest = "../../testgenerator.manifest"
     downloadUrl = "http://java.com/ru/download/"
     // когда понадобится вывод на консоль - надо сделать exe с параметром headerType = "console"
     headerType = "gui"
