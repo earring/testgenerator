@@ -8,19 +8,15 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
-import org.scilab.forge.jlatexmath.ParseException;
 import ru.earrring.testgenerator.Utils;
 import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +108,7 @@ public class PDFGenerator {
 
     /**
      * Генерация отдельного вопроса
+     *
      * @param writer
      * @param document
      * @param questionNumber нумерация начинается с нуля
@@ -177,8 +174,9 @@ public class PDFGenerator {
 
     /**
      * Создание Image, сгенерированного из PDF. Рендер, как будет выглядеть PDF, другими словами
+     *
      * @param questionNumber номер вопроса, который будет отображаться (нумерация с нуля)
-     * @param question сам вопрос
+     * @param question       сам вопрос
      * @return Image, который нужно будет отобразить
      * @throws DocumentException
      * @throws IOException
