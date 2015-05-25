@@ -166,7 +166,6 @@ public class DBFacade {
         for (Question question : questionList) {
             String[] categoryArray = question.getCategories().split("\\|");
             for (int i = 0; i < categoryArray.length; i++) {
-                System.out.println(categoryArray[i]);
                 if (category.equals(categoryArray[i])) {
                     questionResultList.add(question);
                     break;
@@ -189,7 +188,6 @@ public class DBFacade {
         for (Question question : questionList) {
             String[] categoryArray = question.getCategories().split("\\|");
             for (int i = 0; i < categoryArray.length; i++) {
-                System.out.println(categoryArray[i]);
                 if (categoryList.contains(categoryArray[i])) {
                     questionResultList.add(question);
                     break;
