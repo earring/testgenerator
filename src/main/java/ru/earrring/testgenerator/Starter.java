@@ -9,6 +9,7 @@ import ru.earrring.testgenerator.frames.*;
 import javax.swing.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Path;
 
 /**
  * Класс-стартер системы. Инициализирует все классы, необходимые для работы программы и запускает основную форму
@@ -49,8 +50,11 @@ public class Starter {
     private static void init() {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+
             dbFacade = DBFacade.getInstance();
-            dbFacade.init("jdbc:sqlite:main.sqlite");
+            Path pathToDB = Utils.getPathToMyDB();
+            String url = "jdbc:sqlite:" + pathToDB + "\\main.sqlite";
+            dbFacade.init(url);
 
             // настройка основной формы
             mainFrame = new MainFrame();
@@ -83,18 +87,18 @@ public class Starter {
             mainFrame.addFrameButton(generationFrame, "Генерация тестов");
             mainFrame.addFrameButton(viewQuestionsFrame, "Просмотр вопросов");
             mainFrame.addFrameButton(laTeXDemonstrationFrame, "Демонстрация LaTeX");
+
+            mainFrame.setVisible(true);
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             e.printStackTrace();
-            JOptionPane.showMessageDialog(mainFrame, e.toString(), e.getMessage(), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public static void main(String[] args) {
         init();
-        mainFrame.setVisible(true);
     }
-
 
 }

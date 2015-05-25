@@ -62,14 +62,14 @@ public class PDFGenerator {
 
         // создание файлика для ответов
         Document documentAnswer = new Document(PageSize.A4, 50, 50, 50, 50);
-        PdfWriter writerAnswer = PdfWriter.getInstance(documentAnswer, new FileOutputStream("Ответы.pdf"));
+        PdfWriter writerAnswer = PdfWriter.getInstance(documentAnswer, new FileOutputStream(Utils.getPathToMyTests() + "\\Ответы.pdf"));
         documentAnswer.open();
 
         // создание PDF-файлика для каждого варианта
         for (int i = 0; i < variantCount; i++) {
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Вариант №" + (i + 1) + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(Utils.getPathToMyTests() + "\\Вариант №" + (i + 1) + ".pdf"));
 
             document.open();
             document.addCreator("Генератор тестов " + Utils.VERSION);
