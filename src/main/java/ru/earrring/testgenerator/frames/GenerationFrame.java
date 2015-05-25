@@ -7,6 +7,7 @@ import ru.earrring.testgenerator.dbWork.QuestionManager;
 import ru.earrring.testgenerator.generators.PDFGenerator;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,9 @@ public class GenerationFrame extends AFrame {
     private int availableQuestions = 0;
     private JPanel mainPanel;
     private SpinnerNumberModel variantsSpinnerModel;
+    private JSpinner variantsSpinner;
     private SpinnerNumberModel questionSpinnerModel;
+    private JSpinner questionSpinner;
     private JLabel questionsCountLabel;
 
     private JPanel categoriesPanel;
@@ -47,13 +50,12 @@ public class GenerationFrame extends AFrame {
         if (variants.intValue() > count) {
             variantsSpinnerModel.setValue(count);
         }
-
     }
 
     @Override
     protected void adjustFrameSettings() {
         setTitle("Генерация тестов");
-        setSize(700, 550);
+        setSize(700, 500);
         setResizable(false);
     }
 
@@ -61,31 +63,29 @@ public class GenerationFrame extends AFrame {
     protected void adjustLayout() {
         // настройка mainPanel
         mainPanel = new JPanel();
-        setLayout(new BorderLayout());
-        add(mainPanel, BorderLayout.CENTER);
+        add(mainPanel);
 
         mainPanel.setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel(new GridBagLayout());
         JPanel rightPanel = new JPanel(new GridBagLayout());
-        rightPanel.setMinimumSize(new Dimension(200, 300));
-
         mainPanel.add(leftPanel);
         mainPanel.add(rightPanel);
 
+        // LEFT PANEL
         JLabel label = new JLabel("Категории:");
-
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 0;
         c.weighty = 0;
+        c.insets = new Insets(8, 8, 8, 8);
         leftPanel.add(label, c);
 
-        categoriesPanel = new JPanel(new GridBagLayout());
+        categoriesPanel = new JPanel();
+        categoriesPanel.setLayout(new BoxLayout(categoriesPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(categoriesPanel);
-        scrollPane.setMinimumSize(new Dimension(350, 100));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -94,23 +94,33 @@ public class GenerationFrame extends AFrame {
         c.anchor = GridBagConstraints.NORTH;
         c.gridx = 0;
         c.gridy = 1;
-        c.weighty = 3;
+        c.weighty = 1;
         c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
         leftPanel.add(scrollPane, c);
 
-        JLabel label1 = new JLabel("Количество доступных вопросов:");
+        // RIGHT PANEL
+        JLabel labelCountText = new JLabel("Количество доступных вопросов:");
         c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 0;
-        rightPanel.add(label1, c);
+        c.weighty = 0;
+        c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
+        rightPanel.add(labelCountText, c);
 
         questionsCountLabel = new JLabel("0");
         questionsCountLabel.setFont(new Font("Courier", Font.BOLD, 20));
         c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.CENTER;
         c.gridx = 1;
         c.gridy = 0;
+        c.weighty = 0;
+        c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
         rightPanel.add(questionsCountLabel, c);
 
         JLabel label3 = new JLabel("Количество вариантов:");
@@ -118,13 +128,19 @@ public class GenerationFrame extends AFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
+        c.weighty = 0;
+        c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
         rightPanel.add(label3, c);
 
         variantsSpinnerModel = new SpinnerNumberModel(0, 0, 10, 1);
-        JSpinner variantsSpinner = new JSpinner(variantsSpinnerModel);
+        variantsSpinner = new JSpinner(variantsSpinnerModel);
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 1;
+        c.weighty = 0;
+        c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
         rightPanel.add(variantsSpinner, c);
 
         JLabel label4 = new JLabel("Количество вопросов в каждом варианте:");
@@ -132,45 +148,47 @@ public class GenerationFrame extends AFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
+        c.weighty = 0;
+        c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
         rightPanel.add(label4, c);
 
         questionSpinnerModel = new SpinnerNumberModel(0, 0, 10, 1);
-        JSpinner questionSpinner = new JSpinner(questionSpinnerModel);
+        questionSpinner = new JSpinner(questionSpinnerModel);
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 2;
+        c.weighty = 0;
+        c.weightx = 1;
+        c.insets = new Insets(8, 8, 8, 8);
         rightPanel.add(questionSpinner, c);
 
-
-        generateButton = new JButton("Сгенерировать PDF");
+        JPanel emptyPanel = new JPanel();
         c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.SOUTH;
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 2;
+        c.weighty = 1;
+        c.weightx = 1;
+        rightPanel.add(emptyPanel, c);
+
+        generateButton = new JButton("Сгенерировать PDF");
+        generateButton.setFont(new Font("Arial", Font.PLAIN, 22));
+        c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.SOUTH;
+        c.gridx = 0;
+        c.gridy = 4;
+        c.gridwidth = 2;
+        c.weighty = 0;
+        c.weightx = 1;
+        c.ipady = 20;
+        c.insets = new Insets(8, 8, 8, 8);
         rightPanel.add(generateButton, c);
-    }
 
-    //public GridBagConstraints(int gridx, int gridy,
-//    int gridwidth, int gridheight,
-//    double weightx, double weighty,
-//    int anchor, int fill,
-//    Insets insets, int ipadx, int ipady) {
-
-    private void addComponent(JPanel panel,
-                              Component component,
-                              int gridx,
-                              int gridy,
-                              double weighty) {
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTH;
-        c.weightx = 1.0;
-        c.gridx = gridx;
-        c.gridy = gridy;
-        c.weighty = weighty;
-        panel.add(component, c);
-
+        setQuestionCount(0);
     }
 
     @Override
@@ -179,11 +197,13 @@ public class GenerationFrame extends AFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    PDFGenerator.getInstance().createPDF(variantsSpinnerModel.getNumber().intValue(), questionSpinnerModel.getNumber().intValue(), checkedCategories);
-                    JOptionPane.showMessageDialog(GenerationFrame.this, "PDF документы были успешно сгенерированы", "Генерация завершена", JOptionPane.INFORMATION_MESSAGE);
-                    // открываем папку со сгенерированными PDF-ками
-                    Desktop.getDesktop().open(new File(Utils.getPathToMyTests().toString()));
-                    GenerationFrame.this.close();
+                    if (checkData()) {
+                        PDFGenerator.getInstance().createPDF(variantsSpinnerModel.getNumber().intValue(), questionSpinnerModel.getNumber().intValue(), checkedCategories);
+                        JOptionPane.showMessageDialog(GenerationFrame.this, "PDF документы были успешно сгенерированы", "Генерация завершена", JOptionPane.INFORMATION_MESSAGE);
+                        // открываем папку со сгенерированными PDF-ками
+                        Desktop.getDesktop().open(new File(Utils.getPathToMyTests().toString()));
+                        GenerationFrame.this.close();
+                    }
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(GenerationFrame.this, e1.getMessage(), "Ошибка ввода-вывода", JOptionPane.ERROR_MESSAGE);
                 } catch (DocumentException e1) {
@@ -205,25 +225,16 @@ public class GenerationFrame extends AFrame {
             checkBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (checkBox.isSelected())
+                    if (checkBox.isSelected()) {
                         checkedCategories.add(category);
-                    else
+                    } else {
                         checkedCategories.remove(category);
-
+                    }
                     categoryChecked();
                 }
             });
-            GridBagConstraints c = new GridBagConstraints();
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.anchor = GridBagConstraints.NORTH;
-            c.weightx = 1.0;
-            //c.weighty = 1.0;
-            c.gridx = 1;
-            c.gridy = i;
-            categoriesPanel.add(checkBox, c);
-            System.out.println("Category" + category);
+            categoriesPanel.add(checkBox);
         }
-
     }
 
     private void categoryChecked() {
@@ -236,8 +247,28 @@ public class GenerationFrame extends AFrame {
                 checkedQuestions.put(q.getId(), q);
             }
         }
-
         setQuestionCount(checkedQuestions.size());
+    }
 
+    private boolean checkData() {
+        String errors = "";
+        if (variantsSpinnerModel.getNumber().intValue() == 0) {
+            errors += "Количество вариантов не может быть нулевым \n";
+            variantsSpinner.setBorder(new LineBorder(Color.RED));
+        } else {
+            variantsSpinner.setBorder(null);
+        }
+
+        if (questionSpinnerModel.getNumber().intValue() == 0) {
+            errors += "Количество вопросов не может быть нулевым \n";
+            questionSpinner.setBorder(new LineBorder(Color.RED));
+        } else {
+            questionSpinner.setBorder(null);
+        }
+
+        if (errors.length() > 0) {
+            JOptionPane.showMessageDialog(this, errors, "В форме есть ошибки", JOptionPane.ERROR_MESSAGE);
+        }
+        return errors.equals("");
     }
 }
