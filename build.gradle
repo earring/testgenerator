@@ -22,6 +22,7 @@ launch4j {
     textVersion = "1.0 beta"
     manifest = "../../testgenerator.manifest"
     downloadUrl = "http://java.com/ru/download/"
+    headerType = "console"
 }
 
 findbugs {
