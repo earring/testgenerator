@@ -1,6 +1,7 @@
 package ru.earrring.testgenerator.frames;
 
 import com.itextpdf.text.DocumentException;
+import ru.earrring.testgenerator.Utils;
 import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
 import ru.earrring.testgenerator.generators.PDFGenerator;
@@ -9,13 +10,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by nenagleyko on 22.05.2015.
- */
 public class GenerationFrame extends AFrame {
 
     private int availableQuestions = 0;
@@ -29,25 +29,22 @@ public class GenerationFrame extends AFrame {
 
     private List<String> checkedCategories;
 
-   public GenerationFrame()
-    {
+    public GenerationFrame() {
         super();
         checkedCategories = new ArrayList<>();
     }
-    private void setQuestionCount(int count)
-    {
+
+    private void setQuestionCount(int count) {
         availableQuestions = count;
         questionsCountLabel.setText(String.format("%d", availableQuestions));
         questionSpinnerModel.setMaximum(count);
         variantsSpinnerModel.setMaximum(count);
         Number questions = questionSpinnerModel.getNumber();
         Number variants = variantsSpinnerModel.getNumber();
-        if (questions.intValue() > count)
-        {
+        if (questions.intValue() > count) {
             questionSpinnerModel.setValue(count);
         }
-        if (variants.intValue() > count)
-        {
+        if (variants.intValue() > count) {
             variantsSpinnerModel.setValue(count);
         }
 
@@ -62,22 +59,21 @@ public class GenerationFrame extends AFrame {
 
     @Override
     protected void adjustLayout() {
-// настройка mainPanel
+        // настройка mainPanel
         mainPanel = new JPanel();
         setLayout(new BorderLayout());
         add(mainPanel, BorderLayout.CENTER);
 
-        mainPanel.setLayout(new GridLayout(1,2));
+        mainPanel.setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel(new GridBagLayout());
         JPanel rightPanel = new JPanel(new GridBagLayout());
-        rightPanel.setMinimumSize(new Dimension(200,300));
+        rightPanel.setMinimumSize(new Dimension(200, 300));
 
         mainPanel.add(leftPanel);
         mainPanel.add(rightPanel);
 
         JLabel label = new JLabel("Категории:");
-
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -85,7 +81,7 @@ public class GenerationFrame extends AFrame {
         c.gridx = 0;
         c.gridy = 0;
         c.weighty = 0;
-        leftPanel.add(label,c);
+        leftPanel.add(label, c);
 
         categoriesPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(categoriesPanel);
@@ -107,10 +103,10 @@ public class GenerationFrame extends AFrame {
         c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 0;
-        rightPanel.add(label1,c);
+        rightPanel.add(label1, c);
 
         questionsCountLabel = new JLabel("0");
-        questionsCountLabel.setFont(new Font("Courier",Font.BOLD,20));
+        questionsCountLabel.setFont(new Font("Courier", Font.BOLD, 20));
         c = new GridBagConstraints();
         c.anchor = GridBagConstraints.CENTER;
         c.gridx = 1;
@@ -122,28 +118,28 @@ public class GenerationFrame extends AFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        rightPanel.add(label3,c);
+        rightPanel.add(label3, c);
 
-        variantsSpinnerModel = new SpinnerNumberModel(0,0,10,1);
+        variantsSpinnerModel = new SpinnerNumberModel(0, 0, 10, 1);
         JSpinner variantsSpinner = new JSpinner(variantsSpinnerModel);
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 1;
-        rightPanel.add(variantsSpinner,c);
+        rightPanel.add(variantsSpinner, c);
 
         JLabel label4 = new JLabel("Количество вопросов в каждом варианте:");
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
-        rightPanel.add(label4,c);
+        rightPanel.add(label4, c);
 
-        questionSpinnerModel = new SpinnerNumberModel(0,0,10,1);
+        questionSpinnerModel = new SpinnerNumberModel(0, 0, 10, 1);
         JSpinner questionSpinner = new JSpinner(questionSpinnerModel);
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 2;
-        rightPanel.add(questionSpinner,c);
+        rightPanel.add(questionSpinner, c);
 
 
         generateButton = new JButton("Сгенерировать PDF");
@@ -152,8 +148,7 @@ public class GenerationFrame extends AFrame {
         c.gridy = 3;
         c.gridwidth = 2;
         c.fill = GridBagConstraints.BOTH;
-        rightPanel.add(generateButton,c);
-
+        rightPanel.add(generateButton, c);
     }
 
     //public GridBagConstraints(int gridx, int gridy,
@@ -166,8 +161,7 @@ public class GenerationFrame extends AFrame {
                               Component component,
                               int gridx,
                               int gridy,
-                              double weighty)
-    {
+                              double weighty) {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTH;
@@ -186,11 +180,13 @@ public class GenerationFrame extends AFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     PDFGenerator.getInstance().createPDF(variantsSpinnerModel.getNumber().intValue(), questionSpinnerModel.getNumber().intValue(), checkedCategories);
-                    JOptionPane.showMessageDialog(GenerationFrame.this, "PDF документ был успешно сгенерирован", "Генерация завершена", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(GenerationFrame.this, "PDF документы были успешно сгенерированы", "Генерация завершена", JOptionPane.INFORMATION_MESSAGE);
+                    // открываем папку со сгенерированными PDF-ками
+                    Desktop.getDesktop().open(new File(Utils.getPathToMyTests().toString()));
                     GenerationFrame.this.close();
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(GenerationFrame.this, e1.getMessage(), "Ошибка ввода-вывода", JOptionPane.ERROR_MESSAGE);
-                }  catch (DocumentException e1) {
+                } catch (DocumentException e1) {
                     JOptionPane.showMessageDialog(GenerationFrame.this, e1.getMessage(), "Ошибка взаимодействия с PDF", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -199,13 +195,11 @@ public class GenerationFrame extends AFrame {
 
     @Override
     public void close() {
-
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
-    public void setCategories(List<String> categories)
-    {
-        for (int i = 0; i<categories.size(); ++i)
-        {
+    public void setCategories(List<String> categories) {
+        for (int i = 0; i < categories.size(); ++i) {
             String category = categories.get(i);
             JCheckBox checkBox = new JCheckBox(category);
             checkBox.addActionListener(new ActionListener() {
@@ -216,14 +210,14 @@ public class GenerationFrame extends AFrame {
                     else
                         checkedCategories.remove(category);
 
-                        categoryChecked();
+                    categoryChecked();
                 }
             });
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.HORIZONTAL;
             c.anchor = GridBagConstraints.NORTH;
             c.weightx = 1.0;
-//            c.weighty = 1.0;
+            //c.weighty = 1.0;
             c.gridx = 1;
             c.gridy = i;
             categoriesPanel.add(checkBox, c);
@@ -232,17 +226,14 @@ public class GenerationFrame extends AFrame {
 
     }
 
-    private void categoryChecked()
-    {
-        HashMap<Integer,Question> checkedQuestions = new HashMap<>();
-        for (int i = 0; i<checkedCategories.size();++i)
-        {
+    private void categoryChecked() {
+        HashMap<Integer, Question> checkedQuestions = new HashMap<>();
+        for (int i = 0; i < checkedCategories.size(); ++i) {
             String category = checkedCategories.get(i);
             List<Question> questions = QuestionManager.getInstance().getQuestions(category);
-            for (int j = 0; j<questions.size();++j)
-            {
+            for (int j = 0; j < questions.size(); ++j) {
                 Question q = questions.get(j);
-                checkedQuestions.put(q.getId(),q);
+                checkedQuestions.put(q.getId(), q);
             }
         }
 
