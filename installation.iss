@@ -3,7 +3,7 @@
 
 #define MyAppName "Генератор тестов"
 #define MyAppVersion "1.0 beta"
-#define MyAppPublisher "MUM"
+#define MyAppPublisher "МАМ"
 #define MyAppURL "http://www.earrring.ru/testgenerator"
 #define MyAppExeName "testgenerator.exe"
 

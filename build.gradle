@@ -20,9 +20,13 @@ launch4j {
     mainClassName = "ru.earrring.testgenerator.Starter"
     version = "1.0 beta"
     textVersion = "1.0 beta"
+
     manifest = "../../testgenerator.manifest"
     downloadUrl = "http://java.com/ru/download/"
-    headerType = "console"
+    // когда понадобится вывод на консоль - надо сделать exe с параметром headerType = "console"
+    headerType = "gui"
+    icon = "../../src/main/resources/question-mark-256.ico"
+    messagesJreVersionError = "На компьютере не найдена подходящая версия Java! Для работы программы необходимо установить Java версии не ниже "
 }
 
 findbugs {
