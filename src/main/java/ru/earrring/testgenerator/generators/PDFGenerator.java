@@ -4,6 +4,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.sun.pdfview.PDFFile;
@@ -58,6 +60,11 @@ public class PDFGenerator {
     public void createPDF(int variantCount, int questionCount, List<String> categoriesList) throws IOException, DocumentException {
         List<Question> questionList = QuestionManager.getInstance().getQuestions(categoriesList);
 
+        // создание файлика для ответов
+        Document documentAnswer = new Document(PageSize.A4, 50, 50, 50, 50);
+        PdfWriter writerAnswer = PdfWriter.getInstance(documentAnswer, new FileOutputStream("Ответы.pdf"));
+        documentAnswer.open();
+
         // создание PDF-файлика для каждого варианта
         for (int i = 0; i < variantCount; i++) {
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
@@ -73,6 +80,10 @@ public class PDFGenerator {
             titleParagraph.setAlignment(Element.ALIGN_CENTER);
             document.add(titleParagraph);
 
+            Paragraph answerParagraph = new Paragraph("Ответы на вариант №" + (i + 1), timesNewRomanBoldBigFont);
+            answerParagraph.setAlignment(Element.ALIGN_CENTER);
+            documentAnswer.add(answerParagraph);
+
             Paragraph categoryParagraph = new Paragraph();
             if (categoriesList.size() == 1) {
                 categoryParagraph.add(new Phrase("Тест по теме ", timesNewRomanRegularfont));
@@ -82,6 +93,17 @@ public class PDFGenerator {
             categoryParagraph.add(new Phrase(String.join(", ", categoriesList), timesNewRomanItalicfont));
             categoryParagraph.setAlignment(Element.ALIGN_CENTER);
             document.add(categoryParagraph);
+
+            // создание заголовка таблицы с ответами
+            PdfPTable answerTable = new PdfPTable(2);
+            float[] columnWidths = {1f, 4f};
+            answerTable.setWidths(columnWidths);
+            answerTable.setSpacingBefore(5f);
+            answerTable.setSpacingAfter(5f);
+            PdfPCell cell1 = new PdfPCell(new Paragraph("№ вопроса", timesNewRomanBoldFont));
+            PdfPCell cell2 = new PdfPCell(new Paragraph("Верный ответ", timesNewRomanBoldFont));
+            answerTable.addCell(cell1);
+            answerTable.addCell(cell2);
 
             // добавление вопросов в тест
             // создание копии списка вопросов, т.к в процессе генерации вопросы будут из списка удаляться
@@ -94,6 +116,14 @@ public class PDFGenerator {
                 Question question = questionListCopy.get(randomNum);
                 generateQuestion(writer, document, j, question);
 
+                // добавление ответа в таблицу ответов
+                PdfPCell cellNumber = new PdfPCell(new Paragraph("" + (j + 1), timesNewRomanRegularfont));
+                String questionAnswers = String.join(", ", QuestionManager.getInstance().getAnswers(question));
+                PdfPCell cellAnswer = new PdfPCell(new Paragraph(questionAnswers, timesNewRomanBoldFont));
+                answerTable.addCell(cellNumber);
+                answerTable.addCell(cellAnswer);
+
+                // добавление разделителя в текст варианта
                 if (j != questionCount - 1) {
                     LineSeparator lineSeparator = new LineSeparator();
                     lineSeparator.setOffset(-10);
@@ -103,7 +133,10 @@ public class PDFGenerator {
                 questionListCopy.remove(randomNum);
             }
             document.close();
+            
+            documentAnswer.add(answerTable);
         }
+        documentAnswer.close();
     }
 
     /**
@@ -133,7 +166,7 @@ public class PDFGenerator {
 
     /**
      * Генерируется Phrase со всеми встроенными картинками. Переданная строка должна быть УЖЕ проверена на корректность
-     * (корректное применение $...$ и $$...$$)
+     * (корректное применение $$...$$)
      *
      * @param text текст с формулами или без них
      * @param font шрифт, использующийся для текста (должен поддерживать кириллицу)
