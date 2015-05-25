@@ -45,7 +45,7 @@ public class MainFrame extends AFrame {
     @Override
     protected void adjustFrameSettings() {
         setResizable(false);
-        setSize(500, 550);
+        setSize(500, 600);
         setTitle("Генератор тестов");
     }
 

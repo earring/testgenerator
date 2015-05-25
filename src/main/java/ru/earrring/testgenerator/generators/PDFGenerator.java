@@ -1,17 +1,27 @@
 package ru.earrring.testgenerator.generators;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPage;
 import org.scilab.forge.jlatexmath.ParseException;
 import ru.earrring.testgenerator.Utils;
 import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -86,19 +96,7 @@ public class PDFGenerator {
                 int randomNum = rand.nextInt(questionListCopy.size());
 
                 Question question = questionListCopy.get(randomNum);
-                Paragraph questionNumberParagraph = new Paragraph();
-                questionNumberParagraph.setSpacingBefore(10);
-                questionNumberParagraph.add(new Phrase("Вопрос №" + (j + 1), timesNewRomanBoldFont));
-                document.add(questionNumberParagraph);
-                addPhraseWithFormulas(writer, document, question.getDescription(), timesNewRomanRegularfont);
-
-                com.itextpdf.text.List variantList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
-                variantList.setIndentationLeft(10);
-                for (String variant : QuestionManager.getInstance().getVariants(question)) {
-                    System.out.println(variant);
-                    variantList.add(new ListItem(variant, timesNewRomanRegularfont));
-                }
-                document.add(variantList);
+                generateQuestion(writer, document, j, question);
 
                 if (j != questionCount - 1) {
                     LineSeparator lineSeparator = new LineSeparator();
@@ -110,6 +108,31 @@ public class PDFGenerator {
             }
             document.close();
         }
+    }
+
+    /**
+     * Генерация отдельного вопроса
+     * @param writer
+     * @param document
+     * @param questionNumber нумерация начинается с нуля
+     * @param question
+     * @throws DocumentException
+     * @throws IOException
+     */
+    private void generateQuestion(PdfWriter writer, Document document, int questionNumber, Question question) throws DocumentException, IOException {
+        Paragraph questionNumberParagraph = new Paragraph();
+        questionNumberParagraph.setSpacingBefore(10);
+        questionNumberParagraph.add(new Phrase("Вопрос №" + (questionNumber + 1), timesNewRomanBoldFont));
+        document.add(questionNumberParagraph);
+        addPhraseWithFormulas(writer, document, question.getDescription(), timesNewRomanRegularfont);
+
+        com.itextpdf.text.List variantList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
+        variantList.setIndentationLeft(10);
+        for (String variant : QuestionManager.getInstance().getVariants(question)) {
+            System.out.println(variant);
+            variantList.add(new ListItem(variant, timesNewRomanRegularfont));
+        }
+        document.add(variantList);
     }
 
     /**
@@ -150,5 +173,43 @@ public class PDFGenerator {
         Paragraph paragraph = new Paragraph();
         paragraph.add(new Phrase(string, font));
         document.add(paragraph);
+    }
+
+    /**
+     * Создание Image, сгенерированного из PDF. Рендер, как будет выглядеть PDF, другими словами
+     * @param questionNumber номер вопроса, который будет отображаться (нумерация с нуля)
+     * @param question сам вопрос
+     * @return Image, который нужно будет отобразить
+     * @throws DocumentException
+     * @throws IOException
+     */
+    public java.awt.Image generatePDFImage(int questionNumber, Question question, float zoom) throws DocumentException, IOException {
+        // генерация PDF и передача данных пдф в байтовый поток
+        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        PdfWriter docWriter = PdfWriter.getInstance(document, baosPDF);
+        document.open();
+        generateQuestion(docWriter, document, questionNumber, question);
+        document.close();
+        docWriter.close();
+
+        ByteBuffer buf = ByteBuffer.wrap(baosPDF.toByteArray());
+
+        // use the PDF Renderer library on the buf which contains the in memory PDF document
+        PDFFile pdffile = new PDFFile(buf);
+        PDFPage page = pdffile.getPage(1);
+
+        //get the width and height for the doc
+        java.awt.Rectangle rect = new Rectangle(0, 0, (int) page.getWidth(), (int) page.getHeight());
+
+        //generate the image
+        java.awt.Image img = page.getImage((int) (rect.width * zoom), (int) (rect.height * zoom), //width height
+                rect, // clip rect
+                null, // null for the ImageObserver
+                true, // fill background with white
+                true) // block until drawing is done
+                ;
+
+        return img;
     }
 }

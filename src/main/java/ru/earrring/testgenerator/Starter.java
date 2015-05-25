@@ -4,10 +4,7 @@ import ru.earrring.testgenerator.db.DBFacade;
 import ru.earrring.testgenerator.dbWork.GenerationFramePresenter;
 import ru.earrring.testgenerator.dbWork.MainFramePresenter;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
-import ru.earrring.testgenerator.frames.AddingFrame;
-import ru.earrring.testgenerator.frames.GenerationFrame;
-import ru.earrring.testgenerator.frames.LaTeXDemonstrationFrame;
-import ru.earrring.testgenerator.frames.MainFrame;
+import ru.earrring.testgenerator.frames.*;
 
 import javax.swing.*;
 import java.io.PrintWriter;
@@ -29,6 +26,8 @@ public class Starter {
     private static AddingFrame addingFrame;
 
     private static GenerationFrame generationFrame;
+
+    private static ViewQuestionsFrame viewQuestionsFrame;
 
     /**
      * Ссылка на форму демонстрации возможностей LaTeX в этой программе
@@ -64,12 +63,16 @@ public class Starter {
             addingFrame = new AddingFrame();
             addingFrame.start();
 
-
+            // настройка формы генерации тестов
             generationFrame = new GenerationFrame();
             generationFrame.start();
             GenerationFramePresenter generationPresenter = new GenerationFramePresenter();
             generationPresenter.setUp(generationFrame);
             QuestionManager.getInstance().registerPresenter(generationPresenter);
+
+            // настройка формы просмотра
+            viewQuestionsFrame = new ViewQuestionsFrame();
+            viewQuestionsFrame.start();
 
             // настройка формы демонстрации LaTeX
             laTeXDemonstrationFrame = new LaTeXDemonstrationFrame();
@@ -78,6 +81,7 @@ public class Starter {
             // добавление кнопок на основную форму
             mainFrame.addFrameButton(addingFrame, "Добавить вопрос");
             mainFrame.addFrameButton(generationFrame, "Генерация тестов");
+            mainFrame.addFrameButton(viewQuestionsFrame, "Просмотр вопросов");
             mainFrame.addFrameButton(laTeXDemonstrationFrame, "Демонстрация LaTeX");
         } catch (Exception e) {
             StringWriter errors = new StringWriter();
