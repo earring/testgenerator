@@ -48,8 +48,7 @@ public class QuestionManager {
 
         try {
             questions = DBFacade.getInstance().getAllQuestions();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             onSqlException(e);
         }
 
@@ -70,8 +69,7 @@ public class QuestionManager {
                 DBFacade.getInstance().addAnswer(answer);
             }
             onQuestionAdded(question);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             onSqlException(e);
         }
         return true;
@@ -83,7 +81,7 @@ public class QuestionManager {
      * @param question вопрос
      * @return @c true, если вопрос успешно удален, @c false - если произошла ошибка.
      */
-    public boolean removeQuestion(Question question)  {
+    public boolean removeQuestion(Question question) {
         int id = question.getId();
         try {
             DBFacade.getInstance().deleteQuestion(id);
@@ -115,13 +113,11 @@ public class QuestionManager {
      * @param category категория
      * @return список вопросов, в которых есть категория @c category
      */
-    public List<Question> getQuestions(String category)  {
+    public List<Question> getQuestions(String category) {
         List<Question> result = null;
         try {
             result = DBFacade.getInstance().findQuestionsByCategory(category);
-        }
-        catch (SQLException exception)
-        {
+        } catch (SQLException exception) {
             onSqlException(exception);
         }
         return result;
@@ -133,13 +129,11 @@ public class QuestionManager {
      * @param categoryList список категорий, из которых необходимо получить вопросы
      * @return список вопросов, в которых есть категория @c category
      */
-    public List<Question> getQuestions(List<String> categoryList)  {
+    public List<Question> getQuestions(List<String> categoryList) {
         List<Question> result = null;
         try {
             result = DBFacade.getInstance().findQuestionsByCategory(categoryList);
-        }
-        catch (SQLException exception)
-        {
+        } catch (SQLException exception) {
             onSqlException(exception);
         }
         return result;
@@ -181,7 +175,8 @@ public class QuestionManager {
     }
 
     /**
-     * Функция получения списка правильных ответов
+     * Функция получения списка номеров правильных ответов
+     * Если правильный ответ только один - возвращается текст этого ответа
      *
      * @param question вопрос
      * @return список правильных ответов
@@ -189,12 +184,18 @@ public class QuestionManager {
     public List<String> getAnswers(Question question) {
         List<String> result = new ArrayList<>();
         Collection<Answer> variants = question.getAnswers();
-        Iterator<Answer> iterator = variants.iterator();
-        while (iterator.hasNext()) {
-            Answer answer = iterator.next();
-            if (answer.isCorrect())
-                result.add(answer.getValue());
-
+        if (variants.size() == 1) {
+            result.add(variants.iterator().next().getValue());
+        } else {
+            Iterator<Answer> iterator = variants.iterator();
+            int i = 1;
+            while (iterator.hasNext()) {
+                Answer answer = iterator.next();
+                if (answer.isCorrect()) {
+                    result.add("" + i);
+                }
+                i++;
+            }
         }
         return result;
     }
@@ -223,8 +224,7 @@ public class QuestionManager {
         }
     }
 
-    public void onSqlException(SQLException exception)
-    {
+    public void onSqlException(SQLException exception) {
 
     }
 
