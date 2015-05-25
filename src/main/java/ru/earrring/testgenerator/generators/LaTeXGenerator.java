@@ -8,6 +8,8 @@ import org.scilab.forge.jlatexmath.TeXIcon;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LaTeXGenerator {
     /**
@@ -39,5 +41,15 @@ public class LaTeXGenerator {
         // к этому времени изображение сохранено в latexImage, можно его использовать с помощью ImageIO
 
         return latexImage;
+    }
+
+    public static void checkPhraseWithFormulas(String text) throws ParseException {
+        // регексп для формул (мы разбиваем по формулам текст)
+        Pattern formulaPattern = Pattern.compile("\\$\\$.+?\\$\\$");
+        Matcher matcher = formulaPattern.matcher(text);
+        while (matcher.find()) {
+            String formula = text.substring(matcher.start() + 2, matcher.end() - 2);
+            BufferedImage image = LaTeXGenerator.generateBufferedImageFromFormula(formula, 70);
+        }
     }
 }

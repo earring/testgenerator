@@ -1,16 +1,17 @@
 package ru.earrring.testgenerator.frames;
 
+import org.scilab.forge.jlatexmath.ParseException;
 import ru.earrring.testgenerator.components.AnswerVariantComponent;
 import ru.earrring.testgenerator.db.Answer;
 import ru.earrring.testgenerator.db.Question;
 import ru.earrring.testgenerator.dbWork.QuestionManager;
+import ru.earrring.testgenerator.generators.LaTeXGenerator;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
     private final static int MAX_VARIANT = 15;
 
     private int gridy = 0;
-    private int answersGridy = 0;
+    private int answersNumber = 0;
     private JLabel addVariantLabel;
     private JTextArea descriptionArea;
     private JTextField categoriesField;
@@ -28,10 +29,11 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
     private JButton addAnswerButton;
     private JPanel mainPanel;
     private JButton addQuestionButton;
+    private JButton previewQuestionButton;
     private ArrayList<AnswerVariantComponent> answerVariantComponentList;
 
     protected void adjustFrameSettings() {
-        setTitle("Добавить вопрос");
+        setTitle("Добавление вопроса");
         setSize(700, 700);
         setResizable(false);
     }
@@ -52,7 +54,7 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         descriptionArea.setWrapStyleWord(true);
         descriptionScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         descriptionScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        addComponentToMainPanel(descriptionScrollPane, 0, 0, 1.5);
+        addComponentToMainPanel(descriptionScrollPane, 0, 0, 1.5, 2);
 
         // настройка поля с категориями вопроса
         JPanel categoriesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -60,12 +62,12 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         categoriesField = new JTextField("", 20);
         categoriesField.setFont(new Font("Serif", Font.ITALIC, 16));
         categoriesPanel.add(categoriesField);
-        addComponentToMainPanel(categoriesPanel, 0, 1, 0.15);
+        addComponentToMainPanel(categoriesPanel, 0, 1, 0.15, 2);
 
         // настройка кнопки с добавлением варианта ответа
         addAnswerButton = new JButton("Добавить вариант ответа");
         addAnswerButton.setFont(new Font("Arial", Font.PLAIN, 22));
-        addComponentToMainPanel(addAnswerButton, 0, 2, 0.15);
+        addComponentToMainPanel(addAnswerButton, 0, 2, 0.15, 2);
 
         // настройка добавления вариантов ответов
         answerVariantComponentList = new ArrayList<>();
@@ -74,12 +76,17 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         answerScrollPane = new JScrollPane(answerVariantsPanel);
         answerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         answerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        addComponentToMainPanel(answerScrollPane, 0, 3, 2.5);
+        addComponentToMainPanel(answerScrollPane, 0, 3, 2.5, 2);
+
+        // настройка кнопки предпросмотра вопроса
+        previewQuestionButton = new JButton("Предпросмотр");
+        previewQuestionButton.setFont(new Font("Arial", Font.PLAIN, 22));
+        addComponentToMainPanel(previewQuestionButton, 0, 4, 0.15, 1);
 
         // настройка кнопки добавления вопроса
         addQuestionButton = new JButton("Добавить вопрос в БД");
         addQuestionButton.setFont(new Font("Arial", Font.PLAIN, 22));
-        addComponentToMainPanel(addQuestionButton, 0, 4, 0.15);
+        addComponentToMainPanel(addQuestionButton, 1, 4, 0.15, 1);
     }
 
     /**
@@ -90,7 +97,7 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addAnswerVariantComponent("", false);
-                if (answersGridy == MAX_VARIANT) {
+                if (answersNumber == MAX_VARIANT) {
                     addAnswerButton.setEnabled(false);
                 }
             }
@@ -99,20 +106,35 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (checkQuestionData()) {
-                    try {
-                        Question question = createQuestion();
-                        List<Answer> answerList = createAnswerList(question);
-                        QuestionManager.getInstance().addQuestion(question, answerList);
-                    } catch (SQLException exception) {
-                        JOptionPane.showMessageDialog(AddingFrame.this, exception.getMessage(), "Ошибка при выполнении SQL запроса", JOptionPane.ERROR_MESSAGE);
-                        exception.printStackTrace();
+                    Question question = createQuestion();
+                    List<Answer> answerList = createAnswerList(question);
+                    QuestionManager.getInstance().addQuestion(question, answerList);
+                    descriptionArea.setText("");
+                    categoriesField.setText("");
+                    for (int i = 0; i < answersNumber; i++) {
+                        deleteAnswerVariantComponent(1);
                     }
+                    JOptionPane.showMessageDialog(AddingFrame.this, "Вопрос успешно добавлен", "Успех", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        previewQuestionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkQuestionData()) {
+                    Question question = createQuestion();
+                    List<Answer> answerList = createAnswerList(question);
+                    question.setAnswers(answerList);
+                    AFrame previewFrame = new PreviewQuestionFrame(question);
+                    previewFrame.start();
+                    previewFrame.setParentFrame(AddingFrame.this);
+                    previewFrame.setVisible(true);
                 }
             }
         });
     }
 
-    private List<Answer> createAnswerList(Question question) throws SQLException {
+    private List<Answer> createAnswerList(Question question) {
         List<Answer> answerList = new ArrayList<>();
 
         // задание ответов на вопрос
@@ -127,7 +149,7 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         return answerList;
     }
 
-    private Question createQuestion() throws SQLException {
+    private Question createQuestion() {
         Question question = new Question();
 
         // задание текста вопроса
@@ -146,18 +168,24 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         String categoryString = String.join("|", categoryList);
         question.setCategory(categoryString);
 
-        System.out.println(question);
         return question;
     }
 
     private boolean checkQuestionData() {
         String errors = "";
-
         if (descriptionArea.getText().length() == 0) {
             errors += "Текст вопроса должен быть заполнен \n";
             descriptionArea.setBorder(new LineBorder(Color.RED));
         } else {
-            descriptionArea.setBorder(null);
+            try {
+                LaTeXGenerator.checkPhraseWithFormulas(descriptionArea.getText());
+            } catch (ParseException e) {
+                errors += "Ошибка в формуле: " + e.getMessage() + "\n";
+            }
+            // если ошибок с текстовым полем так и не было
+            if (errors.equals("")) {
+                descriptionArea.setBorder(null);
+            }
         }
 
         if (categoriesField.getText().length() == 0) {
@@ -203,12 +231,13 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
      * @param gridy     параметр y в таблице размещения элементов
      * @param weighty   "вес" по вертикали ячейки, в которой размещен элемент
      */
-    private void addComponentToMainPanel(JComponent component, int gridx, int gridy, double weighty) {
+    private void addComponentToMainPanel(JComponent component, int gridx, int gridy, double weighty, int gridwidth) {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTH;
         c.weightx = 1.0;
         c.weighty = weighty;
+        c.gridwidth = gridwidth;
         c.gridx = gridx;
         c.gridy = gridy;
         mainPanel.add(component, c);
@@ -217,17 +246,17 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
     public void addAnswerVariantComponent(String text, boolean isCorrect) {
         GridBagConstraints c = new GridBagConstraints();
 
-        AnswerVariantComponent newAnswerVariantComponent = new AnswerVariantComponent(this, answersGridy + 1, text, isCorrect);
+        AnswerVariantComponent newAnswerVariantComponent = new AnswerVariantComponent(this, answersNumber + 1, text, isCorrect);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.NORTH;
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.gridx = 1;
-        c.gridy = answersGridy;
+        c.gridy = answersNumber;
         answerVariantsPanel.add(newAnswerVariantComponent, c);
         answerVariantComponentList.add(newAnswerVariantComponent);
 
-        answersGridy = answersGridy + 1;
+        answersNumber = answersNumber + 1;
 
         answerScrollPane.revalidate();
         answerScrollPane.repaint();
@@ -244,7 +273,7 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         for (int i = position - 1; i < answerVariantComponentList.size(); i++) {
             answerVariantComponentList.get(i).setNumber(i + 1);
         }
-        answersGridy = answersGridy - 1;
+        answersNumber = answersNumber - 1;
         answerScrollPane.revalidate();
         answerScrollPane.repaint();
     }

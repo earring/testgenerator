@@ -126,7 +126,6 @@ public class PDFGenerator {
         com.itextpdf.text.List variantList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
         variantList.setIndentationLeft(10);
         for (String variant : QuestionManager.getInstance().getVariants(question)) {
-            System.out.println(variant);
             variantList.add(new ListItem(variant, timesNewRomanRegularfont));
         }
         document.add(variantList);
