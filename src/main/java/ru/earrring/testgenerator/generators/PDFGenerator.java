@@ -117,9 +117,9 @@ public class PDFGenerator {
                 generateQuestion(writer, document, j, question);
 
                 // добавление ответа в таблицу ответов
-                PdfPCell cellNumber = new PdfPCell(new Paragraph("" + (j + 1), timesNewRomanRegularfont));
+                PdfPCell cellNumber = new PdfPCell(new Paragraph("" + (j + 1), timesNewRomanBoldFont));
                 String questionAnswers = String.join(", ", QuestionManager.getInstance().getAnswers(question));
-                PdfPCell cellAnswer = new PdfPCell(new Paragraph(questionAnswers, timesNewRomanBoldFont));
+                PdfPCell cellAnswer = new PdfPCell(new Paragraph(questionAnswers, timesNewRomanRegularfont));
                 answerTable.addCell(cellNumber);
                 answerTable.addCell(cellAnswer);
 
