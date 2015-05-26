@@ -72,7 +72,7 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
         // настройка добавления вариантов ответов
         answerVariantComponentList = new ArrayList<>();
         answerVariantsPanel = new JPanel();
-        answerVariantsPanel.setLayout(new GridBagLayout());
+        answerVariantsPanel.setLayout(new BoxLayout(answerVariantsPanel, BoxLayout.Y_AXIS));
         answerScrollPane = new JScrollPane(answerVariantsPanel);
         answerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         answerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -246,16 +246,8 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
     }
 
     public void addAnswerVariantComponent(String text, boolean isCorrect) {
-        GridBagConstraints c = new GridBagConstraints();
-
         AnswerVariantComponent newAnswerVariantComponent = new AnswerVariantComponent(this, answersNumber + 1, text, isCorrect);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.NORTH;
-        c.weightx = 1.0;
-        c.weighty = 1.0;
-        c.gridx = 1;
-        c.gridy = answersNumber;
-        answerVariantsPanel.add(newAnswerVariantComponent, c);
+        answerVariantsPanel.add(newAnswerVariantComponent);
         answerVariantComponentList.add(newAnswerVariantComponent);
 
         answersNumber = answersNumber + 1;

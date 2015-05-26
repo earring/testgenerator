@@ -3,6 +3,7 @@ package ru.earrring.testgenerator.components;
 import ru.earrring.testgenerator.frames.AnswerAddableFrame;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,73 +52,71 @@ public class AnswerVariantComponent extends JPanel {
 
     /**
      * Конструктор варианта ответа на вопрос
-     * @param number номер ответа на вопров (нумерация начинается с нуля)
-     * @param text текст ответа на вопрос
+     *
+     * @param number    номер ответа на вопров (нумерация начинается с нуля)
+     * @param text      текст ответа на вопрос
      * @param isCorrect верный ли ответ на вопрос
      */
     public AnswerVariantComponent(AnswerAddableFrame frame, int number, String text, boolean isCorrect) {
         super();
-        setLayout(new GridBagLayout());
+        GroupLayout layout = new GroupLayout(this);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        setLayout(layout);
 
         this.answerFrame = frame;
         this.number = number;
 
-        GridBagConstraints c = new GridBagConstraints();
-
         // добавление надписи рядом с текстовым полем
         textLabel = new JLabel("Текст ответа:");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 0;
-        add(textLabel, c);
 
         // добавление текстового поля ответа
         answerText = new JTextField(30);
         answerText.setText(text);
         answerText.setFont(new Font("Serif", Font.ITALIC, 16));
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 2;
-        c.gridy = 0;
-        add(answerText, c);
-
 
         // добавление надписи рядом с чекбоксом правильности ответа
-        checkBoxLabel = new JLabel("Ответ правильный:");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 1;
-        add(checkBoxLabel, c);
+        checkBoxLabel = new JLabel("Правильность");
 
         // добавление чекбокса правильности ответа
         correctCheckBox = new JCheckBox();
         correctCheckBox.setSelected(isCorrect);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 2;
-        c.gridy = 1;
-        add(correctCheckBox, c);
 
         numberLabel = new JLabel(String.format("%d)", number));
         numberLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         numberLabel.setHorizontalAlignment(JLabel.CENTER);
         numberLabel.setVerticalAlignment(JLabel.CENTER);
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.CENTER;
-        c.weightx = 0.1;
-        c.weighty = 1.0;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridheight = 2;
-        add(numberLabel, c);
 
         // добавление кнопки удаления вопроса
         deleteButton = new JButton("Удалить");
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 0.5;
-        c.gridx = 3;
-        c.gridy = 0;
-        c.gridheight = 2;
-        add(deleteButton, c);
+        deleteButton.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addComponent(numberLabel)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(textLabel)
+                                .addComponent(answerText))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(checkBoxLabel)
+                                .addComponent(correctCheckBox))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(deleteButton))
+        );
+
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(numberLabel)
+                                .addComponent(textLabel)
+                                .addComponent(checkBoxLabel))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(answerText)
+                                .addComponent(correctCheckBox)
+                                .addComponent(deleteButton))
+        );
+
+        setMaximumSize(getPreferredSize());
 
         deleteButton.addActionListener(new ActionListener() {
             @Override
