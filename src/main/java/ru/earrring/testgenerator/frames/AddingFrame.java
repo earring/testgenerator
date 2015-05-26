@@ -111,7 +111,9 @@ public class AddingFrame extends AFrame implements AnswerAddableFrame {
                     QuestionManager.getInstance().addQuestion(question, answerList);
                     descriptionArea.setText("");
                     categoriesField.setText("");
-                    for (int i = 0; i < answersNumber; i++) {
+                    // храним переменную числа ответов из-за модификации числа ответов в цикле
+                    int answers = answersNumber;
+                    for (int i = 0; i < answers; i++) {
                         deleteAnswerVariantComponent(1);
                     }
                     JOptionPane.showMessageDialog(AddingFrame.this, "Вопрос успешно добавлен", "Успех", JOptionPane.INFORMATION_MESSAGE);
