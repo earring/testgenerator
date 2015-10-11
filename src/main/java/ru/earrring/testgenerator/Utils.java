@@ -3,6 +3,7 @@ package ru.earrring.testgenerator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -46,7 +47,8 @@ public class Utils {
     }
 
     public static Path getPathToMyDocuments() throws IOException {
-        Path path = Paths.get(new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "\\Генератор тестов");
+        String directoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
+        Path path = Paths.get(directoryPath + File.separator + "Генератор тестов");
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }
@@ -54,7 +56,7 @@ public class Utils {
     }
 
     public static Path getPathToMyDB() throws IOException {
-        Path path = Paths.get(getPathToMyDocuments() + "\\БД");
+        Path path = Paths.get(getPathToMyDocuments() + File.separator + "БД");
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }
@@ -62,7 +64,7 @@ public class Utils {
     }
 
     public static Path getPathToMyTests() throws IOException {
-        Path path = Paths.get(getPathToMyDocuments() + "\\Тесты");
+        Path path = Paths.get(getPathToMyDocuments() + File.separator + "Тесты");
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }

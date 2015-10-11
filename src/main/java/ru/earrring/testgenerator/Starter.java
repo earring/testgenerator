@@ -7,6 +7,7 @@ import ru.earrring.testgenerator.dbWork.QuestionManager;
 import ru.earrring.testgenerator.frames.*;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
@@ -49,11 +50,11 @@ public class Starter {
      */
     private static void init() {
         try {
-            UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+            //UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 
             dbFacade = DBFacade.getInstance();
             Path pathToDB = Utils.getPathToMyDB();
-            String url = "jdbc:sqlite:" + pathToDB + "\\main.sqlite";
+            String url = "jdbc:sqlite:" + pathToDB + File.separator + "main.sqlite";
             dbFacade.init(url);
 
             // настройка основной формы

@@ -78,7 +78,7 @@ public class DBFacade {
     public String getDBName() {
         String url = ((JdbcConnectionSource) source).getUrl();
         String[] urlParts = url.split(":");
-        Path path = Paths.get(urlParts[2] + ":" + urlParts[3]);
+        Path path = Paths.get(urlParts[2]);
         return path.getFileName().toString();
     }
 

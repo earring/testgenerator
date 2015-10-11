@@ -17,6 +17,7 @@ import ru.earrring.testgenerator.dbWork.QuestionManager;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -62,14 +63,14 @@ public class PDFGenerator {
 
         // создание файлика для ответов
         Document documentAnswer = new Document(PageSize.A4, 50, 50, 50, 50);
-        PdfWriter writerAnswer = PdfWriter.getInstance(documentAnswer, new FileOutputStream(Utils.getPathToMyTests() + "\\Ответы.pdf"));
+        PdfWriter writerAnswer = PdfWriter.getInstance(documentAnswer, new FileOutputStream(Utils.getPathToMyTests() + File.separator + "Ответы.pdf"));
         documentAnswer.open();
 
         // создание PDF-файлика для каждого варианта
         for (int i = 0; i < variantCount; i++) {
             Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(Utils.getPathToMyTests() + "\\Вариант №" + (i + 1) + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(Utils.getPathToMyTests() + File.separator + "Вариант №" + (i + 1) + ".pdf"));
 
             document.open();
             document.addCreator("Генератор тестов " + Utils.VERSION);
